@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { SlideIn } from "@/components/motion/SlideIn";
 import { AiOrbLottie } from "@/components/sections/AiOrbLottie";
+import { CaseStudiesScrollRail } from "@/components/sections/CaseStudiesScrollRail";
 import { HomeFaqAccordion } from "@/components/sections/HomeFaqAccordion";
+import { HeroTrustRotator } from "@/components/sections/HeroTrustRotator";
 import { HeroTypewriterHeadline } from "@/components/sections/HeroTypewriterHeadline";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -194,12 +197,21 @@ type IndustryGridEntry = {
   label: string;
   slug: string;
   icon: IndustryIconId;
-  labelHover: string;
+  /** Row-specific purple–pink gradient for hover label (no `text-transparent` on the live copy). */
+  labelGradient: readonly [string, string, string];
   iconHover: string;
   chevronHover: string;
 };
 
 function IndustryGridRow({ row }: { row: IndustryGridEntry }) {
+  const [gFrom, gVia, gTo] = row.labelGradient;
+  const labelGradientStyle = {
+    backgroundImage: `linear-gradient(to right, ${gFrom}, ${gVia}, ${gTo})`,
+    WebkitBackgroundClip: "text" as const,
+    backgroundClip: "text" as const,
+    color: "transparent",
+  };
+
   return (
     <Link
       href={`/industries/${row.slug}`}
@@ -210,10 +222,17 @@ function IndustryGridRow({ row }: { row: IndustryGridEntry }) {
       >
         <IndustryIcon id={row.icon} className="h-5 w-5" />
       </span>
-      <span
-        className={`mono-label min-w-0 flex-1 text-left text-[0.65rem] tracking-[0.16em] text-[var(--color-text)] duration-300 sm:text-[0.68rem] sm:tracking-[0.18em] ${row.labelHover}`}
-      >
-        {row.label.toUpperCase()}
+      <span className="mono-label relative block min-w-0 flex-1 text-left text-[0.65rem] tracking-[0.16em] sm:text-[0.68rem] sm:tracking-[0.18em]">
+        <span className="relative z-0 block text-[var(--color-text)] transition-opacity duration-200 ease-out group-hover:opacity-0 motion-reduce:transition-none">
+          {row.label.toUpperCase()}
+        </span>
+        <span
+          className="pointer-events-none absolute left-0 top-0 z-[1] block w-full opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 motion-reduce:transition-none"
+          style={labelGradientStyle}
+          aria-hidden
+        >
+          {row.label.toUpperCase()}
+        </span>
       </span>
       <span className={`shrink-0 text-sm text-white/35 transition-colors duration-300 ${row.chevronHover}`} aria-hidden>
         →
@@ -223,11 +242,11 @@ function IndustryGridRow({ row }: { row: IndustryGridEntry }) {
 }
 
 export function HomeSections() {
-  /** Below hero: alternate warm (pink) and cool (blue) headline accents. Hero is unchanged. */
+  /** Below hero: alternate pink-forward and violet-forward headline accents (purple–pink only). */
   const sectionAccentGradientPink =
-    "bg-gradient-to-r from-[#f5cdbf] via-[#ffafd3] to-[#e8a0c8] bg-clip-text italic text-transparent";
-  const sectionAccentGradientBlue =
-    "bg-gradient-to-r from-[#9dc8ff] via-[#b8a8ff] to-[#d8a8f0] bg-clip-text italic text-transparent";
+    "bg-gradient-to-r from-[#fbcfe8] via-[#f9a8d4] to-[#f472b6] bg-clip-text italic text-transparent";
+  const sectionAccentGradientViolet =
+    "bg-gradient-to-r from-[#ddd6fe] via-[#c084fc] to-[#f0abfc] bg-clip-text italic text-transparent";
 
   const trustStats = [
     { figure: "120+", caption: "Systems launched" },
@@ -238,19 +257,19 @@ export function HomeSections() {
   const problemCards = [
     {
       icon: "chart" as const,
-      accent: "#e89588",
+      accent: "#f472b6",
       lines: ["Traffic is up.", "Qualified demand is not."],
       body: "You're attracting visitors, but your systems aren't turning interest into qualified pipeline.",
     },
     {
       icon: "gear" as const,
-      accent: "#9b8edb",
+      accent: "#a78bfa",
       lines: ["Ops is manual.", "Revenue is paying the delay tax."],
       body: "Manual processes, handoffs and operational gaps are slowing growth.",
     },
     {
       icon: "people" as const,
-      accent: "#5ecfe8",
+      accent: "#e879f9",
       lines: ["Teams are shipping.", "Systems are still fragmented."],
       body: "Disconnected tools and silos create friction, rework and missed opportunities.",
     },
@@ -265,7 +284,7 @@ export function HomeSections() {
     {
       num: "01",
       icon: "trending-up" as const,
-      accent: "#6eb5ff",
+      accent: "#a78bfa",
       title: "INCREASE QUALIFIED PIPELINE",
       body: "Attract the right prospects with better targeting, positioning and conversion architecture.",
     },
@@ -279,7 +298,7 @@ export function HomeSections() {
     {
       num: "03",
       icon: "settings" as const,
-      accent: "#5ecfe8",
+      accent: "#e879f9",
       title: "REDUCE OPERATIONAL DRAG WITH AUTOMATION",
       body: "Streamline workflows, integrate systems and automate repetitive tasks.",
     },
@@ -298,83 +317,82 @@ export function HomeSections() {
     ["AUTOMATION SYSTEMS", "AI and workflow orchestration that removes repetitive load and response lag."],
   ];
   const ecosystemClusterImages = [
-    "/revenue-system-element.png",
-    "/experience-systems-element.png",
-    "/infrastructure-systems-element.png",
-    "/automation-systems-element.png",
+    "/revenue-element-new.png",
+    "/experience-element-new.png",
+    "/infrastructure-element-new.png",
+    "/automation-element-new.png",
+  ] as const;
+  /** Watermark in case-study charcoal panel (same language as ecosystem cards). */
+  const caseStudyCharcoalSculptures = [
+    "/automation-element-new.png",
+    "/infrastructure-element-new.png",
+    "/revenue-element-new.png",
+    "/business-impact-element-old.png",
   ] as const;
   const industryGrid: IndustryGridEntry[] = [
     {
       label: "Healthcare",
       slug: "healthcare",
       icon: "health",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#ffafd3] group-hover:via-[#d0bcff] group-hover:to-[#4cd7f6] group-hover:bg-clip-text group-hover:text-transparent",
-      iconHover: "group-hover:text-[#ffafd3]",
-      chevronHover: "group-hover:text-[#4cd7f6]",
+      labelGradient: ["#fda4cf", "#d8b4fe", "#a855f7"],
+      iconHover: "group-hover:text-[#fda4cf]",
+      chevronHover: "group-hover:text-[#a855f7]",
     },
     {
       label: "Real Estate",
       slug: "real-estate",
       icon: "home",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#f5cdbf] group-hover:via-[#4cd7f6] group-hover:to-[#d0bcff] group-hover:bg-clip-text group-hover:text-transparent",
-      iconHover: "group-hover:text-[#4cd7f6]",
-      chevronHover: "group-hover:text-[#d0bcff]",
+      labelGradient: ["#fce7f3", "#e879f9", "#c084fc"],
+      iconHover: "group-hover:text-[#e879f9]",
+      chevronHover: "group-hover:text-[#c084fc]",
     },
     {
       label: "Legal",
       slug: "legal",
       icon: "legal",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#b89cff] group-hover:via-[#d0bcff] group-hover:to-[#e4ddff] group-hover:bg-clip-text group-hover:text-transparent",
-      iconHover: "group-hover:text-[#b89cff]",
-      chevronHover: "group-hover:text-[#e4ddff]",
+      labelGradient: ["#e9d5ff", "#d946ef", "#a855f7"],
+      iconHover: "group-hover:text-[#e9d5ff]",
+      chevronHover: "group-hover:text-[#a855f7]",
     },
     {
       label: "Construction",
       slug: "construction",
       icon: "construction",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#e8a57a] group-hover:via-[#f0a0c8] group-hover:to-[#ffb4ab] group-hover:bg-clip-text group-hover:text-transparent",
-      iconHover: "group-hover:text-[#e8a57a]",
-      chevronHover: "group-hover:text-[#f0a0c8]",
+      labelGradient: ["#fbcfe8", "#f9a8d4", "#ec4899"],
+      iconHover: "group-hover:text-[#fbcfe8]",
+      chevronHover: "group-hover:text-[#ec4899]",
     },
     {
       label: "Ecommerce",
       slug: "ecommerce",
       icon: "cart",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#ffafd3] group-hover:via-[#f5cdbf] group-hover:to-[#d0bcff] group-hover:bg-clip-text group-hover:text-transparent",
+      labelGradient: ["#ffafd3", "#f0abfc", "#c084fc"],
       iconHover: "group-hover:text-[#ffafd3]",
-      chevronHover: "group-hover:text-[#d0bcff]",
+      chevronHover: "group-hover:text-[#c084fc]",
     },
     {
       label: "SaaS",
       slug: "saas",
       icon: "saas",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#4cd7f6] group-hover:via-[#7dd3fc] group-hover:to-[#d0bcff] group-hover:bg-clip-text group-hover:text-transparent",
-      iconHover: "group-hover:text-[#4cd7f6]",
-      chevronHover: "group-hover:text-[#d0bcff]",
+      labelGradient: ["#e9d5ff", "#a78bfa", "#f472b6"],
+      iconHover: "group-hover:text-[#e9d5ff]",
+      chevronHover: "group-hover:text-[#f472b6]",
     },
     {
       label: "Education",
       slug: "education",
       icon: "education",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#c4b0ff] group-hover:via-[#4cd7f6] group-hover:to-[#a5f3fc] group-hover:bg-clip-text group-hover:text-transparent",
-      iconHover: "group-hover:text-[#c4b0ff]",
-      chevronHover: "group-hover:text-[#4cd7f6]",
+      labelGradient: ["#fae8ff", "#e879f9", "#d946ef"],
+      iconHover: "group-hover:text-[#fae8ff]",
+      chevronHover: "group-hover:text-[#d946ef]",
     },
     {
       label: "Finance",
       slug: "finance",
       icon: "finance",
-      labelHover:
-        "group-hover:bg-gradient-to-r group-hover:from-[#d0bcff] group-hover:via-[#fde68a] group-hover:to-[#4cd7f6] group-hover:bg-clip-text group-hover:text-transparent",
-      iconHover: "group-hover:text-[#fde68a]",
-      chevronHover: "group-hover:text-[#d0bcff]",
+      labelGradient: ["#f5d0fe", "#f0abfc", "#c084fc"],
+      iconHover: "group-hover:text-[#f5d0fe]",
+      chevronHover: "group-hover:text-[#c084fc]",
     },
   ];
   const featuredCaseStudies = [
@@ -386,6 +404,8 @@ export function HomeSections() {
       coverImage: "/case-study-saas-funnel.png",
       stat: "+41%",
       statLabel: "qualified demo pipeline",
+      stat2: "3×",
+      statLabel2: "faster MQL-to-booked demo velocity",
       excerpt:
         "Rebuilt routing, scoring, and nurture so enterprise demos compound instead of leaking at MQL—without adding headcount to sales development.",
       scope: "Strategy · UX · Engineering",
@@ -400,6 +420,8 @@ export function HomeSections() {
       coverImage: "/case-study-healthcare.png",
       stat: "+63%",
       statLabel: "consultation request quality",
+      stat2: "52%",
+      statLabel2: "reduction in intake handling time",
       excerpt: "Unified intake, eligibility checks, and scheduling so the clinical team spends time on patients—not chasing forms.",
       scope: "Operations · Integrations",
       timeline: "14 weeks",
@@ -413,13 +435,64 @@ export function HomeSections() {
       coverImage: "/case-study-real-estate.png",
       stat: "2.1×",
       statLabel: "high-intent booked meetings",
+      stat2: "+34%",
+      statLabel2: "clearer attribution to closed deals",
       excerpt: "Connected MLS, ads, and follow-up sequences into one pipeline with clear attribution from first click to closing desk.",
       scope: "Growth stack · Data",
       timeline: "12 weeks",
       href: "/work",
     },
+    {
+      slug: "dummy-fintech-onboarding",
+      title: "Fintech onboarding velocity",
+      sector: "Finance",
+      tags: ["KYC", "Product", "Risk"],
+      coverImage: "/case-study-fintech.png",
+      stat: "−38%",
+      statLabel: "drop-off before first funded transfer",
+      stat2: "4.2×",
+      statLabel2: "completion rate on mobile",
+      excerpt:
+        "Tightened identity flows, progressive disclosure, and status messaging so approvals feel fast while risk controls stay invisible to good actors.",
+      scope: "Product · Compliance UX",
+      timeline: "10 weeks",
+      href: "/work",
+    },
+    {
+      slug: "dummy-ecommerce-retention",
+      title: "E‑commerce retention loops",
+      sector: "Retail",
+      tags: ["Email", "Loyalty", "Data"],
+      coverImage: "/case-study-ecommerce.png",
+      stat: "+27%",
+      statLabel: "repeat purchase rate in 90 days",
+      stat2: "−21%",
+      statLabel2: "discount reliance on win-backs",
+      excerpt:
+        "Wired behavioral triggers and cohort dashboards so lifecycle campaigns react to margin, not just opens—without bloating the martech stack.",
+      scope: "Lifecycle · Analytics",
+      timeline: "16 weeks",
+      href: "/work",
+    },
+    {
+      slug: "dummy-ops-automation",
+      title: "Ops automation pilot",
+      sector: "Logistics",
+      tags: ["Workflows", "Integrations", "AI"],
+      coverImage: "/case-study-automation.png",
+      stat: "120+",
+      statLabel: "hours/week returned to ops leads",
+      stat2: "99.2%",
+      statLabel2: "exception-free handoffs to ERP",
+      excerpt:
+        "Replaced spreadsheet triage with routed queues, SLAs, and human-in-the-loop review so dispatch scales before the next facility opens.",
+      scope: "Automation · Systems",
+      timeline: "20 weeks",
+      href: "/work",
+    },
   ] as const;
-  const [featuredCaseStudy, ...caseStudyPreviews] = featuredCaseStudies;
+  const caseStudyStatGradient =
+    "bg-gradient-to-r from-[#ffafd3] via-[#d8b4fe] to-[#a855f7] bg-clip-text text-transparent";
   const metrics = [
     { figure: "$18M+", label: "Pipeline influenced" },
     { figure: "87", label: "Systems launched" },
@@ -430,102 +503,99 @@ export function HomeSections() {
 
   return (
     <>
-      <section className="relative isolate min-h-screen overflow-hidden pt-20 pb-16 md:pt-24 md:pb-20 lg:pt-28">
-        <div className="hero-blob-track" aria-hidden>
-          <div className="hero-blob-visual blob-shape" />
+      <section className="relative isolate -mt-24 min-h-screen overflow-hidden bg-black pt-24 text-white md:pt-28">
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/40 to-black" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_45%,rgba(148,86,249,0.12),transparent_55%)]" />
+          <div className="hero-bg-sculpture absolute left-1/2 top-[44%] z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.36] sm:opacity-[0.4]">
+            <Image
+              src={
+                process.env.NEXT_PUBLIC_HERO_ELEMENT_REVISION
+                  ? `/hero-element.png?v=${encodeURIComponent(process.env.NEXT_PUBLIC_HERO_ELEMENT_REVISION)}`
+                  : "/hero-element.png"
+              }
+              alt=""
+              width={1600}
+              height={1200}
+              priority
+              sizes="100vw"
+              unoptimized
+              className="h-full w-full select-none object-contain object-center"
+            />
+          </div>
         </div>
-        <div className="container-site relative z-10">
-          <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-12 lg:gap-14">
-            <div className="text-left md:col-span-7 lg:col-span-6">
-              <HeroTypewriterHeadline className="display-title-hero hero-title-gradient text-balance" />
-              <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--color-text-muted)] md:mt-8 md:text-xl">
+
+        <SlideIn className="relative z-10 flex min-h-[calc(100svh-5rem)] flex-col px-5 pb-10 pt-2 md:px-8 md:pb-14 md:pt-4" direction="up">
+          <div className="container-site flex flex-1 flex-col">
+            <div className="flex flex-1 flex-col items-center justify-center px-1 pb-12 pt-6 md:pb-16 md:pt-8">
+              <HeroTypewriterHeadline className="display-title-hero text-balance text-center" />
+            </div>
+
+            <div className="mt-auto grid w-full max-w-6xl grid-cols-1 gap-10 pt-10 md:mx-auto md:grid-cols-3 md:items-end md:gap-8 md:pt-12">
+              <div className="order-2 md:order-1 md:justify-self-start">
+                <HeroTrustRotator stats={trustStats} intervalMs={4000} />
+              </div>
+              <p className="body-copy order-1 max-w-xl text-pretty text-center text-[var(--text-secondary)] md:order-2 md:justify-self-center md:text-center">
                 We design and deploy digital systems that align growth, product, automation, and operations so your next stage actually scales.
               </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3 md:mt-10">
-                <Button href="/book-strategy-call">Book a Strategy Call</Button>
-                <Button href="/solutions" variant="secondary">
-                  Explore Capabilities
-                </Button>
-              </div>
-            </div>
-            <div className="relative flex min-h-0 justify-center md:col-span-5 md:justify-end lg:col-span-6">
-              <div
-                className="pointer-events-none absolute inset-[-8%] z-0 rounded-[55%] opacity-95 blur-[56px] sm:blur-[68px] md:inset-[-12%] md:blur-[80px]"
-                style={{
-                  background:
-                    "radial-gradient(ellipse 62% 58% at 42% 46%, rgba(148, 170, 255, 0.5), transparent 64%), radial-gradient(ellipse 54% 52% at 74% 40%, rgba(76, 215, 246, 0.32), transparent 60%), radial-gradient(ellipse 48% 48% at 52% 72%, rgba(208, 188, 255, 0.22), transparent 58%)",
-                }}
-                aria-hidden
-              />
-              <div className="hero-element-motion relative z-10 w-full max-w-[min(100%,440px)] md:max-w-[min(100%,520px)] lg:max-w-[min(100%,600px)]">
-                <Image
-                  src="/hero-element.png"
-                  alt=""
-                  width={900}
-                  height={700}
-                  priority
-                  sizes="(max-width: 768px) 100vw, 600px"
-                  className="h-auto w-full object-contain select-none"
-                />
+              <div className="order-3 flex justify-end md:justify-self-end">
+                <Link
+                  href="/contact"
+                  className="hero-cta-outline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-violet)]"
+                >
+                  <span className="hero-cta-outline-inner mono-label text-white">Contact us</span>
+                </Link>
               </div>
             </div>
           </div>
-        </div>
+        </SlideIn>
       </section>
 
-      <section className="relative py-12 md:py-16">
-        <div className="container-site">
-          <div className="grid grid-cols-2 gap-0 divide-x divide-y divide-white/[0.06] md:grid-cols-4 md:divide-y-0">
-            {trustStats.map((item) => (
-              <div key={item.figure} className="group px-5 py-8 text-center md:px-8 md:py-6">
-                <p className="font-black tracking-tight text-[clamp(2rem,5vw,3.25rem)] leading-none text-[var(--color-text)] transition duration-300 group-hover:text-transparent group-hover:bg-gradient-to-br group-hover:from-[var(--color-text)] group-hover:via-[var(--color-primary)] group-hover:to-[var(--color-secondary)] group-hover:bg-clip-text">
-                  {item.figure}
-                </p>
-                <p className="mono-label mx-auto mt-3 max-w-[15rem] text-[var(--color-text-muted)] transition group-hover:text-[var(--color-text)]">
-                  {item.caption}
-                </p>
-              </div>
-            ))}
+      <section className="relative isolate overflow-hidden bg-black text-[var(--color-text)]">
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <div
+            className="absolute inset-0 opacity-[0.5] mix-blend-screen"
+            style={{
+              background:
+                "radial-gradient(ellipse 75% 65% at 82% 42%, rgba(167,139,250,0.38), transparent 55%), radial-gradient(ellipse 55% 45% at 96% 58%, rgba(244,114,182,0.16), transparent 52%)",
+            }}
+          />
+          <div className="absolute inset-0">
+            <Image
+              src={
+                process.env.NEXT_PUBLIC_MARKETING_ELEMENT_REVISION
+                  ? `/marketing-element.png?v=${encodeURIComponent(process.env.NEXT_PUBLIC_MARKETING_ELEMENT_REVISION)}`
+                  : "/marketing-element.png"
+              }
+              alt=""
+              fill
+              unoptimized
+              className="object-contain object-right scale-[1.05] sm:scale-[1.1] md:scale-[1.14] lg:scale-[1.2] -translate-x-[min(22vw,11rem)] sm:-translate-x-[min(26vw,13rem)] md:-translate-x-[min(30vw,15rem)] lg:-translate-x-[min(34vw,17rem)]"
+              sizes="100vw"
+            />
           </div>
         </div>
-      </section>
 
-      <section className="py-section">
-        <div className="container-site">
-          <div className="grid gap-12 md:grid-cols-12 md:items-start md:gap-14">
-            <div className="md:col-span-7">
-              <p className="mono-label text-[var(--color-secondary)]">The diagnosis</p>
-              <h2 className="headline-title mt-2 text-[var(--color-text)]">
-                THE PROBLEM ISN&apos;T
-                <br />
-                <span className={sectionAccentGradientPink}>
-                  JUST MARKETING.
-                </span>
-              </h2>
-              <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)]">
-                Most brands don&apos;t have an ads issue. They have disconnected systems: weak conversion architecture, fragmented journeys, manual operations, and slow execution loops.
-              </p>
-            </div>
-            <div className="relative mx-auto w-full max-w-md md:col-span-5">
-              <div className="blob-shape relative z-0 aspect-square w-full bg-gradient-to-tr from-[var(--color-primary)]/20 via-[var(--color-secondary)]/15 to-transparent" />
-              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-4">
-                <Image
-                  src="/marketing-element.png"
-                  alt=""
-                  width={640}
-                  height={640}
-                  className="h-auto w-[min(100%,88%)] max-w-[300px] object-contain opacity-[0.92] select-none sm:max-w-[340px]"
-                  sizes="(max-width: 768px) 90vw, 340px"
-                  aria-hidden
-                />
-              </div>
-            </div>
-            <div className="md:col-span-12">
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <SlideIn className="relative z-10 w-full" direction="right">
+        <div className="container-site py-section">
+          <div className="max-w-3xl">
+            <p className="mono-label text-[var(--color-secondary)]">The diagnosis</p>
+            <h2 className="mt-2 text-balance headline-title text-[var(--color-text)] [text-shadow:0_2px_28px_rgba(0,0,0,0.72)]">
+              THE PROBLEM ISN&apos;T
+              <br />
+              <span className={sectionAccentGradientPink}>JUST MARKETING.</span>
+            </h2>
+            <p className="body-copy mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)]">
+              Most brands don&apos;t have an ads issue. They have disconnected systems: weak conversion architecture, fragmented journeys, manual operations, and slow execution loops.
+            </p>
+          </div>
+
+          <div className="relative z-10 mt-14 md:mt-16">
+            <div className="relative z-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {problemCards.map((card) => (
                   <article
                     key={card.lines[0]}
-                    className="problem-glass-card group relative overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.04] p-8 text-left backdrop-blur-xl"
+                    className="problem-glass-card group relative isolate overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.04] p-8 text-left backdrop-blur-xl"
                     style={{ "--problem-accent": card.accent } as React.CSSProperties}
                   >
                     <div className="problem-card-ambient" aria-hidden />
@@ -553,110 +623,106 @@ export function HomeSections() {
                     </div>
                   </article>
                 ))}
+            </div>
+          </div>
+        </div>
+        </SlideIn>
+      </section>
+
+      <section className="relative isolate overflow-hidden bg-black text-[var(--color-text)]">
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <div
+            className="absolute inset-0 opacity-[0.55] mix-blend-screen"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 70% at 85% 45%, rgba(167,139,250,0.35), transparent 55%), radial-gradient(ellipse 60% 50% at 100% 60%, rgba(244,114,182,0.18), transparent 50%)",
+            }}
+          />
+          <div className="absolute inset-y-0 top-0 right-0 bottom-0 left-[8%] md:left-[14%] lg:left-[22%]">
+            <Image
+              src={
+                process.env.NEXT_PUBLIC_BUSINESS_IMPACT_REVISION
+                  ? `/business-impact-element.png?v=${encodeURIComponent(process.env.NEXT_PUBLIC_BUSINESS_IMPACT_REVISION)}`
+                  : "/business-impact-element.png"
+              }
+              alt=""
+              fill
+              unoptimized
+              className="object-contain object-right scale-[1.05] sm:scale-[1.1] md:scale-[1.14] lg:scale-[1.2] translate-x-[min(18vw,12rem)] sm:translate-x-[min(22vw,14rem)] md:translate-x-[min(26vw,16rem)] lg:translate-x-[min(30vw,18rem)]"
+              sizes="100vw"
+            />
+          </div>
+        </div>
+
+        <SlideIn className="relative z-10 w-full" direction="down">
+        <div className="container-site py-12 md:py-16 lg:py-20">
+          <p className="mono-label text-[var(--color-secondary)]">Outcomes over output</p>
+          <h2 className="relative z-10 mt-3 max-w-4xl text-balance font-[family-name:var(--font-display)] text-[clamp(2.1rem,5.8vw,3.65rem)] font-bold uppercase leading-[0.95] tracking-[0.02em] [text-shadow:0_2px_28px_rgba(0,0,0,0.75)]">
+            <span className="block text-white">BUSINESS IMPACT. NOT SERVICE</span>
+            <span className={`mt-0.5 block ${sectionAccentGradientViolet}`}>CHECKLISTS.</span>
+          </h2>
+          <p className="body-copy relative mt-4 max-w-2xl text-[var(--color-text-muted)] md:mt-5">
+            <span className="relative z-10">We focus on the metrics that move the needle. Everything we do is engineered for compounding results.</span>
+            <span
+              className="pointer-events-none absolute -inset-x-6 -inset-y-3 z-0 rounded-lg bg-gradient-to-r from-black via-black/90 to-transparent md:-inset-x-10 md:-inset-y-4 md:via-black/80 lg:from-black lg:via-black/65"
+              aria-hidden
+            />
+          </p>
+
+          <div className="relative mt-8 lg:mt-10">
+            <span
+              className="pointer-events-none absolute -inset-x-8 -bottom-4 -top-2 z-0 bg-gradient-to-r from-black from-40% via-black/92 to-transparent md:-inset-x-12 md:from-35% lg:max-w-[min(52rem,100%)] lg:from-30% lg:via-black/88"
+              aria-hidden
+            />
+            <div className="relative z-10 max-w-xl lg:max-w-[min(100%,28rem)]">
+              <div className="border-t border-white/[0.12]">
+                {businessImpactCards.map((card) => (
+                  <article
+                    key={card.num}
+                    className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-0 border-b border-white/[0.12] py-5 md:gap-x-5 md:py-6"
+                  >
+                    <div className="pt-0.5">
+                      <div
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md p-px md:h-10 md:w-10"
+                        style={{
+                          background: `linear-gradient(135deg, ${card.accent}, rgba(244,114,182,0.85))`,
+                        }}
+                        aria-hidden
+                      >
+                        <span className="flex h-full w-full items-center justify-center rounded-[calc(0.375rem-1px)] bg-black">
+                          <BusinessImpactIcon name={card.icon} className="h-4 w-4 text-white/90 md:h-[1.05rem] md:w-[1.05rem]" />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="mono-label text-[0.6rem] text-white/40">{card.num}</p>
+                      <h3 className="mt-1 text-[0.75rem] font-bold uppercase leading-snug tracking-[0.14em] text-white md:text-[0.8125rem] md:tracking-[0.15em]">
+                        {card.title}
+                      </h3>
+                      <p className="mt-2 max-w-md text-[0.8125rem] leading-snug text-white/60 md:text-[0.875rem] md:leading-relaxed">
+                        {card.body}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <div className="mt-5 md:mt-6">
+                <Link
+                  href="/solutions"
+                  className="mono-label inline-flex items-center gap-2 text-[var(--color-primary)] transition hover:gap-3 hover:text-[var(--color-primary-strong)]"
+                >
+                  Explore solutions
+                  <span aria-hidden>→</span>
+                </Link>
               </div>
             </div>
           </div>
         </div>
+        </SlideIn>
       </section>
 
-      <section className="py-12 md:py-16 lg:py-[4.5rem]">
-        <div className="container-site">
-          <div className="border-b border-white/10 pb-8 md:pb-10">
-            <div className="grid gap-8 md:grid-cols-12 md:items-center md:gap-10">
-              <div className="md:col-span-6 lg:col-span-7">
-                <p className="mono-label text-[var(--color-secondary)]">Outcomes over output</p>
-                <h2 className="headline-title mt-2 max-w-xl text-[var(--color-text)]">
-                  BUSINESS IMPACT. NOT SERVICE
-                  <br />
-                  <span className={sectionAccentGradientBlue}>
-                    CHECKLISTS.
-                  </span>
-                </h2>
-                <p className="mt-4 max-w-xl text-xl leading-relaxed text-[var(--color-text-muted)] md:text-[1.35rem] md:leading-relaxed">
-                  We focus on the metrics that move the needle. Everything we do is engineered for compounding results.
-                </p>
-              </div>
-              <div className="relative md:col-span-6 lg:col-span-5">
-                <div
-                  className="pointer-events-none absolute -inset-4 rounded-[45%] opacity-90 blur-3xl md:-inset-8"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(120, 160, 255, 0.22), transparent 65%), radial-gradient(ellipse 55% 50% at 70% 40%, rgba(180, 140, 255, 0.14), transparent 60%)",
-                  }}
-                  aria-hidden
-                />
-                <div className="relative z-10 flex justify-center md:justify-end">
-                  <Image
-                    src="/business-impact-element.png"
-                    alt=""
-                    width={720}
-                    height={560}
-                    className="h-auto w-full max-w-[min(100%,420px)] object-contain select-none md:max-w-[min(100%,480px)]"
-                    sizes="(max-width: 768px) 100vw, 480px"
-                    aria-hidden
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 pt-8 md:grid-cols-2 md:gap-x-0 md:gap-y-10 lg:grid-cols-4 lg:gap-y-0 lg:pt-12">
-            {businessImpactCards.map((card, index) => {
-              const borders =
-                index === 1
-                  ? "md:border-l md:border-white/10 md:pl-6 lg:pl-6 xl:pl-8"
-                  : index === 2
-                    ? "md:border-t md:border-white/10 md:pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-6 xl:pl-8"
-                    : index === 3
-                      ? "md:border-t md:border-l md:border-white/10 md:pt-8 md:pl-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-6 xl:pl-8"
-                      : "";
-              return (
-              <article
-                key={card.num}
-                className={`relative flex flex-col ${borders}`}
-              >
-                <span
-                  className="pointer-events-none absolute -left-6 -top-8 z-0 h-36 w-36 rounded-full opacity-[0.34] blur-3xl sm:-left-8 sm:-top-10 sm:h-40 sm:w-40 md:opacity-[0.38]"
-                  style={{ backgroundColor: card.accent }}
-                  aria-hidden
-                />
-                <div className="relative z-10 flex w-full flex-1 flex-col">
-                  <span
-                    className="text-4xl font-black tabular-nums tracking-tight"
-                    style={{ color: card.accent, fontFamily: "var(--font-geist-mono), monospace" }}
-                  >
-                    {card.num}
-                  </span>
-                  <div className="relative mt-4 inline-flex">
-                    <span
-                      className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-white/[0.14] bg-[var(--color-bg)]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
-                      style={{ color: card.accent }}
-                    >
-                      <BusinessImpactIcon name={card.icon} className="h-7 w-7" />
-                    </span>
-                  </div>
-                  <h3 className="mt-4 text-base font-bold uppercase leading-snug tracking-[0.1em] text-[var(--color-text)] md:text-[0.95rem] lg:text-[1.05rem]">
-                    {card.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-base leading-relaxed text-[var(--color-text-muted)] md:text-[1.0625rem]">{card.body}</p>
-                  <Link
-                    href="/solutions"
-                    className="mt-6 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-[var(--color-text-muted)] transition-colors hover:border-white/35 hover:text-[var(--color-text)]"
-                    aria-label={`Explore solutions — ${card.title}`}
-                  >
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M5 12h14M13 6l6 6-6 6" />
-                    </svg>
-                  </Link>
-                </div>
-              </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-section">
+      <section className="bg-black py-section">
+        <SlideIn className="w-full" direction="left">
         <div className="container-site">
           <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">How we work</p>
           <h2 className="headline-title text-center text-[var(--color-text)]">
@@ -673,7 +739,7 @@ export function HomeSections() {
                   num: "01",
                   title: "Diagnose",
                   desc: "Auditing systems, identifying friction, mapping outcomes.",
-                  accent: "#6eb5ff",
+                  accent: "#a78bfa",
                 },
                 {
                   num: "02",
@@ -685,7 +751,7 @@ export function HomeSections() {
                   num: "03",
                   title: "Mutate",
                   desc: "Designing the kinetic brand and experience layer.",
-                  accent: "#5ecfe8",
+                  accent: "#e879f9",
                 },
                 {
                   num: "04",
@@ -717,121 +783,82 @@ export function HomeSections() {
             })}
           </div>
         </div>
+        </SlideIn>
       </section>
 
-      <section className="py-section">
-        <div className="container-site">
-          <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">Capabilities</p>
-          <h2 className="display-title overflow-visible px-2 text-center sm:px-3">
-            <span className="text-white/15">OUR </span>
-            <span className={`inline-block pb-[0.04em] pr-[0.14em] ${sectionAccentGradientBlue}`}>
-              ECOSYSTEM
-            </span>
-          </h2>
-          <div className="mt-10 space-y-6 md:mt-12 md:space-y-7">
-            {clusters.map(([title, desc], index) => {
-              const accentVar =
-                index % 3 === 0
-                  ? "var(--color-primary)"
-                  : index % 3 === 1
-                    ? "var(--color-secondary)"
-                    : "var(--color-tertiary)";
-              const asym = [
-                {
-                  blobSpan: "md:col-span-5",
-                  textSpan: "md:col-span-7",
-                  blobShift: "-translate-y-0.5 md:-translate-y-1",
-                  textShift: "",
-                },
-                {
-                  blobSpan: "md:col-span-6",
-                  textSpan: "md:col-span-6",
-                  blobShift: "translate-y-0.5 md:translate-y-2",
-                  textShift: "",
-                },
-                {
-                  blobSpan: "md:col-span-7",
-                  textSpan: "md:col-span-5",
-                  blobShift: "md:translate-y-1",
-                  textShift: "",
-                },
-                {
-                  blobSpan: "md:col-span-5",
-                  textSpan: "md:col-span-7",
-                  blobShift: "translate-y-0.5 md:-translate-y-1",
-                  textShift: "",
-                },
-              ][index % 4];
-              const blobOrder = index % 2 === 0 ? "order-1" : "order-2";
-              const textOrder = index % 2 === 0 ? "order-2" : "order-1";
-              const blobMdOrder = index % 2 === 0 ? "md:order-1" : "md:order-2";
-              const textMdOrder = index % 2 === 0 ? "md:order-2" : "md:order-1";
-              /** Pull copy toward the gutter next to the blob (LTR). */
-              const textEdge =
-                index % 2 === 0 ? "md:justify-self-start" : "md:justify-self-end";
-              /** Centered in the column so blob + heading aren’t glued together. */
-              const blobPlacement = "justify-center md:justify-self-center";
-              return (
-                <div key={title} className="grid grid-cols-1 items-center gap-4 md:grid-cols-12 md:gap-x-6 md:gap-y-0 lg:gap-x-8">
-                  <div
-                    className={`relative flex min-h-0 ${blobPlacement} ${blobOrder} ${blobMdOrder} ${asym.blobSpan} ${asym.blobShift}`}
+      <section className="bg-black py-section">
+        <SlideIn className="w-full" direction="up">
+          <div className="container-site">
+            <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">Capabilities</p>
+            <h2 className="display-title overflow-visible px-2 text-center sm:px-3">
+              <span className="text-white/15">OUR </span>
+              <span className={`inline-block pb-[0.04em] pr-[0.14em] ${sectionAccentGradientViolet}`}>
+                ECOSYSTEM
+              </span>
+            </h2>
+            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:mt-12 lg:grid-cols-4 lg:items-stretch lg:gap-6">
+              {clusters.map(([title, desc], index) => {
+                const num = String(index + 1).padStart(2, "0");
+                return (
+                  <article
+                    key={title}
+                    className="relative flex h-full min-h-0 flex-col overflow-hidden rounded-none border border-white/[0.08] bg-[#141414] pb-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] md:pb-7"
                   >
-                    <div className="relative flex h-[min(64vw,15rem)] w-[min(64vw,15rem)] items-center justify-center sm:h-64 sm:w-64 md:h-[17rem] md:w-[17rem] lg:h-80 lg:w-80">
-                      <div className="blob-shape relative z-10 h-full w-full min-h-0 min-w-0 overflow-hidden bg-gradient-to-tr from-[var(--color-primary)]/20 via-[var(--color-secondary)]/15 to-transparent md:min-h-[6rem]">
+                    <p className="absolute left-5 top-4 z-10 font-mono text-xs tabular-nums tracking-[0.2em] text-white/35 md:left-6 md:top-5">
+                      {num}
+                    </p>
+                    {/* Full-bleed graphic on card (no inner fill); shifted up so the top ~half clips at the card edge */}
+                    <div className="relative h-[min(44vw,10rem)] w-full shrink-0 overflow-hidden sm:h-[min(30vw,9.25rem)] md:h-[min(24vw,9.5rem)] lg:h-[min(19vw,9rem)]">
+                      <div className="absolute bottom-0 left-1/2 h-[200%] w-[min(100%,18rem)] -translate-x-1/2 md:w-[min(100%,17rem)]">
                         <Image
                           src={ecosystemClusterImages[index]}
                           alt=""
                           fill
-                          sizes="(max-width: 640px) 64vw, (max-width: 1024px) 17rem, 20rem"
-                          className="object-contain p-[8%] select-none sm:p-[10%] md:p-[12%]"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-contain object-bottom select-none"
                           priority={index === 0}
                         />
                       </div>
                     </div>
-                  </div>
-                  <div
-                    className={`flex min-w-0 w-full max-w-full flex-col md:w-fit ${textOrder} ${textMdOrder} ${asym.textSpan} ${asym.textShift} ${textEdge}`}
-                  >
-                    <div className="w-fit max-w-full">
-                      <h3
-                        className="text-balance text-[clamp(1.5rem,4.2vw,2.45rem)] font-extrabold uppercase leading-tight tracking-[0.04em] md:text-[clamp(1.7rem,3.4vw,2.85rem)]"
-                        style={{ color: accentVar }}
-                      >
+                    <div className="flex min-h-0 flex-1 flex-col px-5 pt-5 md:px-6 md:pt-6">
+                      <h3 className="text-balance text-base font-bold uppercase leading-snug tracking-[0.08em] text-white md:text-lg">
                         {title}
                       </h3>
-                      <div className="w-full min-w-0">
-                        <p className="mt-2 text-pretty text-lg leading-relaxed text-[var(--color-text-muted)] md:mt-3 break-words">
-                          {desc}
-                        </p>
-                      </div>
+                      <p className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-[var(--color-text-muted)] md:text-[0.9375rem]">
+                        {desc}
+                      </p>
+                      <Link
+                        href="/start-a-project"
+                        className="mt-8 inline-flex self-start text-xs font-bold uppercase tracking-[0.22em] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-secondary)]"
+                      >
+                        <span className="bg-gradient-to-r from-[#ddd6fe] via-[#c084fc] to-[#ffafd3] bg-clip-text text-transparent">
+                          GET STARTED
+                        </span>
+                      </Link>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  </article>
+                );
+              })}
+            </div>
           </div>
-          <div className="mt-10 flex justify-center">
-            <Button href="/solutions">
-              Explore Solutions Architecture
-            </Button>
-          </div>
-        </div>
+        </SlideIn>
       </section>
 
-      <section className="relative overflow-hidden py-section">
+      <section className="relative overflow-hidden bg-black py-section">
         <div
           className="pointer-events-none absolute bottom-[2%] left-[-6%] h-[min(58vw,20rem)] w-[min(58vw,20rem)] rounded-full opacity-[0.22] blur-[80px] sm:h-[min(48vw,17rem)] sm:w-[min(48vw,17rem)] md:blur-[92px]"
           style={{
             background:
-              "radial-gradient(circle at 38% 42%, rgba(208, 188, 255, 0.5), rgba(120, 90, 200, 0.18) 42%, rgba(76, 215, 246, 0.14) 58%, transparent 72%)",
+              "radial-gradient(circle at 38% 42%, rgba(216, 180, 254, 0.48), rgba(147, 51, 234, 0.2) 42%, rgba(236, 72, 153, 0.14) 58%, transparent 72%)",
           }}
           aria-hidden
         />
-        <div className="container-site relative z-10">
+        <SlideIn className="relative z-10 w-full" direction="right">
+        <div className="container-site">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
             <div className="flex max-w-xl flex-col lg:col-span-5">
               <p className="mono-label text-[var(--color-secondary)]">Vertical depth</p>
-              <h2 className="mt-2 text-[clamp(2rem,4.8vw,3.35rem)] font-bold uppercase leading-[1.08] tracking-[-0.035em] text-[var(--color-text)]">
+              <h2 className="headline-title mt-2 text-balance text-[var(--color-text)]">
                 INDUSTRY CONTEXT CHANGES{" "}
                 <span className={sectionAccentGradientPink}>
                   EVERYTHING.
@@ -866,15 +893,17 @@ export function HomeSections() {
             </div>
           </div>
         </div>
+        </SlideIn>
       </section>
 
-      <section className="relative z-[1] overflow-x-hidden py-section">
+      <section className="relative z-[1] overflow-x-hidden bg-black py-section">
+        <SlideIn className="w-full" direction="down">
         <div className="container-site text-center">
           <p className="mono-label mb-2 text-[var(--color-secondary)]">Stack & integrations</p>
           <h2 className="headline-title text-[var(--color-text)]">
             MODERN TECHNOLOGY
             <br />
-            <span className={sectionAccentGradientBlue}>
+            <span className={sectionAccentGradientViolet}>
               FOUNDATIONS.
             </span>
           </h2>
@@ -922,9 +951,11 @@ export function HomeSections() {
             </div>
           </div>
         </div>
+        </SlideIn>
       </section>
 
-      <section className="py-section">
+      <section className="bg-black py-section">
+        <SlideIn className="w-full" direction="left">
         <div className="container-site grid gap-12 md:grid-cols-12 md:items-center md:gap-x-10 md:gap-y-12 lg:gap-x-14">
           <div className="md:col-span-5">
             <p className="mono-label text-[var(--color-secondary)]">Intelligent operations</p>
@@ -953,156 +984,146 @@ export function HomeSections() {
           </div>
           <div className="relative flex w-full min-h-0 items-center justify-center md:col-span-7 md:justify-center">
             <div className="relative w-full max-w-full">
-              <AiOrbLottie />
+              <div
+                className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center p-2 sm:p-4"
+                aria-hidden
+              >
+                <Image
+                  src={
+                    process.env.NEXT_PUBLIC_HERO_ELEMENT_REVISION
+                      ? `/hero-element.png?v=${encodeURIComponent(process.env.NEXT_PUBLIC_HERO_ELEMENT_REVISION)}`
+                      : "/hero-element.png"
+                  }
+                  alt=""
+                  width={1600}
+                  height={1200}
+                  unoptimized
+                  className="h-full max-h-[min(100%,26rem)] w-full select-none object-contain object-center opacity-[0.28] sm:max-h-[min(100%,28rem)] sm:opacity-[0.34] md:opacity-[0.38]"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 28rem"
+                />
+              </div>
+              <div className="relative z-[5]">
+                <AiOrbLottie />
+              </div>
               <span className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center text-[clamp(5rem,18vw,9rem)] font-black leading-none text-[var(--color-primary)]/40 md:text-[clamp(7rem,14vw,11rem)] lg:text-[clamp(8rem,12vw,13rem)]">
                 AI
               </span>
             </div>
           </div>
         </div>
+        </SlideIn>
       </section>
 
-      <section className="py-section">
-        <div className="container-site">
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-2xl">
-              <p className="mono-label text-[var(--color-secondary)]">Case studies</p>
-              <h2 className="headline-title mt-2">
-                OUTCOMES YOU CAN
-                <br />
-                <span className={sectionAccentGradientBlue}>TRACE.</span>
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
-                Each engagement ships with measurable baselines, instrumentation, and a narrative your board can repeat—not vanity redesigns.
-              </p>
+      <section className="bg-black py-section">
+        <SlideIn className="w-full" direction="up">
+          <div className="container-site">
+            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-2xl">
+                <p className="mono-label text-[var(--color-secondary)]">Case studies</p>
+                <h2 className="headline-title mt-2">
+                  OUTCOMES YOU CAN
+                  <br />
+                  <span className={sectionAccentGradientViolet}>TRACE.</span>
+                </h2>
+                <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
+                  Each engagement ships with measurable baselines, instrumentation, and a narrative your board can repeat—not vanity redesigns.
+                </p>
+              </div>
+              <Button href="/work" variant="secondary">
+                View all work
+              </Button>
             </div>
-            <Button href="/work" variant="secondary">
-              View all work
-            </Button>
           </div>
+        </SlideIn>
 
-          <article className="mt-12 overflow-hidden rounded-2xl border border-white/[0.08] bg-[var(--color-surface)] shadow-[0_24px_80px_-24px_rgba(0,0,0,0.55)] md:grid md:min-h-[22rem] md:grid-cols-12 md:rounded-3xl">
-            <Link
-              href={featuredCaseStudy.href}
-              className="group/media relative block aspect-[16/11] min-h-[14rem] md:col-span-7 md:aspect-auto md:min-h-0"
-              aria-label={`Open case study: ${featuredCaseStudy.title}`}
-            >
-              <Image
-                src={featuredCaseStudy.coverImage}
-                alt=""
-                fill
-                className="object-cover transition duration-700 ease-out group-hover/media:scale-[1.03]"
-                sizes="(max-width: 768px) 100vw, 58vw"
-              />
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--color-bg)] via-[var(--color-bg)]/25 to-transparent md:bg-gradient-to-r md:from-transparent md:via-[var(--color-bg)]/50 md:to-[var(--color-bg)]"
-                aria-hidden
-              />
-              <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2 md:left-6 md:top-6" aria-hidden>
-                {featuredCaseStudy.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-white/15 bg-black/35 px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-text)] backdrop-blur-sm"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <span className="pointer-events-none absolute bottom-4 left-4 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-secondary)] md:bottom-6 md:left-6">
-                {featuredCaseStudy.sector}
-              </span>
-            </Link>
-
-            <div className="flex flex-col justify-center border-t border-white/[0.06] p-6 sm:p-8 md:col-span-5 md:border-l md:border-t-0 md:p-10">
-              <p className="mono-label text-[var(--color-text-muted)]">Featured</p>
-              <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="text-4xl font-black tabular-nums tracking-tight text-[var(--color-text)] sm:text-5xl">{featuredCaseStudy.stat}</span>
-                <span className="max-w-[12rem] text-sm font-medium leading-snug text-[var(--color-text-muted)]">{featuredCaseStudy.statLabel}</span>
-              </div>
-              <h3 className="mt-5 text-2xl font-bold capitalize leading-tight tracking-tight text-[var(--color-text)] sm:text-3xl">
-                {featuredCaseStudy.title}
-              </h3>
-              <p className="mt-4 text-base leading-relaxed text-[var(--color-text-muted)]">{featuredCaseStudy.excerpt}</p>
-              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/[0.06] pt-6 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
-                <span>{featuredCaseStudy.scope}</span>
-                <span className="text-[var(--color-secondary)]">{featuredCaseStudy.timeline}</span>
-              </div>
-              <Link
-                href={featuredCaseStudy.href}
-                className="group/cta mt-8 inline-flex items-center gap-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)] transition hover:text-[var(--color-primary-strong)]"
-              >
-                Read case study
-                <span className="transition-transform duration-300 group-hover/cta:translate-x-1" aria-hidden>
-                  →
-                </span>
-              </Link>
-            </div>
-          </article>
-
-          <div className="mt-6 grid gap-6 md:grid-cols-2 md:gap-8">
-            {caseStudyPreviews.map((study) => (
-              <article
-                key={study.slug}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[var(--color-surface)] shadow-[0_16px_48px_-20px_rgba(0,0,0,0.45)] transition hover:border-white/[0.12]"
-              >
+        <CaseStudiesScrollRail className="mt-10 md:mt-12">
+              <div className="w-4 shrink-0 snap-none sm:w-5 md:w-0" aria-hidden />
+              {featuredCaseStudies.map((study, index) => (
                 <Link
+                  key={study.slug}
                   href={study.href}
-                  className="group/media relative aspect-[16/10] w-full overflow-hidden"
+                  className="group flex h-full min-h-0 w-full flex-col self-stretch shrink-0 snap-start snap-always focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-secondary)]"
                   aria-label={`Open case study: ${study.title}`}
                 >
-                  <Image
-                    src={study.coverImage}
-                    alt=""
-                    fill
-                    className="object-cover transition duration-700 ease-out group-hover/media:scale-[1.04]"
-                    sizes="(max-width: 768px) 100vw, 45vw"
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--color-bg)] via-transparent to-transparent opacity-90"
-                    aria-hidden
-                  />
-                  <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2" aria-hidden>
-                    {study.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/12 bg-black/40 px-2.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-[var(--color-text)] backdrop-blur-sm"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  <article className="relative flex min-h-0 w-[min(88vw,22.5rem)] flex-1 flex-col overflow-hidden rounded-none border border-white/[0.08] bg-black shadow-[0_24px_80px_-28px_rgba(0,0,0,0.65)] transition-[border-color] duration-300 hover:border-white/[0.14] sm:w-[min(86vw,24rem)] md:w-[min(72vw,28rem)] lg:w-[min(56vw,36rem)]">
+                    <div className="relative z-0 aspect-[16/11] w-full shrink-0 bg-black">
+                      <Image
+                        src={study.coverImage}
+                        alt=""
+                        fill
+                        className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+                        sizes="(max-width: 768px) 88vw, (max-width: 1024px) 72vw, 36rem"
+                      />
+                    </div>
+                    <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-[#141414]">
+                      {/* Ecosystem-style sculpt: oversized graphic anchored to bottom, behind copy */}
+                      <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden>
+                        <div className="absolute bottom-0 left-1/2 h-[200%] w-[min(100%,22rem)] -translate-x-1/2 opacity-[0.2] sm:w-[min(100%,24rem)] md:w-[min(100%,26rem)] md:opacity-[0.24]">
+                          <Image
+                            src={caseStudyCharcoalSculptures[index % caseStudyCharcoalSculptures.length]}
+                            alt=""
+                            fill
+                            sizes="(max-width: 768px) 88vw, (max-width: 1024px) 72vw, 36rem"
+                            className="object-contain object-bottom select-none"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[70%] bg-gradient-to-t from-[#141414] via-[#141414]/88 to-transparent"
+                        aria-hidden
+                      />
+                      <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-6 px-5 pb-6 pt-5 sm:px-6 sm:pb-7 sm:pt-6">
+                        <div className="shrink-0 space-y-1">
+                          <p className="mono-label text-white/45">{study.sector}</p>
+                          <h3 className="text-balance text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">
+                            {study.title}
+                          </h3>
+                        </div>
+                        <div className="flex min-h-0 flex-1 flex-col gap-6 md:flex-row md:items-stretch md:justify-between md:gap-8">
+                          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+                            <p className="min-h-0 flex-1 text-pretty text-sm leading-relaxed text-[var(--color-text-muted)] md:text-base">
+                              {study.excerpt}
+                            </p>
+                            <p className="mt-4 shrink-0 font-mono text-[0.65rem] uppercase leading-relaxed tracking-[0.12em] text-white/40 md:mt-4">
+                              {study.scope}
+                              <span className="text-white/25"> · </span>
+                              <span className="text-[var(--color-secondary)]">{study.timeline}</span>
+                            </p>
+                          </div>
+                          <div className="grid shrink-0 grid-cols-2 gap-6 sm:gap-8 md:flex md:w-[min(100%,11.5rem)] md:flex-col md:justify-end md:gap-8 md:self-stretch">
+                            <div className="text-left md:text-right">
+                              <p
+                                className={`text-3xl font-black tabular-nums tracking-tight sm:text-4xl ${caseStudyStatGradient}`}
+                              >
+                                {study.stat}
+                              </p>
+                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 md:max-w-[11rem] md:ml-auto">
+                                {study.statLabel}
+                              </p>
+                            </div>
+                            <div className="text-left md:text-right">
+                              <p
+                                className={`text-3xl font-black tabular-nums tracking-tight sm:text-4xl ${caseStudyStatGradient}`}
+                              >
+                                {study.stat2}
+                              </p>
+                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 md:max-w-[11rem] md:ml-auto">
+                                {study.statLabel2}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
                 </Link>
-                <div className="flex flex-1 flex-col p-5 sm:p-6">
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="mono-label text-[var(--color-secondary)]">{study.sector}</p>
-                    <span className="shrink-0 text-right font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-text-muted)]">
-                      {study.timeline}
-                    </span>
-                  </div>
-                  <div className="mt-3 flex flex-wrap items-baseline gap-2">
-                    <span className="text-3xl font-black tabular-nums text-[var(--color-text)]">{study.stat}</span>
-                    <span className="text-xs font-medium leading-snug text-[var(--color-text-muted)]">{study.statLabel}</span>
-                  </div>
-                  <h3 className="mt-3 text-xl font-bold capitalize leading-snug tracking-tight text-[var(--color-text)]">{study.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-[var(--color-text-muted)]">{study.excerpt}</p>
-                  <p className="mt-4 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">{study.scope}</p>
-                  <Link
-                    href={study.href}
-                    className="group/cta mt-5 inline-flex items-center gap-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-primary)] transition hover:text-[var(--color-primary-strong)]"
-                  >
-                    View case study
-                    <span className="transition-transform duration-300 group-hover/cta:translate-x-1" aria-hidden>
-                      →
-                    </span>
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+              ))}
+              <div className="w-4 shrink-0 snap-none sm:w-5 md:w-6" aria-hidden />
+        </CaseStudiesScrollRail>
       </section>
 
-      <section className="py-section">
+      <section className="bg-black py-section">
+        <SlideIn className="w-full" direction="right">
         <div className="container-site">
           <p className="mono-label text-[var(--color-secondary)]">By the numbers</p>
           <h2 className="headline-title mt-2 text-[var(--color-text)]">
@@ -1111,30 +1132,62 @@ export function HomeSections() {
               NOT VIBES.
             </span>
           </h2>
-          <div className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[var(--color-surface)]/40 shadow-[0_24px_80px_-32px_rgba(0,0,0,0.65)] backdrop-blur-sm md:mt-14">
-            <div className="grid grid-cols-2 divide-x divide-y divide-white/[0.08] md:grid-cols-4 md:divide-y-0">
-              {metrics.map((metric) => (
-                <article
-                  key={metric.label}
-                  className="group flex flex-col items-center justify-center bg-[var(--color-bg)]/90 px-4 py-12 text-center transition-colors duration-300 hover:bg-[var(--color-surface-hi)]/35 sm:px-8 sm:py-14 md:min-h-[13rem] md:py-16"
-                >
-                  <span
-                    className="font-black tabular-nums tracking-[-0.045em] text-[var(--color-text)] transition duration-300 group-hover:text-transparent group-hover:bg-gradient-to-br group-hover:from-[var(--color-text)] group-hover:via-[var(--color-primary)] group-hover:to-[var(--color-secondary)] group-hover:bg-clip-text"
-                    style={{ fontSize: "clamp(2.35rem, 7vw, 4rem)", lineHeight: 0.9 }}
-                  >
-                    {metric.figure}
-                  </span>
-                  <p className="mono-label mt-5 max-w-[13rem] text-[0.62rem] leading-relaxed text-[var(--color-text-muted)] transition group-hover:text-[var(--color-text)]/88 sm:text-[0.65rem]">
-                    {metric.label}
-                  </p>
-                </article>
+          <div className="relative mt-12 md:mt-14">
+            <ul className="relative z-10 m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+              {metrics.map((metric, index) => (
+                <li key={metric.label} className="m-0 aspect-square min-h-0 p-0">
+                  <article className="group relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-none border border-white/[0.08] bg-[#141414] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04),0_24px_80px_-40px_rgba(0,0,0,0.75)] transition-[border-color,transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-white/[0.16] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_28px_90px_-36px_rgba(0,0,0,0.85)]">
+                    <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden>
+                      <div className="absolute bottom-0 left-1/2 h-[200%] w-[min(130%,11rem)] -translate-x-1/2 opacity-[0.16] transition-opacity duration-300 group-hover:opacity-[0.22] sm:w-[min(130%,12rem)] md:w-[min(130%,13rem)]">
+                        <Image
+                          src={ecosystemClusterImages[index % ecosystemClusterImages.length]}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-contain object-bottom select-none"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[72%] bg-gradient-to-t from-[#141414] via-[#141414]/92 to-transparent"
+                      aria-hidden
+                    />
+                    <div
+                      className="pointer-events-none absolute inset-0 z-[3] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      style={{
+                        background:
+                          "linear-gradient(145deg, rgba(255, 255, 255, 0.04) 0%, transparent 45%, rgba(255, 255, 255, 0.02) 100%)",
+                      }}
+                      aria-hidden
+                    />
+                    <div className="pointer-events-none absolute inset-x-0 top-0 z-[4] h-px bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-70" aria-hidden />
+                    <div className="relative z-10 flex h-full min-h-0 flex-col p-5 sm:p-6 md:p-7">
+                      <p className="mono-label shrink-0 text-[0.6rem] text-white/30 sm:text-[0.62rem]">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <div className="mt-auto min-w-0 shrink-0">
+                        <p
+                          className={`font-black tabular-nums tracking-[-0.04em] ${caseStudyStatGradient}`}
+                          style={{ fontSize: "clamp(1.85rem, 5.5vw, 2.75rem)", lineHeight: 0.92 }}
+                        >
+                          {metric.figure}
+                        </p>
+                        <p className="mono-label mt-4 max-w-[14rem] text-[0.6rem] leading-relaxed tracking-[0.16em] text-[var(--color-text-muted)] transition-colors duration-300 group-hover:text-[var(--color-text)]/85 sm:mt-5 sm:text-[0.62rem] sm:tracking-[0.18em]">
+                          {metric.label.toUpperCase()}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
+        </SlideIn>
       </section>
 
-      <section className="py-section">
+      <section className="bg-black py-section">
+        <SlideIn className="w-full" direction="down">
         <div className="container-site">
           <p className="mono-label text-[var(--color-secondary)]">Client voice</p>
           <h2 className="display-title mb-10 mt-2 text-white/10">EVIDENCE</h2>
@@ -1149,13 +1202,16 @@ export function HomeSections() {
             </blockquote>
           </div>
         </div>
+        </SlideIn>
       </section>
 
-      <section className="py-section">
+      <section className="bg-black py-section">
+        <SlideIn className="w-full" direction="left">
         <div className="container-site">
           <p className="mono-label mb-4 text-[var(--color-secondary)]">Resources</p>
-          <div className="overflow-hidden rounded-3xl border border-[var(--color-primary)]/35 bg-[var(--color-primary)]/10 p-8 md:p-10 lg:p-12">
-            <div className="grid gap-10 md:grid-cols-12 md:items-center md:gap-12">
+          <div className="relative overflow-visible rounded-none border border-white/[0.08] bg-[#141414] p-8 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04),0_24px_80px_-40px_rgba(0,0,0,0.75)] md:p-10 lg:p-12">
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
+            <div className="relative z-[2] grid gap-10 md:grid-cols-12 md:items-stretch md:gap-6 lg:gap-8">
               <div className="md:col-span-7">
                 <h2 className="headline-title">GET THE GROWTH READINESS SCORECARD.</h2>
                 <p className="mt-4 max-w-2xl text-[var(--color-text-muted)]">
@@ -1168,26 +1224,35 @@ export function HomeSections() {
                   </Button>
                 </div>
               </div>
-              <div className="flex justify-center md:col-span-5 md:justify-end">
-                <div className="relative w-full max-w-[min(100%,400px)]">
+              <div className="relative min-h-[min(52vw,13rem)] overflow-visible md:col-span-5 md:min-h-0 md:h-full">
+                <div
+                  className="relative z-[3] mx-auto mt-2 h-[min(64vw,16rem)] w-[min(100%,22rem)] overflow-visible sm:h-[min(56vw,18rem)] sm:w-[min(100%,26rem)] md:absolute md:inset-y-0 md:-right-6 md:left-auto md:mx-0 md:mt-0 md:h-[min(125%,28rem)] md:w-[min(155%,34rem)] md:max-w-[min(100vw-2rem,36rem)] md:translate-x-[4%] md:-translate-y-[8%] lg:-right-10 lg:h-[min(130%,32rem)] lg:w-[min(175%,40rem)] lg:max-w-[min(100vw-2rem,44rem)] lg:translate-x-[8%] lg:-translate-y-[10%]"
+                  aria-hidden
+                >
                   <Image
-                    src="/resources-element.png"
+                    src={
+                      process.env.NEXT_PUBLIC_MARKETING_ELEMENT_REVISION
+                        ? `/marketing-element.png?v=${encodeURIComponent(process.env.NEXT_PUBLIC_MARKETING_ELEMENT_REVISION)}`
+                        : "/marketing-element.png"
+                    }
                     alt=""
-                    width={720}
-                    height={560}
-                    className="h-auto w-full object-contain select-none"
-                    sizes="(max-width: 768px) 100vw, 400px"
+                    fill
+                    className="origin-bottom scale-[1.22] object-contain object-bottom select-none drop-shadow-[0_28px_60px_rgba(0,0,0,0.55)] sm:scale-125 md:origin-bottom-right md:scale-[1.42] md:object-right lg:scale-[1.52]"
+                    sizes="(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 560px"
+                    priority={false}
                   />
                 </div>
               </div>
             </div>
           </div>
         </div>
+        </SlideIn>
       </section>
 
       <HomeFaqAccordion />
 
-      <section className="pb-20">
+      <section className="bg-black pb-20">
+        <SlideIn className="w-full" direction="right">
         <div className="container-site">
           <p className="mono-label text-[var(--color-secondary)]">Partnership</p>
           <h2 className="display-title mt-2 text-[var(--color-primary)]">LET&apos;S BUILD YOUR NEXT STAGE.</h2>
@@ -1201,6 +1266,7 @@ export function HomeSections() {
             </Button>
           </div>
         </div>
+        </SlideIn>
       </section>
     </>
   );

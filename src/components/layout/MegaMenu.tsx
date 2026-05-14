@@ -19,7 +19,7 @@ export function MegaMenu({ section }: { section: "Solutions" | "Industries" }) {
   return (
     <div
       className={[
-        "pointer-events-none fixed inset-x-0 top-[var(--mega-top)] z-30 w-full translate-y-4 opacity-0",
+        "pointer-events-none absolute left-1/2 top-full z-30 w-screen max-w-[100vw] -translate-x-1/2 translate-y-4 opacity-0",
         "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
         "group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100",
         "motion-reduce:duration-150 motion-reduce:group-hover:translate-y-0",

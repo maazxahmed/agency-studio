@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { SlideIn } from "@/components/motion/SlideIn";
 
 const faqs = [
   {
@@ -34,11 +35,12 @@ export function HomeFaqAccordion() {
   };
 
   return (
-    <section className="py-section">
-      <div className="container-site max-w-[min(100%,85rem)]">
-        <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">FAQ</p>
-        <h2 className="headline-title mt-2 text-center">CLARITY</h2>
-        <div className="mx-auto mt-12 w-full space-y-0 md:mt-14">
+    <section className="bg-black py-section">
+      <SlideIn className="w-full" direction="up">
+        <div className="container-site max-w-[min(100%,85rem)]">
+          <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">FAQ</p>
+          <h2 className="headline-title mt-2 text-center">CLARITY</h2>
+          <div className="mx-auto mt-12 w-full space-y-0 md:mt-14">
           {faqs.map((item, index) => {
             const isOpen = openIndex === index;
             const panelId = `${baseId}-panel-${index}`;
@@ -83,7 +85,8 @@ export function HomeFaqAccordion() {
             );
           })}
         </div>
-      </div>
+        </div>
+      </SlideIn>
     </section>
   );
 }

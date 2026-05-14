@@ -7,7 +7,7 @@ type SectionProps = {
 
 export function Section({ id, title, eyebrow, children }: SectionProps) {
   return (
-    <section id={id} className="py-section">
+    <section id={id} className="bg-black py-section">
       <div className="container-site">
         {eyebrow ? (
           <p className="mb-3 text-xs uppercase tracking-[0.2em] text-[var(--color-text-muted)]">

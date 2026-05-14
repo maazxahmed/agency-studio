@@ -11,14 +11,15 @@ const PAUSE_BLANK_MS = 480;
 type Phase = "type" | "delete";
 
 export function HeroTypewriterHeadline({ className }: { className?: string }) {
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false,
+  );
   const [wordIdx, setWordIdx] = useState(0);
   const [visible, setVisible] = useState(0);
   const [phase, setPhase] = useState<Phase>("type");
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
     const onChange = () => setReducedMotion(mq.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -60,8 +61,8 @@ export function HeroTypewriterHeadline({ className }: { className?: string }) {
   if (reducedMotion) {
     return (
       <h1 className={className}>
-        <span className="block whitespace-nowrap">WE BUILD</span>
-        <span className="block">THE FUTURE.</span>
+        <span className="block whitespace-nowrap text-white">WE BUILD</span>
+        <span className="hero-title-gradient block">THE FUTURE.</span>
       </h1>
     );
   }
@@ -74,13 +75,16 @@ export function HeroTypewriterHeadline({ className }: { className?: string }) {
       className={className}
       aria-label="We build the future, alternating with we are the future."
     >
-      <span className="block whitespace-nowrap">
+      <span className="block whitespace-nowrap text-white">
         WE {mid}
-        <span className={`inline-block w-[0.45ch] font-light transition-opacity duration-150 ${showCaret ? "opacity-90" : "opacity-0"}`} aria-hidden>
+        <span
+          className={`inline-block w-[0.45ch] font-light text-white transition-opacity duration-150 ${showCaret ? "opacity-90" : "opacity-0"}`}
+          aria-hidden
+        >
           |
         </span>
       </span>
-      <span className="block">THE FUTURE.</span>
+      <span className="hero-title-gradient block">THE FUTURE.</span>
     </h1>
   );
 }

@@ -1,46 +1,164 @@
 @import "tailwindcss";
 
+/* Self-hosted: public/fonts/DrukWideBold.woff + Helvetica variants */
+@font-face {
+  font-family: "DrukWide";
+  src: url("/fonts/DrukWideBold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Helvetica (single family name + weights; files in public/fonts/) */
+@font-face {
+  font-family: "HelveticaCustom";
+  src: url("/fonts/helvetica-light-587ebe5a59211.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaCustom";
+  src: url("/fonts/Helvetica.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaCustom";
+  src: url("/fonts/Helvetica-Oblique.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaCustom";
+  src: url("/fonts/Helvetica-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "HelveticaCustom";
+  src: url("/fonts/Helvetica-BoldOblique.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HelveticaRoundedCustom";
+  src: url("/fonts/helvetica-rounded-bold-5871d05ead8de.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HelveticaCompressedCustom";
+  src: url("/fonts/helvetica-compressed-5871d14b6903a.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --color-bg: #13131c;
-  --color-surface: #1b1b24;
-  --color-surface-hi: #292933;
-  --color-text: #e4e1ee;
-  --color-text-muted: #cbc3d7;
-  --color-border: #34343e;
-  --color-primary: #d0bcff;
-  --color-primary-strong: #e9ddff;
-  --color-secondary: #4cd7f6;
-  --color-tertiary: #ffafd3;
+  --bg-canvas: #000000;
+  --bg-base: #000000;
+  --bg-elevated: #000000;
+  /* Slightly lifted surfaces for cards/panels only — page sections stay #000 */
+  --bg-panel: #0a0a0a;
+  --bg-panel-2: #101010;
+
+  --text-primary: #f7f6f7;
+  --text-secondary: #dcdcdc;
+  --text-muted: #a6a6a6;
+  --text-subtle: #5f5c60;
+
+  --accent-violet: #9456f9;
+  --accent-purple: #a139da;
+  --accent-fuchsia: #c93b95;
+  --accent-coral: #f0455c;
+  /* Gradient endpoints only — hot pink (not red coral) */
+  --accent-pink: #f472b6;
+
+  --gradient-brand: linear-gradient(90deg, #9456f9 0%, #a139da 38%, #c93b95 72%, #f472b6 100%);
+  --gradient-stroke: linear-gradient(135deg, rgba(148, 86, 249, 0.95) 0%, rgba(244, 114, 182, 0.92) 100%);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(201, 59, 149, 0.8);
+  --glow-soft: 0 0 32px rgba(161, 57, 218, 0.18);
+  --glow-cta: 0 0 24px rgba(240, 69, 92, 0.2);
+
+  --dur-fast: 160ms;
+  --dur-base: 280ms;
+  --dur-slow: 480ms;
+  --dur-hero: 900ms;
+
+  /* Custom dot cursor (CustomGradientCursor) */
+  --cursor-dot-size: 10px;
+
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* Legacy aliases used by existing components */
+  --color-bg: var(--bg-canvas);
+  --color-surface: var(--bg-panel);
+  --color-surface-hi: var(--bg-panel-2);
+  --color-text: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border-subtle);
+  --color-primary: var(--accent-violet);
+  --color-primary-strong: var(--accent-purple);
+  --color-secondary: var(--accent-fuchsia);
+  --color-tertiary: var(--accent-coral);
   --color-error: #ffb4ab;
+
+  /* Poster / display stack (local Druk Wide Bold + fallbacks) */
+  --font-display: "DrukWide", "Anton", Impact, "Arial Black", sans-serif;
+
+  /* Body, subheads, UI copy (local Helvetica + system fallbacks) */
+  --font-body: "HelveticaCustom", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body-rounded: "HelveticaRoundedCustom", "HelveticaCustom", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body-compressed: "HelveticaCompressedCustom", "HelveticaCustom", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-geist-sans), Arial, sans-serif;
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body);
   overflow-x: hidden;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.16;
-  z-index: 1;
-  background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.07), transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05), transparent 50%);
+@media (pointer: fine) {
+  html.custom-cursor-active body {
+    cursor: none;
+  }
+}
+
+html.custom-cursor-active .custom-gradient-cursor {
+  background: linear-gradient(
+    135deg,
+    var(--accent-violet) 0%,
+    var(--accent-purple) 42%,
+    var(--accent-fuchsia) 72%,
+    var(--accent-pink) 100%
+  );
+  box-shadow:
+    0 0 10px rgba(148, 86, 249, 0.5),
+    0 0 22px rgba(201, 59, 149, 0.22);
 }
 
 .container-site {
-  width: min(100% - clamp(2rem, 6vw, 5rem), 100rem);
+  width: min(100% - clamp(2rem, 6vw, 4.5rem), 80rem);
   margin-inline: auto;
   position: relative;
   z-index: 2;
@@ -51,40 +169,71 @@ body::before {
 }
 
 .display-title {
-  font-size: clamp(3.6rem, 14vw, 11rem);
-  /* Room for italic / bg-clip-text (e.g. OUR ECOSYSTEM) — 0.86 clipped ascenders */
-  line-height: 0.93;
-  letter-spacing: -0.05em;
-  font-weight: 900;
-  padding-block: 0.04em;
-  /* Extra inline-end: italic + bg-clip-text overhang past advance width */
-  padding-inline: 0.02em 0.16em;
-  overflow: visible;
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 13vw, 8.5rem);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-/* Hero headline: same weight/feel as display-title, stepped down ~15–20% */
 .display-title-hero {
-  font-size: clamp(2.85rem, 10.5vw, 8.25rem);
-  line-height: 0.88;
-  letter-spacing: -0.05em;
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 12vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.headline-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.body-copy {
+  font-family: var(--font-body);
+  font-size: max(1rem, 16px);
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.meta-label {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.accent-word {
+  background: var(--gradient-brand);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 /* Animated gradient fill for hero headline (background-clip: text) */
 .hero-title-gradient {
   background-image: linear-gradient(
     to right,
-    var(--color-primary),
-    var(--color-secondary),
-    var(--color-tertiary),
-    var(--color-secondary),
-    var(--color-primary)
+    var(--accent-violet),
+    var(--accent-purple),
+    var(--accent-fuchsia),
+    var(--accent-pink),
+    var(--accent-purple),
+    var(--accent-violet)
   );
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  animation: heroTitleGradientShift 2s ease-in-out infinite alternate;
+  animation: heroTitleGradientShift 18s ease-in-out infinite alternate;
 }
 
 @keyframes heroTitleGradientShift {
@@ -94,6 +243,65 @@ body::before {
   100% {
     background-position: 100% 50%;
   }
+}
+
+@keyframes heroTrustIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-trust-rotator-item {
+  animation: heroTrustIn 0.65s var(--ease-standard) forwards;
+}
+
+/* Gradient-outline CTA (reference: thin glowing border) */
+.hero-cta-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px;
+  border-radius: 2px;
+  background: var(--gradient-brand);
+  box-shadow: var(--glow-cta);
+  transition: transform var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-soft);
+}
+
+.hero-cta-outline:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 36px rgba(244, 114, 182, 0.32);
+}
+
+.hero-cta-outline-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 1px;
+  background: #000000;
+  padding: 0.75rem 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-trust-rotator-item {
+    animation: none;
+  }
+
+  .hero-cta-outline:hover {
+    transform: none;
+  }
+}
+
+/* Hero sculptural background (size tuned vs viewport) */
+.hero-bg-sculpture {
+  transform-origin: 50% 45%;
+  width: min(115vw, 72rem);
+  height: min(115vw, 72rem);
+  max-width: none;
+  max-height: none;
 }
 
 /* Hero graphic: one full turn, slow and continuous */
@@ -112,18 +320,22 @@ body::before {
   }
 }
 
-.headline-title {
-  font-size: clamp(2.1rem, 6vw, 4rem);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  font-weight: 800;
+.mono-label {
+  font-family: var(--font-body);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 600;
 }
 
-.mono-label {
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 0.74rem;
-  font-family: var(--font-geist-mono), monospace;
+/* Optional: rounded / compressed Helvetica where you want that look */
+.type-helvetica-rounded {
+  font-family: var(--font-body-rounded);
+  font-weight: 700;
+}
+
+.type-helvetica-compressed {
+  font-family: var(--font-body-compressed);
 }
 
 .blob-shape {
@@ -133,7 +345,7 @@ body::before {
 
 .orb-glow {
   filter: blur(80px);
-  opacity: 0.45;
+  opacity: 0.32;
 }
 
 @keyframes morph {
@@ -148,7 +360,7 @@ body::before {
   }
 }
 
-/* Hero: single large soft blob (lavender → teal, sits behind headline) */
+/* Hero: single large soft blob (lavender → magenta, sits behind headline) */
 .hero-blob-track {
   position: absolute;
   z-index: 0;
@@ -167,8 +379,8 @@ body::before {
   opacity: 0.52;
   filter: blur(72px);
   background:
-    radial-gradient(ellipse 58% 52% at 36% 46%, rgba(148, 128, 188, 0.55) 0%, rgba(90, 70, 130, 0.12) 52%, transparent 68%),
-    radial-gradient(ellipse 54% 50% at 68% 54%, rgba(72, 118, 128, 0.48) 0%, rgba(40, 72, 82, 0.1) 50%, transparent 66%);
+    radial-gradient(ellipse 58% 52% at 36% 46%, rgba(167, 139, 250, 0.52) 0%, rgba(109, 40, 217, 0.14) 52%, transparent 68%),
+    radial-gradient(ellipse 54% 50% at 68% 54%, rgba(217, 70, 239, 0.42) 0%, rgba(147, 51, 234, 0.12) 50%, transparent 66%);
 }
 
 @keyframes heroBlobDrift {
@@ -187,13 +399,14 @@ body::before {
   z-index: 2;
   pointer-events: none;
   overflow: hidden;
+  opacity: 0;
 }
 
 .ambient-blob {
   position: absolute;
   border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   filter: blur(100px);
-  opacity: 0.38;
+  opacity: 0.28;
   mix-blend-mode: screen;
   will-change: transform, border-radius;
   animation: morph 4.5s ease-in-out infinite, ambientDriftA 7s ease-in-out infinite alternate;
@@ -204,7 +417,7 @@ body::before {
   height: min(72vw, 560px);
   top: -12%;
   left: -15%;
-  background: radial-gradient(circle at 40% 40%, rgba(208, 188, 255, 0.65) 0%, rgba(109, 59, 215, 0.2) 45%, transparent 72%);
+  background: radial-gradient(circle at 40% 40%, rgba(148, 86, 249, 0.48) 0%, rgba(109, 59, 215, 0.14) 45%, transparent 72%);
   animation-delay: 0s, 0s;
 }
 
@@ -213,7 +426,7 @@ body::before {
   height: min(58vw, 480px);
   top: 8%;
   right: -18%;
-  background: radial-gradient(circle at 55% 45%, rgba(76, 215, 246, 0.55) 0%, rgba(3, 181, 211, 0.15) 50%, transparent 70%);
+  background: radial-gradient(circle at 55% 45%, rgba(201, 59, 149, 0.38) 0%, rgba(161, 57, 218, 0.12) 50%, transparent 70%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftB 5.5s ease-in-out infinite alternate;
   animation-delay: -1.2s, -0.8s;
 }
@@ -223,7 +436,7 @@ body::before {
   height: min(65vw, 520px);
   bottom: -8%;
   left: 5%;
-  background: radial-gradient(circle at 50% 55%, rgba(255, 175, 211, 0.5) 0%, rgba(227, 100, 167, 0.12) 48%, transparent 72%);
+  background: radial-gradient(circle at 50% 55%, rgba(244, 114, 182, 0.4) 0%, rgba(201, 59, 149, 0.12) 48%, transparent 72%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftC 6.5s ease-in-out infinite alternate;
   animation-delay: -2s, -1.5s;
 }
@@ -233,7 +446,7 @@ body::before {
   height: min(48vw, 420px);
   top: 42%;
   left: -8%;
-  background: radial-gradient(circle at 60% 35%, rgba(208, 188, 255, 0.35) 0%, transparent 68%);
+  background: radial-gradient(circle at 60% 35%, rgba(148, 86, 249, 0.28) 0%, transparent 68%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftB 8s ease-in-out infinite alternate;
   animation-delay: -0.5s, -2.2s;
   opacity: 0.28;
@@ -244,7 +457,7 @@ body::before {
   height: min(52vw, 440px);
   bottom: 18%;
   right: -6%;
-  background: radial-gradient(circle at 35% 60%, rgba(76, 215, 246, 0.38) 0%, transparent 65%);
+  background: radial-gradient(circle at 35% 60%, rgba(201, 59, 149, 0.28) 0%, transparent 65%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftA 5s ease-in-out infinite alternate;
   animation-delay: -2.8s, 0s;
   opacity: 0.3;
@@ -255,7 +468,7 @@ body::before {
   height: min(90vw, 720px);
   top: 28%;
   left: 22%;
-  background: radial-gradient(circle at 50% 50%, rgba(109, 59, 215, 0.22) 0%, rgba(19, 19, 28, 0) 55%);
+  background: radial-gradient(circle at 50% 50%, rgba(109, 59, 215, 0.2) 0%, rgba(19, 19, 28, 0) 55%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftC 9s ease-in-out infinite alternate;
   animation-delay: -1.5s, -1s;
   opacity: 0.22;
@@ -291,11 +504,10 @@ body::before {
 
 /* Problem insight glass cards — ambient gradient + hover */
 .problem-glass-card {
-  --problem-accent: #e89588;
+  --problem-accent: #f472b6;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 1px 1px 0 0 color-mix(in oklab, var(--problem-accent) 42%, transparent),
-    0 20px 50px -28px rgba(0, 0, 0, 0.72);
+    inset 1px 1px 0 0 color-mix(in oklab, var(--problem-accent) 42%, transparent);
   transition:
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.55s ease;
@@ -305,9 +517,7 @@ body::before {
   transform: translateY(-10px) scale(1.02);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 1px 1px 0 0 color-mix(in oklab, var(--problem-accent) 72%, transparent),
-    0 32px 72px -22px rgba(0, 0, 0, 0.88),
-    0 0 48px -8px color-mix(in oklab, var(--problem-accent) 28%, transparent);
+    inset 1px 1px 0 0 color-mix(in oklab, var(--problem-accent) 72%, transparent);
 }
 
 .problem-card-ambient {
@@ -322,7 +532,7 @@ body::before {
     transparent 0%,
     color-mix(in oklab, var(--problem-accent) 55%, transparent) 18%,
     transparent 38%,
-    rgba(255, 255, 255, 0.08) 52%,
+    rgba(233, 213, 255, 0.12) 52%,
     color-mix(in oklab, var(--problem-accent) 45%, transparent) 72%,
     transparent 100%
   );
@@ -355,9 +565,9 @@ body::before {
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.06) 42%,
-    rgba(255, 255, 255, 0.14) 50%,
-    rgba(255, 255, 255, 0.05) 58%,
+    rgba(252, 231, 243, 0.06) 42%,
+    rgba(244, 194, 255, 0.12) 50%,
+    rgba(252, 231, 243, 0.05) 58%,
     transparent 100%
   );
   transform: translateX(-65%) skewX(-12deg);
@@ -375,13 +585,11 @@ body::before {
 .problem-card-icon {
   transition:
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.45s ease,
-    box-shadow 0.45s ease;
+    border-color 0.45s ease;
 }
 
 .problem-glass-card:hover .problem-card-icon {
   transform: scale(1.08) rotate(-6deg);
-  box-shadow: 0 0 24px -4px color-mix(in oklab, var(--problem-accent) 45%, transparent);
 }
 
 .problem-card-rule {
@@ -393,6 +601,23 @@ body::before {
 .problem-glass-card:hover .problem-card-rule {
   width: 4.5rem;
   opacity: 1;
+}
+
+.poster-panel {
+  border: 1px solid var(--border-subtle);
+  background: linear-gradient(160deg, rgba(167, 139, 250, 0.04) 0%, rgba(201, 59, 149, 0.02) 100%), var(--bg-elevated);
+}
+
+.poster-card {
+  border: 1px solid var(--border-subtle);
+  background: linear-gradient(160deg, rgba(161, 57, 218, 0.08) 0%, rgba(17, 16, 18, 0.9) 52%);
+  transition: transform var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-soft), box-shadow var(--dur-base) var(--ease-soft);
+}
+
+.poster-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--glow-soft);
 }
 
 @keyframes tech-marquee {
@@ -445,8 +670,13 @@ body::before {
     background-position: 50% 50%;
   }
 
-  .hero-element-motion {
+  .hero-element-motion,
+  .hero-bg-sculpture .hero-element-motion {
     animation: none !important;
+    transform: none !important;
+  }
+
+  .poster-card:hover {
     transform: none !important;
   }
 
