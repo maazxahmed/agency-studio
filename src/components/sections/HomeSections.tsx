@@ -197,7 +197,7 @@ type IndustryGridEntry = {
   label: string;
   slug: string;
   icon: IndustryIconId;
-  /** Row-specific purple–pink gradient for hover label (no `text-transparent` on the live copy). */
+  /** Row-specific teal gradient for hover label (no `text-transparent` on the live copy). */
   labelGradient: readonly [string, string, string];
   iconHover: string;
   chevronHover: string;
@@ -242,11 +242,11 @@ function IndustryGridRow({ row }: { row: IndustryGridEntry }) {
 }
 
 export function HomeSections() {
-  /** Below hero: alternate pink-forward and violet-forward headline accents (purple–pink only). */
-  const sectionAccentGradientPink =
-    "bg-gradient-to-r from-[#fbcfe8] via-[#f9a8d4] to-[#f472b6] bg-clip-text italic text-transparent";
-  const sectionAccentGradientViolet =
-    "bg-gradient-to-r from-[#ddd6fe] via-[#c084fc] to-[#f0abfc] bg-clip-text italic text-transparent";
+  /** Below hero: alternate light-teal and deep-teal headline accents. */
+  const sectionAccentGradientLight =
+    "bg-gradient-to-r from-[#0FEDC6] via-[#03B5A7] to-[#5EEAD4] bg-clip-text italic text-transparent";
+  const sectionAccentGradientDeep =
+    "bg-gradient-to-r from-[#7AF8E8] via-[#03B5A7] to-[#023E3E] bg-clip-text italic text-transparent";
 
   const trustStats = [
     { figure: "120+", caption: "Systems launched" },
@@ -257,25 +257,25 @@ export function HomeSections() {
   const problemCards = [
     {
       icon: "chart" as const,
-      accent: "#f472b6",
+      accent: "#0FEDC6",
       lines: ["Traffic is up.", "Qualified demand is not."],
       body: "You're attracting visitors, but your systems aren't turning interest into qualified pipeline.",
     },
     {
       icon: "gear" as const,
-      accent: "#a78bfa",
+      accent: "#03B5A7",
       lines: ["Ops is manual.", "Revenue is paying the delay tax."],
       body: "Manual processes, handoffs and operational gaps are slowing growth.",
     },
     {
       icon: "people" as const,
-      accent: "#e879f9",
+      accent: "#5EEAD4",
       lines: ["Teams are shipping.", "Systems are still fragmented."],
       body: "Disconnected tools and silos create friction, rework and missed opportunities.",
     },
     {
       icon: "shield" as const,
-      accent: "#f0a0c8",
+      accent: "#7AF8E8",
       lines: ["Brand looks premium.", "Buying journey still leaks trust."],
       body: "Inconsistent experience and weak conversion architecture are costing you deals.",
     },
@@ -284,28 +284,28 @@ export function HomeSections() {
     {
       num: "01",
       icon: "trending-up" as const,
-      accent: "#a78bfa",
+      accent: "#03B5A7",
       title: "INCREASE QUALIFIED PIPELINE",
       body: "Attract the right prospects with better targeting, positioning and conversion architecture.",
     },
     {
       num: "02",
       icon: "zap" as const,
-      accent: "#b89cff",
+      accent: "#0FEDC6",
       title: "IMPROVE CONVERSIONS ACROSS TOUCHPOINTS",
       body: "Eliminate friction. Optimize every step of the journey to turn interest into action.",
     },
     {
       num: "03",
       icon: "settings" as const,
-      accent: "#e879f9",
+      accent: "#5EEAD4",
       title: "REDUCE OPERATIONAL DRAG WITH AUTOMATION",
       body: "Streamline workflows, integrate systems and automate repetitive tasks.",
     },
     {
       num: "04",
       icon: "layers" as const,
-      accent: "#f0a0c8",
+      accent: "#023E3E",
       title: "BUILD INFRASTRUCTURE THAT SCALES",
       body: "Create future-ready systems designed to scale with your business.",
     },
@@ -334,65 +334,65 @@ export function HomeSections() {
       label: "Healthcare",
       slug: "healthcare",
       icon: "health",
-      labelGradient: ["#fda4cf", "#d8b4fe", "#a855f7"],
-      iconHover: "group-hover:text-[#fda4cf]",
-      chevronHover: "group-hover:text-[#a855f7]",
+      labelGradient: ["#7AF8E8", "#0FEDC6", "#03B5A7"],
+      iconHover: "group-hover:text-[#7AF8E8]",
+      chevronHover: "group-hover:text-[#03B5A7]",
     },
     {
       label: "Real Estate",
       slug: "real-estate",
       icon: "home",
-      labelGradient: ["#fce7f3", "#e879f9", "#c084fc"],
-      iconHover: "group-hover:text-[#e879f9]",
-      chevronHover: "group-hover:text-[#c084fc]",
+      labelGradient: ["#0FEDC6", "#03B5A7", "#023E3E"],
+      iconHover: "group-hover:text-[#0FEDC6]",
+      chevronHover: "group-hover:text-[#023E3E]",
     },
     {
       label: "Legal",
       slug: "legal",
       icon: "legal",
-      labelGradient: ["#e9d5ff", "#d946ef", "#a855f7"],
-      iconHover: "group-hover:text-[#e9d5ff]",
-      chevronHover: "group-hover:text-[#a855f7]",
+      labelGradient: ["#5EEAD4", "#03B5A7", "#0D6B63"],
+      iconHover: "group-hover:text-[#5EEAD4]",
+      chevronHover: "group-hover:text-[#0D6B63]",
     },
     {
       label: "Construction",
       slug: "construction",
       icon: "construction",
-      labelGradient: ["#fbcfe8", "#f9a8d4", "#ec4899"],
-      iconHover: "group-hover:text-[#fbcfe8]",
-      chevronHover: "group-hover:text-[#ec4899]",
+      labelGradient: ["#99F6E4", "#2DD4BF", "#03B5A7"],
+      iconHover: "group-hover:text-[#99F6E4]",
+      chevronHover: "group-hover:text-[#03B5A7]",
     },
     {
       label: "Ecommerce",
       slug: "ecommerce",
       icon: "cart",
-      labelGradient: ["#ffafd3", "#f0abfc", "#c084fc"],
-      iconHover: "group-hover:text-[#ffafd3]",
-      chevronHover: "group-hover:text-[#c084fc]",
+      labelGradient: ["#7AF8E8", "#03B5A7", "#023E3E"],
+      iconHover: "group-hover:text-[#7AF8E8]",
+      chevronHover: "group-hover:text-[#023E3E]",
     },
     {
       label: "SaaS",
       slug: "saas",
       icon: "saas",
-      labelGradient: ["#e9d5ff", "#a78bfa", "#f472b6"],
-      iconHover: "group-hover:text-[#e9d5ff]",
-      chevronHover: "group-hover:text-[#f472b6]",
+      labelGradient: ["#0FEDC6", "#03B5A7", "#029E92"],
+      iconHover: "group-hover:text-[#0FEDC6]",
+      chevronHover: "group-hover:text-[#029E92]",
     },
     {
       label: "Education",
       slug: "education",
       icon: "education",
-      labelGradient: ["#fae8ff", "#e879f9", "#d946ef"],
-      iconHover: "group-hover:text-[#fae8ff]",
-      chevronHover: "group-hover:text-[#d946ef]",
+      labelGradient: ["#5EEAD4", "#0FEDC6", "#03B5A7"],
+      iconHover: "group-hover:text-[#5EEAD4]",
+      chevronHover: "group-hover:text-[#03B5A7]",
     },
     {
       label: "Finance",
       slug: "finance",
       icon: "finance",
-      labelGradient: ["#f5d0fe", "#f0abfc", "#c084fc"],
-      iconHover: "group-hover:text-[#f5d0fe]",
-      chevronHover: "group-hover:text-[#c084fc]",
+      labelGradient: ["#0FEDC6", "#029E92", "#023E3E"],
+      iconHover: "group-hover:text-[#0FEDC6]",
+      chevronHover: "group-hover:text-[#023E3E]",
     },
   ];
   const featuredCaseStudies = [
@@ -492,7 +492,7 @@ export function HomeSections() {
     },
   ] as const;
   const caseStudyStatGradient =
-    "bg-gradient-to-r from-[#ffafd3] via-[#d8b4fe] to-[#a855f7] bg-clip-text text-transparent";
+    "bg-gradient-to-r from-[#0FEDC6] via-[#03B5A7] to-[#023E3E] bg-clip-text text-transparent";
   const metrics = [
     { figure: "$18M+", label: "Pipeline influenced" },
     { figure: "87", label: "Systems launched" },
@@ -503,11 +503,12 @@ export function HomeSections() {
 
   return (
     <>
-      <section className="relative isolate -mt-24 min-h-screen overflow-hidden bg-black pt-24 text-white md:pt-28">
+      <section className="relative isolate min-h-screen overflow-hidden bg-black text-white">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div className="absolute inset-0 bg-gradient-to-b from-black via-black/40 to-black" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_45%,rgba(148,86,249,0.12),transparent_55%)]" />
-          <div className="hero-bg-sculpture absolute left-1/2 top-[44%] z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.36] sm:opacity-[0.4]">
+          <div className="absolute inset-x-0 top-0 z-[1] h-[var(--header-height)] bg-gradient-to-b from-black via-black/85 to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_52%,rgba(3,181,167,0.14),transparent_55%)]" />
+          <div className="hero-bg-sculpture absolute left-1/2 top-[54%] z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.36] sm:top-[56%] sm:opacity-[0.4]">
             <Image
               src={
                 process.env.NEXT_PUBLIC_HERO_ELEMENT_REVISION
@@ -525,7 +526,7 @@ export function HomeSections() {
           </div>
         </div>
 
-        <SlideIn className="relative z-10 flex min-h-[calc(100svh-5rem)] flex-col px-5 pb-10 pt-2 md:px-8 md:pb-14 md:pt-4" direction="up">
+        <SlideIn className="relative z-10 flex min-h-screen flex-col px-5 pb-10 pt-[var(--header-height)] md:px-8 md:pb-14" direction="up">
           <div className="container-site flex flex-1 flex-col">
             <div className="flex flex-1 flex-col items-center justify-center px-1 pb-12 pt-6 md:pb-16 md:pt-8">
               <HeroTypewriterHeadline className="display-title-hero text-balance text-center" />
@@ -541,7 +542,7 @@ export function HomeSections() {
               <div className="order-3 flex justify-end md:justify-self-end">
                 <Link
                   href="/contact"
-                  className="hero-cta-outline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-violet)]"
+                  className="hero-cta-outline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-teal)]"
                 >
                   <span className="hero-cta-outline-inner mono-label text-white">Contact us</span>
                 </Link>
@@ -557,7 +558,7 @@ export function HomeSections() {
             className="absolute inset-0 opacity-[0.5] mix-blend-screen"
             style={{
               background:
-                "radial-gradient(ellipse 75% 65% at 82% 42%, rgba(167,139,250,0.38), transparent 55%), radial-gradient(ellipse 55% 45% at 96% 58%, rgba(244,114,182,0.16), transparent 52%)",
+                "radial-gradient(ellipse 75% 65% at 82% 42%, rgba(15,237,198,0.32), transparent 55%), radial-gradient(ellipse 55% 45% at 96% 58%, rgba(3,181,167,0.18), transparent 52%)",
             }}
           />
           <div className="absolute inset-0">
@@ -583,7 +584,7 @@ export function HomeSections() {
             <h2 className="mt-2 text-balance headline-title text-[var(--color-text)] [text-shadow:0_2px_28px_rgba(0,0,0,0.72)]">
               THE PROBLEM ISN&apos;T
               <br />
-              <span className={sectionAccentGradientPink}>JUST MARKETING.</span>
+              <span className={sectionAccentGradientLight}>JUST MARKETING.</span>
             </h2>
             <p className="body-copy mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)]">
               Most brands don&apos;t have an ads issue. They have disconnected systems: weak conversion architecture, fragmented journeys, manual operations, and slow execution loops.
@@ -635,7 +636,7 @@ export function HomeSections() {
             className="absolute inset-0 opacity-[0.55] mix-blend-screen"
             style={{
               background:
-                "radial-gradient(ellipse 80% 70% at 85% 45%, rgba(167,139,250,0.35), transparent 55%), radial-gradient(ellipse 60% 50% at 100% 60%, rgba(244,114,182,0.18), transparent 50%)",
+                "radial-gradient(ellipse 80% 70% at 85% 45%, rgba(15,237,198,0.3), transparent 55%), radial-gradient(ellipse 60% 50% at 100% 60%, rgba(3,181,167,0.2), transparent 50%)",
             }}
           />
           <div className="absolute inset-y-0 top-0 right-0 bottom-0 left-[8%] md:left-[14%] lg:left-[22%]">
@@ -659,7 +660,7 @@ export function HomeSections() {
           <p className="mono-label text-[var(--color-secondary)]">Outcomes over output</p>
           <h2 className="relative z-10 mt-3 max-w-4xl text-balance font-[family-name:var(--font-display)] text-[clamp(2.1rem,5.8vw,3.65rem)] font-bold uppercase leading-[0.95] tracking-[0.02em] [text-shadow:0_2px_28px_rgba(0,0,0,0.75)]">
             <span className="block text-white">BUSINESS IMPACT. NOT SERVICE</span>
-            <span className={`mt-0.5 block ${sectionAccentGradientViolet}`}>CHECKLISTS.</span>
+            <span className={`mt-0.5 block ${sectionAccentGradientDeep}`}>CHECKLISTS.</span>
           </h2>
           <p className="body-copy relative mt-4 max-w-2xl text-[var(--color-text-muted)] md:mt-5">
             <span className="relative z-10">We focus on the metrics that move the needle. Everything we do is engineered for compounding results.</span>
@@ -685,7 +686,7 @@ export function HomeSections() {
                       <div
                         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md p-px md:h-10 md:w-10"
                         style={{
-                          background: `linear-gradient(135deg, ${card.accent}, rgba(244,114,182,0.85))`,
+                          background: `linear-gradient(135deg, ${card.accent}, rgba(15,237,198,0.85))`,
                         }}
                         aria-hidden
                       >
@@ -728,7 +729,7 @@ export function HomeSections() {
           <h2 className="headline-title text-center text-[var(--color-text)]">
             A DELIVERY MODEL DESIGNED TO
             <br />
-            <span className={sectionAccentGradientPink}>
+            <span className={sectionAccentGradientLight}>
               REDUCE RISK.
             </span>
           </h2>
@@ -739,25 +740,25 @@ export function HomeSections() {
                   num: "01",
                   title: "Diagnose",
                   desc: "Auditing systems, identifying friction, mapping outcomes.",
-                  accent: "#a78bfa",
+                  accent: "#03B5A7",
                 },
                 {
                   num: "02",
                   title: "Architect",
                   desc: "Structuring foundations for scale and velocity.",
-                  accent: "#b89cff",
+                  accent: "#0FEDC6",
                 },
                 {
                   num: "03",
                   title: "Mutate",
                   desc: "Designing the kinetic brand and experience layer.",
-                  accent: "#e879f9",
+                  accent: "#5EEAD4",
                 },
                 {
                   num: "04",
                   title: "Deploy",
                   desc: "Shipping resilient systems into production.",
-                  accent: "#f0a0c8",
+                  accent: "#023E3E",
                 },
               ] as const
             ).map((phase, index) => {
@@ -792,7 +793,7 @@ export function HomeSections() {
             <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">Capabilities</p>
             <h2 className="display-title overflow-visible px-2 text-center sm:px-3">
               <span className="text-white/15">OUR </span>
-              <span className={`inline-block pb-[0.04em] pr-[0.14em] ${sectionAccentGradientViolet}`}>
+              <span className={`inline-block pb-[0.04em] pr-[0.14em] ${sectionAccentGradientDeep}`}>
                 ECOSYSTEM
               </span>
             </h2>
@@ -831,7 +832,7 @@ export function HomeSections() {
                         href="/start-a-project"
                         className="mt-8 inline-flex self-start text-xs font-bold uppercase tracking-[0.22em] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-secondary)]"
                       >
-                        <span className="bg-gradient-to-r from-[#ddd6fe] via-[#c084fc] to-[#ffafd3] bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-[#0FEDC6] via-[#03B5A7] to-[#023E3E] bg-clip-text text-transparent">
                           GET STARTED
                         </span>
                       </Link>
@@ -849,7 +850,7 @@ export function HomeSections() {
           className="pointer-events-none absolute bottom-[2%] left-[-6%] h-[min(58vw,20rem)] w-[min(58vw,20rem)] rounded-full opacity-[0.22] blur-[80px] sm:h-[min(48vw,17rem)] sm:w-[min(48vw,17rem)] md:blur-[92px]"
           style={{
             background:
-              "radial-gradient(circle at 38% 42%, rgba(216, 180, 254, 0.48), rgba(147, 51, 234, 0.2) 42%, rgba(236, 72, 153, 0.14) 58%, transparent 72%)",
+              "radial-gradient(circle at 38% 42%, rgba(15, 237, 198, 0.4), rgba(3, 181, 167, 0.22) 42%, rgba(2, 62, 62, 0.16) 58%, transparent 72%)",
           }}
           aria-hidden
         />
@@ -860,7 +861,7 @@ export function HomeSections() {
               <p className="mono-label text-[var(--color-secondary)]">Vertical depth</p>
               <h2 className="headline-title mt-2 text-balance text-[var(--color-text)]">
                 INDUSTRY CONTEXT CHANGES{" "}
-                <span className={sectionAccentGradientPink}>
+                <span className={sectionAccentGradientLight}>
                   EVERYTHING.
                 </span>
               </h2>
@@ -882,7 +883,7 @@ export function HomeSections() {
                 <div className="relative min-w-0">
                   <span
                     className="pointer-events-none absolute -left-px top-[12%] bottom-[12%] w-px bg-gradient-to-b from-transparent via-[var(--color-primary)] to-transparent opacity-90"
-                    style={{ boxShadow: "0 0 20px rgba(208, 188, 255, 0.45)" }}
+                    style={{ boxShadow: "0 0 20px rgba(15, 237, 198, 0.45)" }}
                     aria-hidden
                   />
                   {industryGrid.slice(4, 8).map((row) => (
@@ -903,7 +904,7 @@ export function HomeSections() {
           <h2 className="headline-title text-[var(--color-text)]">
             MODERN TECHNOLOGY
             <br />
-            <span className={sectionAccentGradientViolet}>
+            <span className={sectionAccentGradientDeep}>
               FOUNDATIONS.
             </span>
           </h2>
@@ -962,7 +963,7 @@ export function HomeSections() {
             <h2 className="headline-title mt-2">
               AUTOMATE THE
               <br />
-              <span className={sectionAccentGradientPink}>DRAG.</span>
+              <span className={sectionAccentGradientLight}>DRAG.</span>
             </h2>
             <p className="mt-6 max-w-xl text-lg text-[var(--color-text-muted)]">
             Keep humans focused where judgment matters. We deploy AI and workflow orchestrations that reduce manual load and improve operational consistency.
@@ -1023,7 +1024,7 @@ export function HomeSections() {
                 <h2 className="headline-title mt-2">
                   OUTCOMES YOU CAN
                   <br />
-                  <span className={sectionAccentGradientViolet}>TRACE.</span>
+                  <span className={sectionAccentGradientDeep}>TRACE.</span>
                 </h2>
                 <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
                   Each engagement ships with measurable baselines, instrumentation, and a narrative your board can repeat—not vanity redesigns.
@@ -1128,7 +1129,7 @@ export function HomeSections() {
           <p className="mono-label text-[var(--color-secondary)]">By the numbers</p>
           <h2 className="headline-title mt-2 text-[var(--color-text)]">
             METRICS.{" "}
-            <span className={`inline-block ${sectionAccentGradientPink}`}>
+            <span className={`inline-block ${sectionAccentGradientLight}`}>
               NOT VIBES.
             </span>
           </h2>

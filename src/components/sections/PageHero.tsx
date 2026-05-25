@@ -8,7 +8,7 @@ type PageHeroProps = {
 
 export function PageHero({ title, description }: PageHeroProps) {
   return (
-    <section className="bg-black py-section">
+    <section className="bg-black pb-section pt-[var(--header-height)]">
       <SlideIn className="w-full" direction="up">
         <div className="container-site">
           <h1 className="text-balance text-4xl font-semibold text-[var(--color-text)] md:text-5xl">{title}</h1>

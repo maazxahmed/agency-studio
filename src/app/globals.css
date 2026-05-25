@@ -75,20 +75,37 @@
   --text-muted: #a6a6a6;
   --text-subtle: #5f5c60;
 
-  --accent-violet: #9456f9;
-  --accent-purple: #a139da;
-  --accent-fuchsia: #c93b95;
-  --accent-coral: #f0455c;
-  /* Gradient endpoints only — hot pink (not red coral) */
-  --accent-pink: #f472b6;
+  /* Column Bridge brand — teal accent + light/dark gradient stops */
+  --accent-teal: #03b5a7;
+  --accent-teal-light: #0fedc6;
+  --accent-teal-dark: #023e3e;
+  --accent-teal-mid: #029e92;
 
-  --gradient-brand: linear-gradient(90deg, #9456f9 0%, #a139da 38%, #c93b95 72%, #f472b6 100%);
-  --gradient-stroke: linear-gradient(135deg, rgba(148, 86, 249, 0.95) 0%, rgba(244, 114, 182, 0.92) 100%);
+  /* Legacy token names (components still reference these) */
+  --accent-violet: var(--accent-teal);
+  --accent-purple: var(--accent-teal-mid);
+  --accent-fuchsia: var(--accent-teal-light);
+  --accent-coral: var(--accent-teal);
+  --accent-pink: var(--accent-teal-light);
+
+  --gradient-brand: linear-gradient(
+    90deg,
+    var(--accent-teal-light) 0%,
+    var(--accent-teal) 42%,
+    var(--accent-teal-mid) 68%,
+    var(--accent-teal-dark) 100%
+  );
+  --gradient-stroke: linear-gradient(
+    135deg,
+    rgba(15, 237, 198, 0.95) 0%,
+    rgba(3, 181, 167, 0.92) 48%,
+    rgba(2, 62, 62, 0.9) 100%
+  );
 
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-accent: rgba(201, 59, 149, 0.8);
-  --glow-soft: 0 0 32px rgba(161, 57, 218, 0.18);
-  --glow-cta: 0 0 24px rgba(240, 69, 92, 0.2);
+  --border-accent: rgba(3, 181, 167, 0.75);
+  --glow-soft: 0 0 32px rgba(3, 181, 167, 0.22);
+  --glow-cta: 0 0 24px rgba(15, 237, 198, 0.28);
 
   --dur-fast: 160ms;
   --dur-base: 280ms;
@@ -101,6 +118,9 @@
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* Fixed transparent navbar — keep hero/page top padding in sync */
+  --header-height: 6.5rem;
 
   /* Legacy aliases used by existing components */
   --color-bg: var(--bg-canvas);
@@ -153,8 +173,8 @@ html.custom-cursor-active .custom-gradient-cursor {
     var(--accent-pink) 100%
   );
   box-shadow:
-    0 0 10px rgba(148, 86, 249, 0.5),
-    0 0 22px rgba(201, 59, 149, 0.22);
+    0 0 10px rgba(3, 181, 167, 0.55),
+    0 0 22px rgba(15, 237, 198, 0.28);
 }
 
 .container-site {
@@ -273,7 +293,7 @@ html.custom-cursor-active .custom-gradient-cursor {
 
 .hero-cta-outline:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 36px rgba(244, 114, 182, 0.32);
+  box-shadow: 0 0 36px rgba(15, 237, 198, 0.35);
 }
 
 .hero-cta-outline-inner {
@@ -360,7 +380,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   }
 }
 
-/* Hero: single large soft blob (lavender → magenta, sits behind headline) */
+/* Hero: single large soft blob (teal light → dark, sits behind headline) */
 .hero-blob-track {
   position: absolute;
   z-index: 0;
@@ -379,8 +399,8 @@ html.custom-cursor-active .custom-gradient-cursor {
   opacity: 0.52;
   filter: blur(72px);
   background:
-    radial-gradient(ellipse 58% 52% at 36% 46%, rgba(167, 139, 250, 0.52) 0%, rgba(109, 40, 217, 0.14) 52%, transparent 68%),
-    radial-gradient(ellipse 54% 50% at 68% 54%, rgba(217, 70, 239, 0.42) 0%, rgba(147, 51, 234, 0.12) 50%, transparent 66%);
+    radial-gradient(ellipse 58% 52% at 36% 46%, rgba(15, 237, 198, 0.45) 0%, rgba(3, 181, 167, 0.14) 52%, transparent 68%),
+    radial-gradient(ellipse 54% 50% at 68% 54%, rgba(3, 181, 167, 0.38) 0%, rgba(2, 62, 62, 0.14) 50%, transparent 66%);
 }
 
 @keyframes heroBlobDrift {
@@ -417,7 +437,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   height: min(72vw, 560px);
   top: -12%;
   left: -15%;
-  background: radial-gradient(circle at 40% 40%, rgba(148, 86, 249, 0.48) 0%, rgba(109, 59, 215, 0.14) 45%, transparent 72%);
+  background: radial-gradient(circle at 40% 40%, rgba(3, 181, 167, 0.42) 0%, rgba(2, 62, 62, 0.14) 45%, transparent 72%);
   animation-delay: 0s, 0s;
 }
 
@@ -426,7 +446,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   height: min(58vw, 480px);
   top: 8%;
   right: -18%;
-  background: radial-gradient(circle at 55% 45%, rgba(201, 59, 149, 0.38) 0%, rgba(161, 57, 218, 0.12) 50%, transparent 70%);
+  background: radial-gradient(circle at 55% 45%, rgba(15, 237, 198, 0.32) 0%, rgba(3, 181, 167, 0.12) 50%, transparent 70%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftB 5.5s ease-in-out infinite alternate;
   animation-delay: -1.2s, -0.8s;
 }
@@ -436,7 +456,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   height: min(65vw, 520px);
   bottom: -8%;
   left: 5%;
-  background: radial-gradient(circle at 50% 55%, rgba(244, 114, 182, 0.4) 0%, rgba(201, 59, 149, 0.12) 48%, transparent 72%);
+  background: radial-gradient(circle at 50% 55%, rgba(15, 237, 198, 0.36) 0%, rgba(3, 181, 167, 0.12) 48%, transparent 72%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftC 6.5s ease-in-out infinite alternate;
   animation-delay: -2s, -1.5s;
 }
@@ -446,7 +466,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   height: min(48vw, 420px);
   top: 42%;
   left: -8%;
-  background: radial-gradient(circle at 60% 35%, rgba(148, 86, 249, 0.28) 0%, transparent 68%);
+  background: radial-gradient(circle at 60% 35%, rgba(3, 181, 167, 0.28) 0%, transparent 68%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftB 8s ease-in-out infinite alternate;
   animation-delay: -0.5s, -2.2s;
   opacity: 0.28;
@@ -457,7 +477,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   height: min(52vw, 440px);
   bottom: 18%;
   right: -6%;
-  background: radial-gradient(circle at 35% 60%, rgba(201, 59, 149, 0.28) 0%, transparent 65%);
+  background: radial-gradient(circle at 35% 60%, rgba(15, 237, 198, 0.26) 0%, transparent 65%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftA 5s ease-in-out infinite alternate;
   animation-delay: -2.8s, 0s;
   opacity: 0.3;
@@ -468,7 +488,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   height: min(90vw, 720px);
   top: 28%;
   left: 22%;
-  background: radial-gradient(circle at 50% 50%, rgba(109, 59, 215, 0.2) 0%, rgba(19, 19, 28, 0) 55%);
+  background: radial-gradient(circle at 50% 50%, rgba(2, 62, 62, 0.28) 0%, rgba(19, 19, 28, 0) 55%);
   animation: morph 4.5s ease-in-out infinite, ambientDriftC 9s ease-in-out infinite alternate;
   animation-delay: -1.5s, -1s;
   opacity: 0.22;
@@ -504,7 +524,7 @@ html.custom-cursor-active .custom-gradient-cursor {
 
 /* Problem insight glass cards — ambient gradient + hover */
 .problem-glass-card {
-  --problem-accent: #f472b6;
+  --problem-accent: var(--accent-teal-light);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     inset 1px 1px 0 0 color-mix(in oklab, var(--problem-accent) 42%, transparent);
@@ -532,7 +552,7 @@ html.custom-cursor-active .custom-gradient-cursor {
     transparent 0%,
     color-mix(in oklab, var(--problem-accent) 55%, transparent) 18%,
     transparent 38%,
-    rgba(233, 213, 255, 0.12) 52%,
+    rgba(15, 237, 198, 0.1) 52%,
     color-mix(in oklab, var(--problem-accent) 45%, transparent) 72%,
     transparent 100%
   );
@@ -565,9 +585,9 @@ html.custom-cursor-active .custom-gradient-cursor {
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgba(252, 231, 243, 0.06) 42%,
-    rgba(244, 194, 255, 0.12) 50%,
-    rgba(252, 231, 243, 0.05) 58%,
+    rgba(15, 237, 198, 0.06) 42%,
+    rgba(3, 181, 167, 0.12) 50%,
+    rgba(15, 237, 198, 0.05) 58%,
     transparent 100%
   );
   transform: translateX(-65%) skewX(-12deg);
@@ -605,12 +625,12 @@ html.custom-cursor-active .custom-gradient-cursor {
 
 .poster-panel {
   border: 1px solid var(--border-subtle);
-  background: linear-gradient(160deg, rgba(167, 139, 250, 0.04) 0%, rgba(201, 59, 149, 0.02) 100%), var(--bg-elevated);
+  background: linear-gradient(160deg, rgba(15, 237, 198, 0.04) 0%, rgba(3, 181, 167, 0.02) 100%), var(--bg-elevated);
 }
 
 .poster-card {
   border: 1px solid var(--border-subtle);
-  background: linear-gradient(160deg, rgba(161, 57, 218, 0.08) 0%, rgba(17, 16, 18, 0.9) 52%);
+  background: linear-gradient(160deg, rgba(3, 181, 167, 0.08) 0%, rgba(17, 16, 18, 0.9) 52%);
   transition: transform var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-soft), box-shadow var(--dur-base) var(--ease-soft);
 }
 

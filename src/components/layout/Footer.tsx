@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SlideIn } from "@/components/motion/SlideIn";
+import { SiteLogo } from "@/components/layout/SiteLogo";
 
 const footerQuickLinks = [
   { label: "Privacy", href: "/privacy-policy" },
@@ -42,9 +43,16 @@ export function Footer() {
       </SlideIn>
       <SlideIn className="w-full" direction="left" delay={0.06}>
         <div className="container-site border-t border-white/[0.06] pt-8 md:pt-10">
-          <div className="flex w-full min-w-0 flex-col gap-3 text-left text-[0.65rem] uppercase leading-relaxed tracking-[0.14em] text-[var(--color-text-muted)] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-xs">
-            <span className="max-w-prose sm:max-w-none">©2026 Agency_Studio — Boldly Digital</span>
-            <span className="shrink-0 text-[var(--color-secondary)]">Sys.Stat: Online</span>
+          <div className="flex w-full min-w-0 flex-col gap-6 text-left sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div className="flex min-w-0 flex-col gap-2">
+              <SiteLogo variant="footer" />
+              <span className="max-w-prose text-[0.65rem] uppercase leading-relaxed tracking-[0.14em] text-[var(--color-text-muted)] sm:text-xs">
+                ©2026 Column Bridge — Boldly Digital
+              </span>
+            </div>
+            <span className="shrink-0 text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-secondary)] sm:text-xs">
+              Sys.Stat: Online
+            </span>
           </div>
         </div>
       </SlideIn>

@@ -9,11 +9,11 @@ type ButtonProps = {
 };
 
 const base =
-  "group relative inline-flex items-center justify-center overflow-visible text-center text-[11px] font-semibold uppercase tracking-[0.18em] transition duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-violet)]";
+  "group relative inline-flex items-center justify-center overflow-visible text-center text-[11px] font-semibold uppercase tracking-[0.18em] transition duration-300 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-teal)]";
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "border border-[var(--border-accent)] bg-white/[0.01] text-[var(--text-primary)] shadow-[0_0_0_0_rgba(240,69,92,0)] hover:-translate-y-0.5 hover:shadow-[var(--glow-cta)] active:translate-y-0",
+    "border border-[var(--border-accent)] bg-white/[0.01] text-[var(--text-primary)] shadow-[0_0_0_0_rgba(3,181,167,0)] hover:-translate-y-0.5 hover:shadow-[var(--glow-cta)] active:translate-y-0",
   secondary:
     "border border-[var(--border-subtle)] bg-transparent text-[var(--text-secondary)] hover:border-white/30 hover:text-[var(--text-primary)] hover:-translate-y-0.5 active:translate-y-0",
   ghost:

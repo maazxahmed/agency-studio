@@ -18,7 +18,7 @@ export function AiOrbLottie() {
       role="img"
       aria-label="AI systems visualization"
     >
-      <div className="orb-glow absolute inset-[22%] rounded-full bg-[radial-gradient(circle,var(--accent-purple)_0%,transparent_70%)]" />
+      <div className="orb-glow absolute inset-[22%] rounded-full bg-[radial-gradient(circle,var(--accent-teal)_0%,transparent_70%)]" />
       <DotLottieReact
         src="/ai-orb.lottie"
         loop
