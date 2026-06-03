@@ -9,7 +9,7 @@ export default function SolutionsPage() {
         title="Solutions Architecture"
         description="Outcome-led solutions that align revenue growth, customer experience, product execution, and operational scale."
       />
-      <section className="bg-black pb-20">
+      <section className="bg-black py-section">
         <SlideIn className="w-full" direction="right">
           <div className="container-site grid gap-4 md:grid-cols-3">
             {solutionSlugs.map((slug) => (

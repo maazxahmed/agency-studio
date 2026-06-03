@@ -120,7 +120,10 @@
   --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
 
   /* Fixed transparent navbar — keep hero/page top padding in sync */
-  --header-height: 6.5rem;
+  --header-height: 5rem;
+
+  /* Equal vertical rhythm between page sections */
+  --section-spacing: clamp(5rem, 7vw, 6.5rem);
 
   /* Legacy aliases used by existing components */
   --color-bg: var(--bg-canvas);
@@ -178,19 +181,37 @@ html.custom-cursor-active .custom-gradient-cursor {
 }
 
 .container-site {
-  width: min(100% - clamp(2rem, 6vw, 4.5rem), 80rem);
+  width: min(100% - 1.5rem, 80rem);
   margin-inline: auto;
   position: relative;
   z-index: 2;
 }
 
+@media (min-width: 768px) {
+  :root {
+    --header-height: 6.5rem;
+  }
+
+  .container-site {
+    width: min(100% - clamp(2rem, 6vw, 4.5rem), 80rem);
+  }
+}
+
 .py-section {
-  padding-block: clamp(4.5rem, 10vw, 10rem);
+  padding-block: var(--section-spacing);
+}
+
+.pb-section {
+  padding-bottom: var(--section-spacing);
+}
+
+.pt-section {
+  padding-top: var(--section-spacing);
 }
 
 .display-title {
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 13vw, 8.5rem);
+  font-size: clamp(2.125rem, 10vw, 8.5rem);
   line-height: 0.9;
   letter-spacing: 0.01em;
   font-weight: 700;
@@ -199,7 +220,7 @@ html.custom-cursor-active .custom-gradient-cursor {
 
 .display-title-hero {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 12vw, 7rem);
+  font-size: clamp(2.125rem, 9.5vw, 7rem);
   line-height: 0.9;
   letter-spacing: 0.01em;
   font-weight: 700;
@@ -208,11 +229,25 @@ html.custom-cursor-active .custom-gradient-cursor {
 
 .headline-title {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-size: clamp(1.625rem, 5.5vw, 3.5rem);
   line-height: 0.95;
   letter-spacing: 0.01em;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .display-title {
+    font-size: clamp(3.2rem, 13vw, 8.5rem);
+  }
+
+  .display-title-hero {
+    font-size: clamp(3rem, 12vw, 7rem);
+  }
+
+  .headline-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+  }
 }
 
 .body-copy {
@@ -282,7 +317,6 @@ html.custom-cursor-active .custom-gradient-cursor {
 
 /* Gradient-outline CTA (reference: thin glowing border) */
 .hero-cta-outline {
-  display: inline-flex;
   align-items: center;
   padding: 1px;
   border-radius: 2px;
@@ -315,13 +349,41 @@ html.custom-cursor-active .custom-gradient-cursor {
   }
 }
 
+/* Metrics grid — large figures on mobile, compact in desktop cards */
+.metrics-card-figure {
+  font-size: clamp(3.5rem, 24vw, 6rem);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+}
+
+@media (min-width: 768px) {
+  .metrics-card-figure {
+    font-size: clamp(1.85rem, 5.5vw, 2.75rem);
+    line-height: 0.92;
+  }
+}
+
+/* Case studies: viewport scrolls; inner track is w-max (do not combine on one node). */
+.case-studies-rail-viewport {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+}
+
 /* Hero sculptural background (size tuned vs viewport) */
 .hero-bg-sculpture {
   transform-origin: 50% 45%;
-  width: min(115vw, 72rem);
-  height: min(115vw, 72rem);
+  width: min(100vw, 72rem);
+  height: min(100vw, 72rem);
   max-width: none;
   max-height: none;
+}
+
+@media (min-width: 768px) {
+  .hero-bg-sculpture {
+    width: min(115vw, 72rem);
+    height: min(115vw, 72rem);
+  }
 }
 
 /* Hero graphic: one full turn, slow and continuous */
@@ -645,7 +707,7 @@ html.custom-cursor-active .custom-gradient-cursor {
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(var(--marquee-distance, -50%), 0, 0);
   }
 }
 
@@ -655,7 +717,7 @@ html.custom-cursor-active .custom-gradient-cursor {
   flex-shrink: 0;
   align-items: center;
   gap: 0;
-  animation: tech-marquee 90s linear infinite;
+  animation: tech-marquee var(--marquee-duration, 40s) linear infinite;
   will-change: transform;
   backface-visibility: hidden;
 }

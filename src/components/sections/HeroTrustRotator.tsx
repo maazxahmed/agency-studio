@@ -36,14 +36,20 @@ export function HeroTrustRotator({ stats, intervalMs = 4200 }: HeroTrustRotatorP
   const item = stats[reducedMotion ? 0 : index] ?? stats[0];
 
   return (
-    <div className="max-w-[min(100%,15rem)] md:max-w-[16rem]" aria-live="polite" aria-atomic="true">
+    <div
+      className="flex w-full flex-col items-center gap-3 text-center md:max-w-[16rem] md:items-start md:gap-3 md:text-left"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <p
         key={item.figure + item.caption}
         className="hero-trust-rotator-item accent-word font-black tabular-nums tracking-tight text-[clamp(2.25rem,6vw,3.75rem)] leading-none"
       >
         {item.figure}
       </p>
-      <p className="mono-label mt-3 text-left text-white/70">{item.caption}</p>
+      <p className="mono-label max-w-[22rem] text-balance text-[0.65rem] leading-snug tracking-[0.12em] text-white/70 md:max-w-none md:text-[0.68rem] md:tracking-[0.18em]">
+        {item.caption}
+      </p>
     </div>
   );
 }

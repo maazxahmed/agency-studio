@@ -13,7 +13,7 @@ export function PageHero({ title, description }: PageHeroProps) {
         <div className="container-site">
           <h1 className="text-balance text-4xl font-semibold text-[var(--color-text)] md:text-5xl">{title}</h1>
           <p className="mt-5 max-w-3xl text-lg text-[var(--color-text-muted)]">{description}</p>
-          <div className="mt-8 flex gap-3">
+          <div className="mt-8 flex flex-col gap-3 max-md:[&_a]:w-full sm:flex-row sm:flex-wrap">
             <Button href="/book-strategy-call">Book a Strategy Call</Button>
             <Button href="/request-proposal" variant="secondary">
               Request Proposal

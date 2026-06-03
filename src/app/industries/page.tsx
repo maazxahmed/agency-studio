@@ -9,7 +9,7 @@ export default function IndustriesPage() {
         title="Industry Growth Systems"
         description="Industry-specific digital infrastructure and growth architecture tailored to operational realities and compliance expectations."
       />
-      <section className="bg-black pb-20">
+      <section className="bg-black py-section">
         <SlideIn className="w-full" direction="down">
           <div className="container-site grid gap-4 md:grid-cols-3">
             {industrySlugs.map((slug) => (

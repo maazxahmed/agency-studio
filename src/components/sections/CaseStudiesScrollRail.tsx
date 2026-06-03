@@ -17,8 +17,11 @@ import {
 
 const MD_BREAKPOINT = 768;
 
-const railClass =
-  "grid w-max grid-flow-col auto-cols-max items-stretch gap-4 pb-4 md:gap-6 [&::-webkit-scrollbar]:hidden";
+const trackClass =
+  "grid w-max grid-flow-col auto-cols-max items-stretch gap-4 pb-4 md:gap-6";
+
+const viewportClass =
+  "case-studies-rail-viewport w-full min-w-0 max-w-full snap-x snap-mandatory overflow-x-auto overflow-y-visible overscroll-x-contain scroll-smooth touch-pan-x [-webkit-overflow-scrolling:touch] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 
 type CaseStudiesScrollRailProps = {
   children: ReactNode;
@@ -30,13 +33,17 @@ function CaseStudiesOverflowRail({
   className,
 }: CaseStudiesScrollRailProps) {
   return (
-    <div className={className}>
+    <div
+      className={[className, "w-full min-w-0 max-w-full"]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <div
-        className={`${railClass} snap-x snap-mandatory overflow-x-auto scroll-smooth [-webkit-overflow-scrolling:touch] [-ms-overflow-style:none] [scrollbar-width:none]`}
+        className={viewportClass}
         role="region"
         aria-label="Case studies"
       >
-        {children}
+        <div className={trackClass}>{children}</div>
       </div>
     </div>
   );
@@ -85,7 +92,7 @@ function CaseStudiesPinnedRail({
   });
 
   return (
-    <div className={className}>
+    <div className={[className, "w-full min-w-0 overflow-x-clip"].filter(Boolean).join(" ")}>
       <p className="sr-only">
         Scroll down to move through case studies horizontally.
       </p>
@@ -101,7 +108,7 @@ function CaseStudiesPinnedRail({
           <motion.div
             ref={trackRef}
             style={{ x }}
-            className={`${railClass} will-change-transform`}
+            className={`${trackClass} will-change-transform`}
             role="region"
             aria-label="Case studies"
           >

@@ -77,39 +77,46 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (!menuOpen || !isHome) return;
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [menuOpen, isHome]);
+  }, [menuOpen]);
 
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 flex h-[var(--header-height)] w-full items-center overflow-visible bg-transparent shadow-none">
         {isHome ? (
-          <div className="container-site grid h-full w-full grid-cols-[1fr_auto_1fr] items-center gap-3 md:gap-4">
+          <div className="container-site relative flex h-full w-full items-center">
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="flex items-center justify-center justify-self-start self-center rounded-none border-0 bg-transparent text-white shadow-none transition hover:text-white/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-teal)]"
+              className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-none border-0 bg-transparent text-white shadow-none transition hover:text-white/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-teal)]"
               aria-expanded={menuOpen}
-              aria-controls="home-nav-drawer"
+              aria-controls="site-nav-drawer"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
             >
               <HamburgerIcon open={menuOpen} />
             </button>
-            <SiteLogo variant="nav" className="justify-self-center self-center" />
+            <SiteLogo
+              variant="nav"
+              className="pointer-events-auto absolute left-1/2 top-1/2 z-[1] -translate-x-1/2 -translate-y-1/2"
+            />
             <Link
               href="/start-a-project"
-              className="mono-label flex items-center justify-self-end self-center text-white transition hover:opacity-90"
+              className="mono-label relative z-10 ml-auto shrink-0 whitespace-nowrap text-[0.6rem] uppercase leading-none tracking-[0.12em] text-white transition hover:opacity-90 sm:text-[0.68rem] md:text-[0.72rem]"
             >
               Get started
             </Link>
           </div>
         ) : (
-          <div className="container-site flex h-full w-full items-center justify-between">
+          <div className="container-site flex h-full w-full items-center justify-between gap-3">
             <SiteLogo variant="nav" />
             <nav className="hidden items-center gap-8 md:flex">
               {primaryNav.map((item) => {
@@ -133,21 +140,24 @@ export function Header() {
               </Button>
               <Button href="/book-strategy-call">Book a Strategy Call</Button>
             </div>
-            <div className="flex items-center gap-5 md:hidden">
-              {utilityNav.slice(0, 1).map((item) => (
-                <Link key={item.href} href={item.href} className="mono-label text-[var(--text-muted)] hover:text-[var(--text-primary)]">
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="flex items-center justify-center rounded-none border-0 bg-transparent text-white shadow-none transition hover:text-white/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-teal)] md:hidden"
+              aria-expanded={menuOpen}
+              aria-controls="site-nav-drawer"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+            >
+              <HamburgerIcon open={menuOpen} />
+            </button>
           </div>
         )}
       </header>
 
-      {isHome && menuOpen ? (
+      {menuOpen ? (
         <div
-          id="home-nav-drawer"
-          className="fixed inset-0 z-[60] flex flex-col bg-black/97 px-6 pb-12 pt-20 md:px-12"
+          id="site-nav-drawer"
+          className="fixed inset-0 z-[60] flex flex-col bg-black/97 px-4 pb-12 pt-[calc(var(--header-height)+1rem)] sm:px-6 md:px-12"
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
@@ -162,7 +172,7 @@ export function Header() {
               <CrossIcon className="h-5 w-5" />
             </button>
           </div>
-          <nav className="container-site mt-12 flex flex-col gap-6 md:mt-16 md:gap-8" aria-label="Primary">
+          <nav className="container-site mt-8 flex flex-col gap-6 md:mt-16 md:gap-8" aria-label="Primary">
             {primaryNav.map((item) => (
               <DrawerNavLink key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
                 {item.label}
@@ -171,6 +181,18 @@ export function Header() {
             <DrawerNavLink href="/book-strategy-call" muted className="mt-4" onClick={() => setMenuOpen(false)}>
               Book a call
             </DrawerNavLink>
+            {!isHome
+              ? utilityNav.map((item) => (
+                  <DrawerNavLink
+                    key={item.href}
+                    href={item.href}
+                    muted
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.label}
+                  </DrawerNavLink>
+                ))
+              : null}
           </nav>
         </div>
       ) : null}

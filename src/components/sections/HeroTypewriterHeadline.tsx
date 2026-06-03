@@ -61,7 +61,7 @@ export function HeroTypewriterHeadline({ className }: { className?: string }) {
   if (reducedMotion) {
     return (
       <h1 className={className}>
-        <span className="block whitespace-nowrap text-white">WE BUILD</span>
+        <span className="block text-white max-md:whitespace-normal md:whitespace-nowrap">WE BUILD</span>
         <span className="hero-title-gradient block">THE FUTURE.</span>
       </h1>
     );
@@ -75,7 +75,7 @@ export function HeroTypewriterHeadline({ className }: { className?: string }) {
       className={className}
       aria-label="We build the future, alternating with we are the future."
     >
-      <span className="block whitespace-nowrap text-white">
+      <span className="block text-white max-md:whitespace-normal md:whitespace-nowrap">
         WE {mid}
         <span
           className={`inline-block w-[0.45ch] font-light text-white transition-opacity duration-150 ${showCaret ? "opacity-90" : "opacity-0"}`}

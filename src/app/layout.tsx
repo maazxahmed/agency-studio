@@ -39,11 +39,15 @@ export default function RootLayout({
       >
         <AmbientBlobs />
         <Header />
-        <main className="relative z-10 flex-1 bg-black">{children}</main>
+        <main className="relative z-10 flex-1 overflow-x-clip bg-black max-md:pb-[calc(5.25rem+env(safe-area-inset-bottom,0px))] md:pb-0">
+          {children}
+        </main>
         <Footer />
         <CustomGradientCursor />
-        <div className="fixed inset-x-0 bottom-0 z-30 bg-black p-3 md:hidden">
-          <Button href="/book-strategy-call">Book a Strategy Call</Button>
+        <div className="fixed inset-x-0 bottom-0 z-30 bg-black p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
+          <div className="w-full [&_a]:flex [&_a]:w-full [&_a]:justify-center">
+            <Button href="/book-strategy-call">Book a Strategy Call</Button>
+          </div>
         </div>
       </body>
     </html>

@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { TechMarquee } from "@/components/sections/TechMarquee";
+import { AnimatedMetricFigure } from "@/components/motion/AnimatedMetricFigure";
 import { SlideIn } from "@/components/motion/SlideIn";
 import { AiOrbLottie } from "@/components/sections/AiOrbLottie";
 import { CaseStudiesScrollRail } from "@/components/sections/CaseStudiesScrollRail";
@@ -215,7 +217,7 @@ function IndustryGridRow({ row }: { row: IndustryGridEntry }) {
   return (
     <Link
       href={`/industries/${row.slug}`}
-      className="group flex items-center gap-3.5 px-3 py-4 sm:gap-4 sm:px-5 sm:py-5"
+      className="group flex items-center gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 sm:py-5"
     >
       <span
         className={`flex h-10 w-10 shrink-0 items-center justify-center text-[var(--color-text)]/80 transition-colors duration-300 sm:h-11 sm:w-11 ${row.iconHover}`}
@@ -526,33 +528,41 @@ export function HomeSections() {
           </div>
         </div>
 
-        <SlideIn className="relative z-10 flex min-h-screen flex-col px-5 pb-10 pt-[var(--header-height)] md:px-8 md:pb-14" direction="up">
+        <SlideIn className="relative z-10 flex min-h-screen flex-col px-4 pb-10 pt-[var(--header-height)] sm:px-5 md:px-8 md:pb-14" direction="up">
           <div className="container-site flex flex-1 flex-col">
             <div className="flex flex-1 flex-col items-center justify-center px-1 pb-12 pt-6 md:pb-16 md:pt-8">
               <HeroTypewriterHeadline className="display-title-hero text-balance text-center" />
             </div>
 
             <div className="mt-auto grid w-full max-w-6xl grid-cols-1 gap-10 pt-10 md:mx-auto md:grid-cols-3 md:items-end md:gap-8 md:pt-12">
-              <div className="order-2 md:order-1 md:justify-self-start">
-                <HeroTrustRotator stats={trustStats} intervalMs={4000} />
-              </div>
-              <p className="body-copy order-1 max-w-xl text-pretty text-center text-[var(--text-secondary)] md:order-2 md:justify-self-center md:text-center">
+              <p className="body-copy max-w-xl text-pretty text-center text-[var(--text-secondary)] md:order-2 md:justify-self-center md:text-center">
                 We design and deploy digital systems that align growth, product, automation, and operations so your next stage actually scales.
               </p>
-              <div className="order-3 flex justify-end md:justify-self-end">
-                <Link
-                  href="/contact"
-                  className="hero-cta-outline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-teal)]"
-                >
-                  <span className="hero-cta-outline-inner mono-label text-white">Contact us</span>
-                </Link>
+              <div className="flex w-full flex-col items-center md:contents">
+                <div className="flex w-full max-w-md flex-col items-center gap-6 md:order-1 md:max-w-none md:items-start md:gap-3 md:justify-self-start">
+                  <HeroTrustRotator stats={trustStats} intervalMs={4000} />
+                  <Link
+                    href="/contact"
+                    className="hero-cta-outline inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-teal)] md:hidden"
+                  >
+                    <span className="hero-cta-outline-inner mono-label text-white">Contact us</span>
+                  </Link>
+                </div>
+                <div className="hidden shrink-0 md:order-3 md:flex md:justify-self-end">
+                  <Link
+                    href="/contact"
+                    className="hero-cta-outline inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-teal)]"
+                  >
+                    <span className="hero-cta-outline-inner mono-label text-white">Contact us</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </SlideIn>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-black text-[var(--color-text)]">
+      <section className="relative isolate overflow-hidden bg-black py-section text-[var(--color-text)]">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div
             className="absolute inset-0 opacity-[0.5] mix-blend-screen"
@@ -578,7 +588,7 @@ export function HomeSections() {
         </div>
 
         <SlideIn className="relative z-10 w-full" direction="right">
-        <div className="container-site py-section">
+        <div className="container-site">
           <div className="max-w-3xl">
             <p className="mono-label text-[var(--color-secondary)]">The diagnosis</p>
             <h2 className="mt-2 text-balance headline-title text-[var(--color-text)] [text-shadow:0_2px_28px_rgba(0,0,0,0.72)]">
@@ -630,7 +640,7 @@ export function HomeSections() {
         </SlideIn>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-black text-[var(--color-text)]">
+      <section className="relative isolate overflow-hidden bg-black py-section text-[var(--color-text)]">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div
             className="absolute inset-0 opacity-[0.55] mix-blend-screen"
@@ -656,7 +666,7 @@ export function HomeSections() {
         </div>
 
         <SlideIn className="relative z-10 w-full" direction="down">
-        <div className="container-site py-12 md:py-16 lg:py-20">
+        <div className="container-site">
           <p className="mono-label text-[var(--color-secondary)]">Outcomes over output</p>
           <h2 className="relative z-10 mt-3 max-w-4xl text-balance font-[family-name:var(--font-display)] text-[clamp(2.1rem,5.8vw,3.65rem)] font-bold uppercase leading-[0.95] tracking-[0.02em] [text-shadow:0_2px_28px_rgba(0,0,0,0.75)]">
             <span className="block text-white">BUSINESS IMPACT. NOT SERVICE</span>
@@ -665,14 +675,14 @@ export function HomeSections() {
           <p className="body-copy relative mt-4 max-w-2xl text-[var(--color-text-muted)] md:mt-5">
             <span className="relative z-10">We focus on the metrics that move the needle. Everything we do is engineered for compounding results.</span>
             <span
-              className="pointer-events-none absolute -inset-x-6 -inset-y-3 z-0 rounded-lg bg-gradient-to-r from-black via-black/90 to-transparent md:-inset-x-10 md:-inset-y-4 md:via-black/80 lg:from-black lg:via-black/65"
+              className="pointer-events-none absolute -inset-x-4 -inset-y-3 z-0 rounded-lg bg-gradient-to-r from-black via-black/90 to-transparent md:-inset-x-10 md:-inset-y-4 md:via-black/80 lg:from-black lg:via-black/65"
               aria-hidden
             />
           </p>
 
           <div className="relative mt-8 lg:mt-10">
             <span
-              className="pointer-events-none absolute -inset-x-8 -bottom-4 -top-2 z-0 bg-gradient-to-r from-black from-40% via-black/92 to-transparent md:-inset-x-12 md:from-35% lg:max-w-[min(52rem,100%)] lg:from-30% lg:via-black/88"
+              className="pointer-events-none absolute -inset-x-4 -bottom-4 -top-2 z-0 bg-gradient-to-r from-black from-40% via-black/92 to-transparent md:-inset-x-12 md:from-35% lg:max-w-[min(52rem,100%)] lg:from-30% lg:via-black/88"
               aria-hidden
             />
             <div className="relative z-10 max-w-xl lg:max-w-[min(100%,28rem)]">
@@ -733,7 +743,7 @@ export function HomeSections() {
               REDUCE RISK.
             </span>
           </h2>
-          <div className="mt-16 grid gap-10 py-4 md:grid-cols-4 md:items-start md:gap-8 md:py-8">
+          <div className="mt-16 grid gap-10 md:grid-cols-4 md:items-start md:gap-8">
             {(
               [
                 {
@@ -762,11 +772,11 @@ export function HomeSections() {
                 },
               ] as const
             ).map((phase, index) => {
-              const stagger = index % 2 === 0 ? "-translate-y-3 md:-translate-y-7" : "translate-y-3 md:translate-y-7";
+              const stagger = index % 2 === 0 ? "max-md:translate-y-0 md:-translate-y-7" : "max-md:translate-y-0 md:translate-y-7";
               return (
                 <article key={phase.title} className={`relative text-center ${stagger}`}>
                   <span
-                    className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 text-8xl font-black tabular-nums"
+                    className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 text-6xl font-black tabular-nums md:-top-10 md:text-8xl"
                     style={{ color: phase.accent, opacity: 0.14 }}
                     aria-hidden
                   >
@@ -791,7 +801,7 @@ export function HomeSections() {
         <SlideIn className="w-full" direction="up">
           <div className="container-site">
             <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">Capabilities</p>
-            <h2 className="display-title overflow-visible px-2 text-center sm:px-3">
+            <h2 className="display-title overflow-hidden px-2 text-center text-balance max-md:leading-[0.88] md:overflow-visible sm:px-3">
               <span className="text-white/15">OUR </span>
               <span className={`inline-block pb-[0.04em] pr-[0.14em] ${sectionAccentGradientDeep}`}>
                 ECOSYSTEM
@@ -874,7 +884,12 @@ export function HomeSections() {
             </div>
 
             <div className="relative lg:col-span-7">
-              <div className="grid min-h-0 grid-cols-2">
+              <div className="flex flex-col divide-y divide-white/[0.08] md:hidden">
+                {industryGrid.map((row) => (
+                  <IndustryGridRow key={row.slug} row={row} />
+                ))}
+              </div>
+              <div className="hidden min-h-0 grid-cols-2 md:grid">
                 <div className="min-w-0">
                   {industryGrid.slice(0, 4).map((row) => (
                     <IndustryGridRow key={row.slug} row={row} />
@@ -897,7 +912,7 @@ export function HomeSections() {
         </SlideIn>
       </section>
 
-      <section className="relative z-[1] overflow-x-hidden bg-black py-section">
+      <section className="relative z-[1] overflow-x-clip bg-black py-section md:overflow-x-hidden">
         <SlideIn className="w-full" direction="down">
         <div className="container-site text-center">
           <p className="mono-label mb-2 text-[var(--color-secondary)]">Stack & integrations</p>
@@ -909,53 +924,11 @@ export function HomeSections() {
             </span>
           </h2>
         </div>
-        <div
-          className="relative left-1/2 mt-10 w-[100vw] max-w-[100vw] -translate-x-1/2 overflow-hidden"
-          aria-label="Technology stack logos"
-        >
-          <div className="tech-marquee-track">
-            <div className="tech-marquee-strip">
-              {techStripLogos.map((src) => (
-                <div
-                  key={`marquee-a-${src}`}
-                  className="relative flex shrink-0 items-center justify-center transition-transform duration-300 ease-out will-change-transform hover:-translate-y-2.5"
-                >
-                  <Image
-                    src={src}
-                    alt=""
-                    width={320}
-                    height={320}
-                    className="h-28 w-auto object-contain opacity-85 select-none sm:h-36 md:h-44 lg:h-52"
-                    draggable={false}
-                    sizes="(max-width: 640px) 112px, (max-width: 1024px) 144px, 208px"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="tech-marquee-strip" aria-hidden>
-              {techStripLogos.map((src) => (
-                <div
-                  key={`marquee-b-${src}`}
-                  className="relative flex shrink-0 items-center justify-center transition-transform duration-300 ease-out will-change-transform hover:-translate-y-2.5"
-                >
-                  <Image
-                    src={src}
-                    alt=""
-                    width={320}
-                    height={320}
-                    className="h-28 w-auto object-contain opacity-85 select-none sm:h-36 md:h-44 lg:h-52"
-                    draggable={false}
-                    sizes="(max-width: 640px) 112px, (max-width: 1024px) 144px, 208px"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <TechMarquee logos={techStripLogos} />
         </SlideIn>
       </section>
 
-      <section className="bg-black py-section">
+      <section className="overflow-x-clip bg-black py-section">
         <SlideIn className="w-full" direction="left">
         <div className="container-site grid gap-12 md:grid-cols-12 md:items-center md:gap-x-10 md:gap-y-12 lg:gap-x-14">
           <div className="md:col-span-5">
@@ -1006,7 +979,7 @@ export function HomeSections() {
               <div className="relative z-[5]">
                 <AiOrbLottie />
               </div>
-              <span className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center text-[clamp(5rem,18vw,9rem)] font-black leading-none text-[var(--color-primary)]/40 md:text-[clamp(7rem,14vw,11rem)] lg:text-[clamp(8rem,12vw,13rem)]">
+              <span className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center text-[clamp(3.5rem,14vw,9rem)] font-black leading-none text-[var(--color-primary)]/40 md:text-[clamp(7rem,14vw,11rem)] lg:text-[clamp(8rem,12vw,13rem)]">
                 AI
               </span>
             </div>
@@ -1015,7 +988,7 @@ export function HomeSections() {
         </SlideIn>
       </section>
 
-      <section className="bg-black py-section">
+      <section className="overflow-x-clip bg-black py-section">
         <SlideIn className="w-full" direction="up">
           <div className="container-site">
             <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
@@ -1091,14 +1064,14 @@ export function HomeSections() {
                               <span className="text-[var(--color-secondary)]">{study.timeline}</span>
                             </p>
                           </div>
-                          <div className="grid shrink-0 grid-cols-2 gap-6 sm:gap-8 md:flex md:w-[min(100%,11.5rem)] md:flex-col md:justify-end md:gap-8 md:self-stretch">
+                          <div className="grid shrink-0 grid-cols-1 gap-4 max-md:gap-5 sm:grid-cols-2 sm:gap-6 md:flex md:w-[min(100%,11.5rem)] md:flex-col md:justify-end md:gap-8 md:self-stretch">
                             <div className="text-left md:text-right">
                               <p
                                 className={`text-3xl font-black tabular-nums tracking-tight sm:text-4xl ${caseStudyStatGradient}`}
                               >
                                 {study.stat}
                               </p>
-                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 md:max-w-[11rem] md:ml-auto">
+                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 max-md:max-w-none md:max-w-[11rem] md:ml-auto">
                                 {study.statLabel}
                               </p>
                             </div>
@@ -1108,7 +1081,7 @@ export function HomeSections() {
                               >
                                 {study.stat2}
                               </p>
-                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 md:max-w-[11rem] md:ml-auto">
+                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 max-md:max-w-none md:max-w-[11rem] md:ml-auto">
                                 {study.statLabel2}
                               </p>
                             </div>
@@ -1167,12 +1140,11 @@ export function HomeSections() {
                         {String(index + 1).padStart(2, "0")}
                       </p>
                       <div className="mt-auto min-w-0 shrink-0">
-                        <p
-                          className={`font-black tabular-nums tracking-[-0.04em] ${caseStudyStatGradient}`}
-                          style={{ fontSize: "clamp(1.85rem, 5.5vw, 2.75rem)", lineHeight: 0.92 }}
-                        >
-                          {metric.figure}
-                        </p>
+                        <AnimatedMetricFigure
+                          figure={metric.figure}
+                          delay={index * 120}
+                          className={`metrics-card-figure block font-black tabular-nums ${caseStudyStatGradient}`}
+                        />
                         <p className="mono-label mt-4 max-w-[14rem] text-[0.6rem] leading-relaxed tracking-[0.16em] text-[var(--color-text-muted)] transition-colors duration-300 group-hover:text-[var(--color-text)]/85 sm:mt-5 sm:text-[0.62rem] sm:tracking-[0.18em]">
                           {metric.label.toUpperCase()}
                         </p>
@@ -1193,11 +1165,11 @@ export function HomeSections() {
           <p className="mono-label text-[var(--color-secondary)]">Client voice</p>
           <h2 className="display-title mb-10 mt-2 text-white/10">EVIDENCE</h2>
           <div className="grid gap-16 md:grid-cols-2">
-            <blockquote className="text-2xl leading-tight md:text-4xl">
+            <blockquote className="text-xl leading-tight sm:text-2xl md:text-4xl">
               “They didn&apos;t just redesign our interface; they re-architected how we acquire and convert enterprise leads.”
               <footer className="mono-label mt-4 text-[var(--color-secondary)]">CTO, Global SaaS Platform</footer>
             </blockquote>
-            <blockquote className="text-2xl leading-tight md:mt-20 md:text-4xl">
+            <blockquote className="text-xl leading-tight sm:text-2xl md:mt-20 md:text-4xl">
               “The aesthetic is wild, but the infrastructure underneath impressed our engineering team.”
               <footer className="mono-label mt-4 text-[var(--color-tertiary)]">Founder, Boutique Ecommerce</footer>
             </blockquote>
@@ -1210,7 +1182,7 @@ export function HomeSections() {
         <SlideIn className="w-full" direction="left">
         <div className="container-site">
           <p className="mono-label mb-4 text-[var(--color-secondary)]">Resources</p>
-          <div className="relative overflow-visible rounded-none border border-white/[0.08] bg-[#141414] p-8 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04),0_24px_80px_-40px_rgba(0,0,0,0.75)] md:p-10 lg:p-12">
+          <div className="relative overflow-hidden rounded-none border border-white/[0.08] bg-[#141414] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04),0_24px_80px_-40px_rgba(0,0,0,0.75)] sm:p-8 md:overflow-visible md:p-10 lg:p-12">
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
             <div className="relative z-[2] grid gap-10 md:grid-cols-12 md:items-stretch md:gap-6 lg:gap-8">
               <div className="md:col-span-7">
@@ -1218,16 +1190,16 @@ export function HomeSections() {
                 <p className="mt-4 max-w-2xl text-[var(--color-text-muted)]">
                   Fast diagnostic for your acquisition quality, conversion friction, automation gaps, and delivery bottlenecks.
                 </p>
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-8 flex flex-col gap-3 max-md:[&_a]:w-full sm:flex-row sm:flex-wrap">
                   <Button href="/get-an-audit">Get an Audit</Button>
                   <Button href="/insights" variant="secondary">
                     Download Playbook
                   </Button>
                 </div>
               </div>
-              <div className="relative min-h-[min(52vw,13rem)] overflow-visible md:col-span-5 md:min-h-0 md:h-full">
+              <div className="relative min-h-[min(52vw,13rem)] overflow-hidden md:col-span-5 md:min-h-0 md:h-full md:overflow-visible">
                 <div
-                  className="relative z-[3] mx-auto mt-2 h-[min(64vw,16rem)] w-[min(100%,22rem)] overflow-visible sm:h-[min(56vw,18rem)] sm:w-[min(100%,26rem)] md:absolute md:inset-y-0 md:-right-6 md:left-auto md:mx-0 md:mt-0 md:h-[min(125%,28rem)] md:w-[min(155%,34rem)] md:max-w-[min(100vw-2rem,36rem)] md:translate-x-[4%] md:-translate-y-[8%] lg:-right-10 lg:h-[min(130%,32rem)] lg:w-[min(175%,40rem)] lg:max-w-[min(100vw-2rem,44rem)] lg:translate-x-[8%] lg:-translate-y-[10%]"
+                  className="relative z-[3] mx-auto mt-2 h-[min(64vw,16rem)] w-[min(100%,22rem)] overflow-hidden sm:h-[min(56vw,18rem)] sm:w-[min(100%,26rem)] md:absolute md:inset-y-0 md:-right-6 md:left-auto md:mx-0 md:mt-0 md:h-[min(125%,28rem)] md:w-[min(155%,34rem)] md:max-w-[min(100vw-2rem,36rem)] md:overflow-visible md:translate-x-[4%] md:-translate-y-[8%] lg:-right-10 lg:h-[min(130%,32rem)] lg:w-[min(175%,40rem)] lg:max-w-[min(100vw-2rem,44rem)] lg:translate-x-[8%] lg:-translate-y-[10%]"
                   aria-hidden
                 >
                   <Image
@@ -1238,7 +1210,7 @@ export function HomeSections() {
                     }
                     alt=""
                     fill
-                    className="origin-bottom scale-[1.22] object-contain object-bottom select-none drop-shadow-[0_28px_60px_rgba(0,0,0,0.55)] sm:scale-125 md:origin-bottom-right md:scale-[1.42] md:object-right lg:scale-[1.52]"
+                    className="origin-bottom scale-100 object-contain object-bottom select-none drop-shadow-[0_28px_60px_rgba(0,0,0,0.55)] sm:scale-125 md:origin-bottom-right md:scale-[1.42] md:object-right lg:scale-[1.52]"
                     sizes="(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 560px"
                     priority={false}
                   />
@@ -1252,15 +1224,17 @@ export function HomeSections() {
 
       <HomeFaqAccordion />
 
-      <section className="bg-black pb-20">
+      <section className="bg-black py-section">
         <SlideIn className="w-full" direction="right">
         <div className="container-site">
           <p className="mono-label text-[var(--color-secondary)]">Partnership</p>
-          <h2 className="display-title mt-2 text-[var(--color-primary)]">LET&apos;S BUILD YOUR NEXT STAGE.</h2>
+          <h2 className="display-title mt-2 text-balance text-[var(--color-primary)]">
+            LET&apos;S BUILD YOUR NEXT STAGE.
+          </h2>
           <p className="mt-4 max-w-2xl text-[var(--color-text-muted)]">
             Strategy, systems, execution, and scale - aligned into one digital engine.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-col gap-3 max-md:[&_a]:w-full sm:flex-row sm:flex-wrap">
             <Button href="/book-strategy-call">Book a Strategy Call</Button>
             <Button href="/request-proposal" variant="secondary">
               Request Proposal
