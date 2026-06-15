@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
@@ -68,6 +69,139 @@ function DrawerNavLink({
         {children}
       </span>
     </Link>
+  );
+}
+
+const PAPER_TURN_EASE = [0.33, 1, 0.32, 1] as const;
+
+function SiteNavDrawer({
+  open,
+  onClose,
+  isHome,
+}: {
+  open: boolean;
+  onClose: () => void;
+  isHome: boolean;
+}) {
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
+
+  const paperTransition = prefersReducedMotion
+    ? { duration: 0.2 }
+    : { duration: 0.62, ease: PAPER_TURN_EASE };
+
+  const navStagger = prefersReducedMotion
+    ? undefined
+    : {
+        hidden: {},
+        visible: {
+          transition: { staggerChildren: 0.055, delayChildren: 0.22 },
+        },
+      };
+
+  const navItem = prefersReducedMotion
+    ? undefined
+    : {
+        hidden: { opacity: 0, x: -14 },
+        visible: {
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.38, ease: PAPER_TURN_EASE },
+        },
+      };
+
+  return (
+    <AnimatePresence>
+      {open ? (
+        <div className="fixed inset-0 z-[60]" aria-hidden={false}>
+          <motion.div
+            key="nav-drawer-backdrop"
+            className="absolute inset-0 bg-black/55 backdrop-blur-[2px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0.15 : 0.42 }}
+            onClick={onClose}
+            aria-hidden
+          />
+          <div className="site-nav-drawer-perspective pointer-events-none absolute inset-0">
+            <motion.div
+              key="nav-drawer-paper"
+              id="site-nav-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site navigation"
+              className="site-nav-drawer-paper pointer-events-auto absolute inset-0 flex flex-col overflow-hidden px-4 pb-12 pt-[calc(var(--header-height)+1rem)] sm:px-6 md:px-12"
+              style={{ transformOrigin: "left center" }}
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { rotateY: -86, opacity: 0.45, x: "-5%" }
+              }
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1 }
+                  : { rotateY: 0, opacity: 1, x: 0 }
+              }
+              exit={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { rotateY: -86, opacity: 0, x: "-7%" }
+              }
+              transition={paperTransition}
+            >
+              <div className="container-site flex justify-end">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="flex h-11 w-11 items-center justify-center rounded-none border-0 bg-transparent text-white/90 shadow-none transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-teal)]"
+                  aria-label="Close menu"
+                >
+                  <CrossIcon className="h-5 w-5" />
+                </button>
+              </div>
+              <motion.nav
+                className="container-site mt-8 flex flex-col gap-6 md:mt-16 md:gap-8"
+                aria-label="Primary"
+                variants={navStagger}
+                initial="hidden"
+                animate="visible"
+              >
+                {primaryNav.map((item) => (
+                  <motion.div key={item.href} variants={navItem}>
+                    <DrawerNavLink href={item.href} onClick={onClose}>
+                      {item.label}
+                    </DrawerNavLink>
+                  </motion.div>
+                ))}
+                <motion.div variants={navItem}>
+                  <DrawerNavLink href="/book-strategy-call" muted className="mt-4" onClick={onClose}>
+                    Book a call
+                  </DrawerNavLink>
+                </motion.div>
+                {!isHome
+                  ? utilityNav.map((item) => (
+                      <motion.div key={item.href} variants={navItem}>
+                        <DrawerNavLink href={item.href} muted onClick={onClose}>
+                          {item.label}
+                        </DrawerNavLink>
+                      </motion.div>
+                    ))
+                  : null}
+              </motion.nav>
+            </motion.div>
+          </div>
+        </div>
+      ) : null}
+    </AnimatePresence>
   );
 }
 
@@ -154,48 +288,7 @@ export function Header() {
         )}
       </header>
 
-      {menuOpen ? (
-        <div
-          id="site-nav-drawer"
-          className="fixed inset-0 z-[60] flex flex-col bg-black/97 px-4 pb-12 pt-[calc(var(--header-height)+1rem)] sm:px-6 md:px-12"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Site navigation"
-        >
-          <div className="container-site flex justify-end">
-            <button
-              type="button"
-              onClick={() => setMenuOpen(false)}
-              className="flex h-11 w-11 items-center justify-center rounded-none border-0 bg-transparent text-white/90 shadow-none transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-teal)]"
-              aria-label="Close menu"
-            >
-              <CrossIcon className="h-5 w-5" />
-            </button>
-          </div>
-          <nav className="container-site mt-8 flex flex-col gap-6 md:mt-16 md:gap-8" aria-label="Primary">
-            {primaryNav.map((item) => (
-              <DrawerNavLink key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
-                {item.label}
-              </DrawerNavLink>
-            ))}
-            <DrawerNavLink href="/book-strategy-call" muted className="mt-4" onClick={() => setMenuOpen(false)}>
-              Book a call
-            </DrawerNavLink>
-            {!isHome
-              ? utilityNav.map((item) => (
-                  <DrawerNavLink
-                    key={item.href}
-                    href={item.href}
-                    muted
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                  </DrawerNavLink>
-                ))
-              : null}
-          </nav>
-        </div>
-      ) : null}
+      <SiteNavDrawer open={menuOpen} onClose={() => setMenuOpen(false)} isHome={isHome} />
     </>
   );
 }

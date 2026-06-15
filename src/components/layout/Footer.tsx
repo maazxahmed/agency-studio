@@ -18,11 +18,9 @@ export function Footer() {
       />
       <SlideIn className="w-full min-w-0" direction="up">
         <div className="container-site grid w-full min-w-0 grid-cols-1 gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-14 xl:gap-20">
-          <div className="min-w-0 max-w-full overflow-x-clip lg:pr-4">
-            <h2 className="w-full max-w-full text-balance font-[family-name:var(--font-display)] text-[clamp(2.75rem,min(10vw,11dvh),7rem)] font-bold uppercase leading-[0.9] tracking-[0.01em] text-[var(--color-primary)] opacity-90">
-              READY TO
-              <br />
-              <span className="whitespace-nowrap">DISRUPT?</span>
+          <div className="min-w-0 max-w-full lg:pr-4">
+            <h2 className="w-full text-balance font-[family-name:var(--font-display)] text-[clamp(2.75rem,min(10vw,11dvh),7rem)] font-bold uppercase leading-[1.02] tracking-[0.01em] text-[var(--color-primary)] opacity-90">
+              COLUMN BRIDGE
             </h2>
           </div>
           <nav

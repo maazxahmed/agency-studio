@@ -4,44 +4,68 @@ import { AnimatedMetricFigure } from "@/components/motion/AnimatedMetricFigure";
 import { SlideIn } from "@/components/motion/SlideIn";
 import { AiOrbLottie } from "@/components/sections/AiOrbLottie";
 import { CaseStudiesScrollRail } from "@/components/sections/CaseStudiesScrollRail";
+import { EvidenceTestimonialsSlider } from "@/components/sections/EvidenceTestimonialsSlider";
 import { HomeFaqAccordion } from "@/components/sections/HomeFaqAccordion";
 import { HeroTrustRotator } from "@/components/sections/HeroTrustRotator";
 import { HeroTypewriterHeadline } from "@/components/sections/HeroTypewriterHeadline";
+import { HowWeWorkSteps } from "@/components/sections/HowWeWorkSteps";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
-type ProblemIconName = "chart" | "gear" | "people" | "shield";
+type SolutionIconName =
+  | "code"
+  | "layers"
+  | "sparkles"
+  | "signal"
+  | "ledger"
+  | "headset";
 
-function ProblemIcon({ name, className }: { name: ProblemIconName; className?: string }) {
+function SolutionIcon({ name, className }: { name: SolutionIconName; className?: string }) {
   const stroke = className ?? "currentColor";
   const common = { fill: "none" as const, stroke, strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   switch (name) {
-    case "chart":
+    case "code":
       return (
         <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
-          <path d="M4 19V5M4 19h16M8 17V11M12 17V9M16 17v-6" />
+          <path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13.5 6l-3 12" />
         </svg>
       );
-    case "gear":
+    case "layers":
       return (
         <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
-          <circle cx="12" cy="12" r="3" />
-          <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+          <path d="m12.83 2.18-.82-.36-.82.36-7.93 3.6a1 1 0 0 0 0 1.83l7.93 3.6a2 2 0 0 0 1.64 0l7.93-3.6a1 1 0 0 0 0-1.83l-7.93-3.6Z" />
+          <path d="M2 12.08 12 16.63l10-4.55" />
+          <path d="M2 17 12 21.55 22 17" />
         </svg>
       );
-    case "people":
+    case "sparkles":
       return (
         <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
-          <circle cx="9" cy="8" r="2.5" />
-          <circle cx="16" cy="9" r="2" />
-          <path d="M3 20c0-3 3-5 6-5s6 2 6 5M11 20c.5-2.5 3-4 5-4 2 0 4.5 1.5 5 4" />
+          <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" />
+          <circle cx="12" cy="12" r="3.25" />
         </svg>
       );
-    case "shield":
+    case "signal":
       return (
         <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
-          <path d="M12 3l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4z" />
-          <path d="M9 12l2 2 4-4" />
+          <circle cx="12" cy="12" r="2" />
+          <path d="M7.5 7.5a7 7 0 0 0 0 9M16.5 7.5a7 7 0 0 1 0 9M4.5 4.5a11.5 11.5 0 0 0 0 15M19.5 4.5a11.5 11.5 0 0 1 0 15" />
+        </svg>
+      );
+    case "ledger":
+      return (
+        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+          <path d="M4 5h16v14H4V5z" />
+          <path d="M8 9h8M8 13h5" />
+          <path d="M16 3v4M8 3v4" />
+        </svg>
+      );
+    case "headset":
+      return (
+        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+          <path d="M4 14a4 4 0 0 1 4-4h1M20 14a4 4 0 0 0-4-4h-1" />
+          <path d="M4 14v3a2 2 0 0 0 2 2h1M20 14v3a2 2 0 0 1-2 2h-1" />
+          <path d="M9 10V8a3 3 0 0 1 6 0v2" />
         </svg>
       );
     default:
@@ -128,19 +152,25 @@ function AutomateListIcon({ name, className }: { name: AutomateListIconName; cla
   }
 }
 
-type IndustryIconId = "health" | "home" | "legal" | "construction" | "cart" | "saas" | "education" | "finance";
+type IndustryIconId =
+  | "home"
+  | "legal"
+  | "construction"
+  | "cart"
+  | "saas"
+  | "education"
+  | "finance"
+  | "logistics"
+  | "hospitality"
+  | "nonprofit"
+  | "manufacturing"
+  | "enterprise"
+  | "startup";
 
 function IndustryIcon({ id, className }: { id: IndustryIconId; className?: string }) {
   const cls = className ?? "h-5 w-5";
   const common = { fill: "none" as const, stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   switch (id) {
-    case "health":
-      return (
-        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 8v8M8 12h8" />
-        </svg>
-      );
     case "home":
       return (
         <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
@@ -188,6 +218,46 @@ function IndustryIcon({ id, className }: { id: IndustryIconId; className?: strin
         <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
           <path d="M3 3v18h18" />
           <path d="M7 15l4-4 4 4 5-6" />
+        </svg>
+      );
+    case "logistics":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <path d="M3 7h11v8H3V7zM14 10h4l3 3v2h-7v-5z" />
+          <circle cx="7.5" cy="17.5" r="1.5" />
+          <circle cx="17.5" cy="17.5" r="1.5" />
+        </svg>
+      );
+    case "hospitality":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <path d="M4 10V20h16V10M2 20h20M12 10V4M8 7h8" />
+        </svg>
+      );
+    case "nonprofit":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z" />
+        </svg>
+      );
+    case "manufacturing":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <path d="M2 20h20M5 20V9l5-4 4 3 5-4v16" />
+          <path d="M9 13h2v7H9zM13 11h2v9h-2z" />
+        </svg>
+      );
+    case "enterprise":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <path d="M4 20V8l8-4 8 4v12H4z" />
+          <path d="M9 20v-6h6v6M9 10h.01M15 10h.01" />
+        </svg>
+      );
+    case "startup":
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <path d="M12 3l2.2 6.8H21l-5.5 4 2.1 6.7L12 16.5 6.4 20.5l2.1-6.7L3 9.8h6.8L12 3z" />
         </svg>
       );
     default:
@@ -253,65 +323,134 @@ export function HomeSections() {
   const trustStats = [
     { figure: "120+", caption: "Systems launched" },
     { figure: "11", caption: "Industries served" },
-    { figure: "24/5", caption: "Delivery coverage" },
-    { figure: "ONE", caption: "AI + product + growth in one team" },
+    { figure: "24/7", caption: "Delivery coverage" },
+    { figure: "ONE", caption: "AI + product + growth team" },
   ];
-  const problemCards = [
+  const solutionCards = [
     {
-      icon: "chart" as const,
+      icon: "code" as const,
       accent: "#0FEDC6",
-      lines: ["Traffic is up.", "Qualified demand is not."],
-      body: "You're attracting visitors, but your systems aren't turning interest into qualified pipeline.",
+      title: "Technology & Software Solutions",
+      description: "Custom-built technology designed to support growth, efficiency, and scalability.",
+      bullets: [
+        "Custom Software Development",
+        "Web Applications",
+        "Mobile Applications",
+        "Enterprise Software",
+        "SaaS Platforms",
+        "API Development",
+        "System Integrations",
+        "Cloud Solutions",
+      ],
+      tagline: "Build technology that works for your business, not the other way around.",
     },
     {
-      icon: "gear" as const,
+      icon: "layers" as const,
       accent: "#03B5A7",
-      lines: ["Ops is manual.", "Revenue is paying the delay tax."],
-      body: "Manual processes, handoffs and operational gaps are slowing growth.",
+      title: "ERP, CRM & HRM Solutions",
+      description: "Integrated business management systems that connect people, processes, and data.",
+      bullets: [
+        "ERP Implementation & Development",
+        "CRM Implementation & Customization",
+        "HRM Systems",
+        "Workforce Management Platforms",
+        "Sales Automation",
+        "Inventory Management",
+        "Payroll Systems",
+        "Business Reporting",
+      ],
+      tagline: "Centralize operations and gain complete visibility across your organization.",
     },
     {
-      icon: "people" as const,
+      icon: "sparkles" as const,
       accent: "#5EEAD4",
-      lines: ["Teams are shipping.", "Systems are still fragmented."],
-      body: "Disconnected tools and silos create friction, rework and missed opportunities.",
+      title: "AI, Automation & Data Solutions",
+      description: "Reduce manual effort and unlock smarter decision-making.",
+      bullets: [
+        "AI Chatbots",
+        "Workflow Automation",
+        "Business Process Automation",
+        "Document Automation",
+        "Business Intelligence",
+        "KPI Dashboards",
+        "Executive Reporting",
+        "Data Analytics",
+      ],
+      tagline: "Automate repetitive work and focus on strategic growth.",
     },
     {
-      icon: "shield" as const,
+      icon: "signal" as const,
       accent: "#7AF8E8",
-      lines: ["Brand looks premium.", "Buying journey still leaks trust."],
-      body: "Inconsistent experience and weak conversion architecture are costing you deals.",
+      title: "Digital Presence & Growth Solutions",
+      description: "Build visibility, attract customers, and strengthen your market position.",
+      bullets: [
+        "Website Development",
+        "E-Commerce Platforms",
+        "SEO",
+        "Performance Marketing",
+        "Social Media Marketing",
+        "Lead Generation",
+        "Marketing Automation",
+        "Brand Development",
+      ],
+      tagline: "Transform your digital presence into a growth engine.",
     },
+    {
+      icon: "ledger" as const,
+      accent: "#2DD4BF",
+      title: "Financial Management Solutions",
+      description: "Gain financial clarity and improve business performance.",
+      bullets: [
+        "Bookkeeping Support",
+        "Financial Reporting",
+        "Cash Flow Management",
+        "Budgeting & Forecasting",
+        "Accounts Payable & Receivable",
+        "Financial Dashboards",
+        "Management Reporting",
+      ],
+      tagline: "Make confident decisions backed by accurate financial data.",
+    },
+    {
+      icon: "headset" as const,
+      accent: "#99F6E4",
+      title: "Outsourcing & Managed Services",
+      description: "Scale operations without increasing internal overhead.",
+      bullets: [
+        "Customer Support",
+        "Technical Support",
+        "Administrative Support",
+        "Virtual Assistants",
+        "Back Office Operations",
+        "Recruitment Support",
+        "HR Administration",
+        "Dedicated Remote Teams",
+      ],
+      tagline: "Access skilled resources while reducing operational costs.",
+    },
+  ];
+  const businessImpactStyle = [
+    { icon: "trending-up" as const, accent: "#03B5A7" },
+    { icon: "zap" as const, accent: "#0FEDC6" },
+    { icon: "settings" as const, accent: "#5EEAD4" },
+    { icon: "layers" as const, accent: "#023E3E" },
   ];
   const businessImpactCards = [
-    {
-      num: "01",
-      icon: "trending-up" as const,
-      accent: "#03B5A7",
-      title: "INCREASE QUALIFIED PIPELINE",
-      body: "Attract the right prospects with better targeting, positioning and conversion architecture.",
-    },
-    {
-      num: "02",
-      icon: "zap" as const,
-      accent: "#0FEDC6",
-      title: "IMPROVE CONVERSIONS ACROSS TOUCHPOINTS",
-      body: "Eliminate friction. Optimize every step of the journey to turn interest into action.",
-    },
-    {
-      num: "03",
-      icon: "settings" as const,
-      accent: "#5EEAD4",
-      title: "REDUCE OPERATIONAL DRAG WITH AUTOMATION",
-      body: "Streamline workflows, integrate systems and automate repetitive tasks.",
-    },
-    {
-      num: "04",
-      icon: "layers" as const,
-      accent: "#023E3E",
-      title: "BUILD INFRASTRUCTURE THAT SCALES",
-      body: "Create future-ready systems designed to scale with your business.",
-    },
-  ];
+    "Increased Operational Efficiency",
+    "Reduced Costs",
+    "Improved Productivity",
+    "Stronger Customer Relationships",
+    "Better Data Visibility",
+    "Faster Decision-Making",
+    "Improved Workforce Management",
+    "Enhanced Scalability",
+    "Increased Revenue Opportunities",
+    "Sustainable Business Growth",
+  ].map((title, index) => ({
+    num: String(index + 1).padStart(2, "0"),
+    title: title.toUpperCase(),
+    ...businessImpactStyle[index % businessImpactStyle.length]!,
+  }));
   const clusters = [
     ["REVENUE SYSTEMS", "SEO, digital marketing, and ecommerce architecture built like one commercial engine."],
     ["EXPERIENCE SYSTEMS", "UX + conversion messaging that turns attention into confident buying decisions."],
@@ -331,72 +470,67 @@ export function HomeSections() {
     "/revenue-element-new.png",
     "/business-impact-element-old.png",
   ] as const;
-  const industryGrid: IndustryGridEntry[] = [
+  const industryStylePresets: Pick<
+    IndustryGridEntry,
+    "labelGradient" | "iconHover" | "chevronHover"
+  >[] = [
     {
-      label: "Healthcare",
-      slug: "healthcare",
-      icon: "health",
       labelGradient: ["#7AF8E8", "#0FEDC6", "#03B5A7"],
       iconHover: "group-hover:text-[#7AF8E8]",
       chevronHover: "group-hover:text-[#03B5A7]",
     },
     {
-      label: "Real Estate",
-      slug: "real-estate",
-      icon: "home",
       labelGradient: ["#0FEDC6", "#03B5A7", "#023E3E"],
       iconHover: "group-hover:text-[#0FEDC6]",
       chevronHover: "group-hover:text-[#023E3E]",
     },
     {
-      label: "Legal",
-      slug: "legal",
-      icon: "legal",
       labelGradient: ["#5EEAD4", "#03B5A7", "#0D6B63"],
       iconHover: "group-hover:text-[#5EEAD4]",
       chevronHover: "group-hover:text-[#0D6B63]",
     },
     {
-      label: "Construction",
-      slug: "construction",
-      icon: "construction",
       labelGradient: ["#99F6E4", "#2DD4BF", "#03B5A7"],
       iconHover: "group-hover:text-[#99F6E4]",
       chevronHover: "group-hover:text-[#03B5A7]",
     },
     {
-      label: "Ecommerce",
-      slug: "ecommerce",
-      icon: "cart",
       labelGradient: ["#7AF8E8", "#03B5A7", "#023E3E"],
       iconHover: "group-hover:text-[#7AF8E8]",
       chevronHover: "group-hover:text-[#023E3E]",
     },
     {
-      label: "SaaS",
-      slug: "saas",
-      icon: "saas",
       labelGradient: ["#0FEDC6", "#03B5A7", "#029E92"],
       iconHover: "group-hover:text-[#0FEDC6]",
       chevronHover: "group-hover:text-[#029E92]",
     },
     {
-      label: "Education",
-      slug: "education",
-      icon: "education",
       labelGradient: ["#5EEAD4", "#0FEDC6", "#03B5A7"],
       iconHover: "group-hover:text-[#5EEAD4]",
       chevronHover: "group-hover:text-[#03B5A7]",
     },
-    {
-      label: "Finance",
-      slug: "finance",
-      icon: "finance",
-      labelGradient: ["#0FEDC6", "#029E92", "#023E3E"],
-      iconHover: "group-hover:text-[#0FEDC6]",
-      chevronHover: "group-hover:text-[#023E3E]",
-    },
   ];
+  const industryGrid: IndustryGridEntry[] = (
+    [
+      { label: "Technology", slug: "technology", icon: "saas" as const },
+      { label: "Professional Services", slug: "professional-services", icon: "legal" as const },
+      { label: "Retail", slug: "retail", icon: "cart" as const },
+      { label: "E-Commerce", slug: "ecommerce", icon: "cart" as const },
+      { label: "Manufacturing", slug: "manufacturing", icon: "manufacturing" as const },
+      { label: "Logistics", slug: "logistics", icon: "logistics" as const },
+      { label: "Construction", slug: "construction", icon: "construction" as const },
+      { label: "Real Estate", slug: "real-estate", icon: "home" as const },
+      { label: "Education", slug: "education", icon: "education" as const },
+      { label: "Financial Services", slug: "financial-services", icon: "finance" as const },
+      { label: "Hospitality", slug: "hospitality", icon: "hospitality" as const },
+      { label: "Nonprofits", slug: "nonprofits", icon: "nonprofit" as const },
+      { label: "Startups", slug: "startups", icon: "startup" as const },
+      { label: "Enterprise Organizations", slug: "enterprise", icon: "enterprise" as const },
+    ] as const
+  ).map((item, index) => ({
+    ...item,
+    ...industryStylePresets[index % industryStylePresets.length]!,
+  }));
   const featuredCaseStudies = [
     {
       slug: "saas-funnel-rebuild",
@@ -505,10 +639,11 @@ export function HomeSections() {
 
   return (
     <>
-      <section className="relative isolate min-h-screen overflow-hidden bg-black text-white">
+      <section className="relative isolate min-h-screen overflow-hidden bg-black pb-section text-white">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div className="absolute inset-0 bg-gradient-to-b from-black via-black/40 to-black" />
           <div className="absolute inset-x-0 top-0 z-[1] h-[var(--header-height)] bg-gradient-to-b from-black via-black/85 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 z-[1] h-[clamp(8rem,28vh,14rem)] bg-gradient-to-t from-black via-black/85 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_52%,rgba(3,181,167,0.14),transparent_55%)]" />
           <div className="hero-bg-sculpture absolute left-1/2 top-[54%] z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.36] sm:top-[56%] sm:opacity-[0.4]">
             <Image
@@ -531,12 +666,12 @@ export function HomeSections() {
         <SlideIn className="relative z-10 flex min-h-screen flex-col px-4 pb-10 pt-[var(--header-height)] sm:px-5 md:px-8 md:pb-14" direction="up">
           <div className="container-site flex flex-1 flex-col">
             <div className="flex flex-1 flex-col items-center justify-center px-1 pb-12 pt-6 md:pb-16 md:pt-8">
-              <HeroTypewriterHeadline className="display-title-hero text-balance text-center" />
+              <HeroTypewriterHeadline />
             </div>
 
             <div className="mt-auto grid w-full max-w-6xl grid-cols-1 gap-10 pt-10 md:mx-auto md:grid-cols-3 md:items-end md:gap-8 md:pt-12">
               <p className="body-copy max-w-xl text-pretty text-center text-[var(--text-secondary)] md:order-2 md:justify-self-center md:text-center">
-                We design and deploy digital systems that align growth, product, automation, and operations so your next stage actually scales.
+              Column Bridge helps businesses streamline operations, modernize technology, strengthen customer relationships, and accelerate growth through integrated business solutions.
               </p>
               <div className="flex w-full flex-col items-center md:contents">
                 <div className="flex w-full max-w-md flex-col items-center gap-6 md:order-1 md:max-w-none md:items-start md:gap-3 md:justify-self-start">
@@ -589,51 +724,96 @@ export function HomeSections() {
 
         <SlideIn className="relative z-10 w-full" direction="right">
         <div className="container-site">
-          <div className="max-w-3xl">
+          <div className="section-heading-wrap">
             <p className="mono-label text-[var(--color-secondary)]">The diagnosis</p>
             <h2 className="mt-2 text-balance headline-title text-[var(--color-text)] [text-shadow:0_2px_28px_rgba(0,0,0,0.72)]">
-              THE PROBLEM ISN&apos;T
+              TRUSTED PARTNER FOR
               <br />
-              <span className={sectionAccentGradientLight}>JUST MARKETING.</span>
+              <span className={sectionAccentGradientLight}>BUSINESS TRANSFORMATION.</span>
             </h2>
-            <p className="body-copy mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)]">
-              Most brands don&apos;t have an ads issue. They have disconnected systems: weak conversion architecture, fragmented journeys, manual operations, and slow execution loops.
-            </p>
+            <div className="diagnosis-prose mt-10 md:mt-14">
+              <p className="diagnosis-prose-opening">
+                Modern businesses face increasing operational complexity, disconnected systems, inefficient processes, rising costs, and growing customer expectations.
+              </p>
+              <p className="diagnosis-prose-bridge">
+                Column Bridge bridges the gap between business strategy and execution by delivering technology, automation, workforce, financial, and growth solutions that improve efficiency, visibility, and performance.
+              </p>
+              <p className="diagnosis-prose-closing">
+                Whether you&apos;re building a startup, scaling an established company, or modernizing enterprise operations, our team delivers solutions designed to support long-term success.
+              </p>
+            </div>
+          </div>
+        </div>
+        </SlideIn>
+      </section>
+
+      <section className="relative isolate overflow-x-clip bg-black py-section text-[var(--color-text)]">
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <div
+            className="absolute inset-0 opacity-[0.35] mix-blend-screen"
+            style={{
+              background:
+                "radial-gradient(ellipse 70% 60% at 18% 48%, rgba(15,237,198,0.22), transparent 55%), radial-gradient(ellipse 55% 50% at 88% 62%, rgba(3,181,167,0.14), transparent 52%)",
+            }}
+          />
+        </div>
+
+        <SlideIn className="relative z-10 w-full min-w-0" direction="left">
+        <div className="container-site min-w-0">
+          <div className="section-heading-wrap">
+            <p className="mono-label text-[var(--color-secondary)]">Our solutions</p>
+            <h2 className="mt-2 text-balance headline-title text-[var(--color-text)]">
+              OUR{" "}
+              <span className={sectionAccentGradientDeep}>SOLUTIONS.</span>
+            </h2>
           </div>
 
-          <div className="relative z-10 mt-14 md:mt-16">
-            <div className="relative z-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {problemCards.map((card) => (
-                  <article
-                    key={card.lines[0]}
-                    className="problem-glass-card group relative isolate overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.04] p-8 text-left backdrop-blur-xl"
-                    style={{ "--problem-accent": card.accent } as React.CSSProperties}
-                  >
-                    <div className="problem-card-ambient" aria-hidden />
-                    <div className="problem-card-sheen" aria-hidden />
-                    <div className="relative z-10">
-                      <div
-                        className="problem-card-icon mb-6 flex h-12 w-12 items-center justify-center rounded-full border bg-white/[0.03]"
-                        style={{ borderColor: `${card.accent}66`, color: card.accent }}
-                      >
-                        <ProblemIcon name={card.icon} />
-                      </div>
-                      <h3 className="text-lg font-bold leading-snug tracking-tight text-[var(--color-text)] md:text-xl">
-                        {card.lines[0]}
-                        <br />
-                        <span className="text-[var(--color-text)]">{card.lines[1]}</span>
-                      </h3>
-                      <div
-                        className="problem-card-rule my-5 h-px w-12 rounded-full opacity-90"
-                        style={{ backgroundColor: card.accent }}
-                        aria-hidden
-                      />
-                      <p className="text-sm font-normal leading-relaxed text-[var(--color-text)]/70 transition-colors duration-500 group-hover:text-[var(--color-text)]/90 md:text-[0.9375rem]">
-                        {card.body}
-                      </p>
+          <div className="relative z-10 mt-10 min-w-0 md:mt-16">
+            <div className="solutions-cards-grid grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-3">
+              {solutionCards.map((card) => (
+                <article
+                  key={card.title}
+                  className="problem-glass-card group relative isolate flex h-full min-w-0 max-w-full flex-col overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.04] p-5 text-left backdrop-blur-xl sm:p-6 md:p-8"
+                  style={{ "--problem-accent": card.accent } as React.CSSProperties}
+                >
+                  <div className="problem-card-ambient" aria-hidden />
+                  <div className="problem-card-sheen" aria-hidden />
+                  <div className="relative z-10 flex h-full min-w-0 flex-col">
+                    <div
+                      className="problem-card-icon mb-4 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border bg-white/[0.03] md:mb-5 md:h-12 md:w-12"
+                      style={{ borderColor: `${card.accent}66`, color: card.accent }}
+                    >
+                      <SolutionIcon name={card.icon} />
                     </div>
-                  </article>
-                ))}
+                    <h3 className="text-balance text-base font-bold leading-snug tracking-tight text-[var(--color-text)] sm:text-lg md:text-xl">
+                      {card.title}
+                    </h3>
+                    <div
+                      className="problem-card-rule my-3 h-px w-12 rounded-full opacity-90 md:my-4"
+                      style={{ backgroundColor: card.accent }}
+                      aria-hidden
+                    />
+                    <p className="text-pretty text-sm font-normal leading-relaxed text-[var(--color-text)]/70 transition-colors duration-500 group-hover:text-[var(--color-text)]/90 md:text-[0.9375rem]">
+                      {card.description}
+                    </p>
+                    <ul className="solution-card-list mt-4 flex-1 md:mt-5">
+                      {card.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                    <p className="solution-card-tagline mt-4 md:mt-5">{card.tagline}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="mt-8 md:mt-12">
+              <Link
+                href="/solutions"
+                className="mono-label inline-flex items-center gap-2 text-[var(--color-primary)] transition hover:gap-3 hover:text-[var(--color-primary-strong)]"
+              >
+                Explore solutions
+                <span aria-hidden>→</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -668,12 +848,14 @@ export function HomeSections() {
         <SlideIn className="relative z-10 w-full" direction="down">
         <div className="container-site">
           <p className="mono-label text-[var(--color-secondary)]">Outcomes over output</p>
-          <h2 className="relative z-10 mt-3 max-w-4xl text-balance font-[family-name:var(--font-display)] text-[clamp(2.1rem,5.8vw,3.65rem)] font-bold uppercase leading-[0.95] tracking-[0.02em] [text-shadow:0_2px_28px_rgba(0,0,0,0.75)]">
-            <span className="block text-white">BUSINESS IMPACT. NOT SERVICE</span>
-            <span className={`mt-0.5 block ${sectionAccentGradientDeep}`}>CHECKLISTS.</span>
+          <h2 className="relative z-10 mt-3 section-heading-wrap text-balance font-[family-name:var(--font-display)] text-[clamp(2.1rem,5.8vw,3.65rem)] font-bold uppercase leading-[1.02] tracking-[0.02em] [text-shadow:0_2px_28px_rgba(0,0,0,0.75)]">
+            <span className="block text-white">RESULTS WE HELP</span>
+            <span className={`mt-0.5 block ${sectionAccentGradientDeep}`}>DELIVER.</span>
           </h2>
           <p className="body-copy relative mt-4 max-w-2xl text-[var(--color-text-muted)] md:mt-5">
-            <span className="relative z-10">We focus on the metrics that move the needle. Everything we do is engineered for compounding results.</span>
+            <span className="relative z-10">
+              Organizations partner with Column Bridge to achieve measurable gains across operations, customer experience, and long-term growth—not just project deliverables.
+            </span>
             <span
               className="pointer-events-none absolute -inset-x-4 -inset-y-3 z-0 rounded-lg bg-gradient-to-r from-black via-black/90 to-transparent md:-inset-x-10 md:-inset-y-4 md:via-black/80 lg:from-black lg:via-black/65"
               aria-hidden
@@ -710,21 +892,9 @@ export function HomeSections() {
                       <h3 className="mt-1 text-[0.75rem] font-bold uppercase leading-snug tracking-[0.14em] text-white md:text-[0.8125rem] md:tracking-[0.15em]">
                         {card.title}
                       </h3>
-                      <p className="mt-2 max-w-md text-[0.8125rem] leading-snug text-white/60 md:text-[0.875rem] md:leading-relaxed">
-                        {card.body}
-                      </p>
                     </div>
                   </article>
                 ))}
-              </div>
-              <div className="mt-5 md:mt-6">
-                <Link
-                  href="/solutions"
-                  className="mono-label inline-flex items-center gap-2 text-[var(--color-primary)] transition hover:gap-3 hover:text-[var(--color-primary-strong)]"
-                >
-                  Explore solutions
-                  <span aria-hidden>→</span>
-                </Link>
               </div>
             </div>
           </div>
@@ -743,56 +913,7 @@ export function HomeSections() {
               REDUCE RISK.
             </span>
           </h2>
-          <div className="mt-16 grid gap-10 md:grid-cols-4 md:items-start md:gap-8">
-            {(
-              [
-                {
-                  num: "01",
-                  title: "Diagnose",
-                  desc: "Auditing systems, identifying friction, mapping outcomes.",
-                  accent: "#03B5A7",
-                },
-                {
-                  num: "02",
-                  title: "Architect",
-                  desc: "Structuring foundations for scale and velocity.",
-                  accent: "#0FEDC6",
-                },
-                {
-                  num: "03",
-                  title: "Mutate",
-                  desc: "Designing the kinetic brand and experience layer.",
-                  accent: "#5EEAD4",
-                },
-                {
-                  num: "04",
-                  title: "Deploy",
-                  desc: "Shipping resilient systems into production.",
-                  accent: "#023E3E",
-                },
-              ] as const
-            ).map((phase, index) => {
-              const stagger = index % 2 === 0 ? "max-md:translate-y-0 md:-translate-y-7" : "max-md:translate-y-0 md:translate-y-7";
-              return (
-                <article key={phase.title} className={`relative text-center ${stagger}`}>
-                  <span
-                    className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 text-6xl font-black tabular-nums md:-top-10 md:text-8xl"
-                    style={{ color: phase.accent, opacity: 0.14 }}
-                    aria-hidden
-                  >
-                    {phase.num}
-                  </span>
-                  <h3
-                    className="relative text-xs font-bold uppercase leading-tight tracking-[0.2em] md:text-[0.8125rem]"
-                    style={{ color: phase.accent, fontFamily: "var(--font-geist-mono), monospace" }}
-                  >
-                    {phase.title}
-                  </h3>
-                  <p className="mt-6 text-sm text-[var(--color-text-muted)] md:mt-7">{phase.desc}</p>
-                </article>
-              );
-            })}
-          </div>
+          <HowWeWorkSteps />
         </div>
         </SlideIn>
       </section>
@@ -801,7 +922,7 @@ export function HomeSections() {
         <SlideIn className="w-full" direction="up">
           <div className="container-site">
             <p className="mono-label mb-2 text-center text-[var(--color-secondary)]">Capabilities</p>
-            <h2 className="display-title overflow-hidden px-2 text-center text-balance max-md:leading-[0.88] md:overflow-visible sm:px-3">
+            <h2 className="display-title px-2 text-center text-balance sm:px-3">
               <span className="text-white/15">OUR </span>
               <span className={`inline-block pb-[0.04em] pr-[0.14em] ${sectionAccentGradientDeep}`}>
                 ECOSYSTEM
@@ -866,17 +987,15 @@ export function HomeSections() {
         />
         <SlideIn className="relative z-10 w-full" direction="right">
         <div className="container-site">
-          <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
-            <div className="flex max-w-xl flex-col lg:col-span-5">
-              <p className="mono-label text-[var(--color-secondary)]">Vertical depth</p>
-              <h2 className="headline-title mt-2 text-balance text-[var(--color-text)]">
-                INDUSTRY CONTEXT CHANGES{" "}
-                <span className={sectionAccentGradientLight}>
-                  EVERYTHING.
-                </span>
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="flex min-w-0 max-w-2xl flex-col lg:col-span-5 lg:justify-center">
+              <p className="mono-label text-[var(--color-secondary)]">Industries</p>
+              <h2 className="industries-section-title mt-2 max-w-full text-balance text-[var(--color-text)]">
+                INDUSTRIES WE{" "}
+                <span className={sectionAccentGradientLight}>SERVE.</span>
               </h2>
               <p className="mt-6 text-base leading-relaxed text-[var(--color-text-muted)] md:mt-7 md:text-lg">
-                Same services, different execution logic. We adapt systems to market constraints, buyer behavior, and compliance pressure.
+                We support organizations across a wide range of sectors, including:
               </p>
               <div className="mt-10 self-start">
                 <Button href="/industries">Explore Industries</Button>
@@ -891,7 +1010,7 @@ export function HomeSections() {
               </div>
               <div className="hidden min-h-0 grid-cols-2 md:grid">
                 <div className="min-w-0">
-                  {industryGrid.slice(0, 4).map((row) => (
+                  {industryGrid.slice(0, 7).map((row) => (
                     <IndustryGridRow key={row.slug} row={row} />
                   ))}
                 </div>
@@ -901,7 +1020,7 @@ export function HomeSections() {
                     style={{ boxShadow: "0 0 20px rgba(15, 237, 198, 0.45)" }}
                     aria-hidden
                   />
-                  {industryGrid.slice(4, 8).map((row) => (
+                  {industryGrid.slice(7, 14).map((row) => (
                     <IndustryGridRow key={row.slug} row={row} />
                   ))}
                 </div>
@@ -928,7 +1047,7 @@ export function HomeSections() {
         </SlideIn>
       </section>
 
-      <section className="overflow-x-clip bg-black py-section">
+      {/* <section className="overflow-x-clip bg-black py-section">
         <SlideIn className="w-full" direction="left">
         <div className="container-site grid gap-12 md:grid-cols-12 md:items-center md:gap-x-10 md:gap-y-12 lg:gap-x-14">
           <div className="md:col-span-5">
@@ -986,13 +1105,13 @@ export function HomeSections() {
           </div>
         </div>
         </SlideIn>
-      </section>
+      </section> */}
 
       <section className="overflow-x-clip bg-black py-section">
         <SlideIn className="w-full" direction="up">
           <div className="container-site">
             <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-2xl">
+              <div className="section-heading-wrap">
                 <p className="mono-label text-[var(--color-secondary)]">Case studies</p>
                 <h2 className="headline-title mt-2">
                   OUTCOMES YOU CAN
@@ -1164,38 +1283,34 @@ export function HomeSections() {
         <div className="container-site">
           <p className="mono-label text-[var(--color-secondary)]">Client voice</p>
           <h2 className="display-title mb-10 mt-2 text-white/10">EVIDENCE</h2>
-          <div className="grid gap-16 md:grid-cols-2">
-            <blockquote className="text-xl leading-tight sm:text-2xl md:text-4xl">
-              “They didn&apos;t just redesign our interface; they re-architected how we acquire and convert enterprise leads.”
-              <footer className="mono-label mt-4 text-[var(--color-secondary)]">CTO, Global SaaS Platform</footer>
-            </blockquote>
-            <blockquote className="text-xl leading-tight sm:text-2xl md:mt-20 md:text-4xl">
-              “The aesthetic is wild, but the infrastructure underneath impressed our engineering team.”
-              <footer className="mono-label mt-4 text-[var(--color-tertiary)]">Founder, Boutique Ecommerce</footer>
-            </blockquote>
-          </div>
+          <EvidenceTestimonialsSlider />
         </div>
         </SlideIn>
       </section>
 
+      <HomeFaqAccordion />
+
       <section className="bg-black py-section">
-        <SlideIn className="w-full" direction="left">
+        <SlideIn className="w-full" direction="right">
         <div className="container-site">
-          <p className="mono-label mb-4 text-[var(--color-secondary)]">Resources</p>
+          <p className="mono-label mb-4 text-[var(--color-secondary)]">Partnership</p>
           <div className="relative overflow-hidden rounded-none border border-white/[0.08] bg-[#141414] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04),0_24px_80px_-40px_rgba(0,0,0,0.75)] sm:p-8 md:overflow-visible md:p-10 lg:p-12">
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
             <div className="relative z-[2] grid gap-10 md:grid-cols-12 md:items-stretch md:gap-6 lg:gap-8">
               <div className="md:col-span-7">
-                <h2 className="headline-title">GET THE GROWTH READINESS SCORECARD.</h2>
+                <h2 className="headline-title text-balance">
+                  READY TO BUILD A{" "}
+                  <span className={sectionAccentGradientLight}>MORE EFFICIENT BUSINESS?</span>
+                </h2>
                 <p className="mt-4 max-w-2xl text-[var(--color-text-muted)]">
-                  Fast diagnostic for your acquisition quality, conversion friction, automation gaps, and delivery bottlenecks.
+                  Whether you need software development, ERP implementation, CRM solutions, AI automation, marketing support, financial management, HRM systems, or outsourcing services, Column Bridge can help.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 max-md:[&_a]:w-full sm:flex-row sm:flex-wrap">
-                  <Button href="/get-an-audit">Get an Audit</Button>
-                  <Button href="/insights" variant="secondary">
-                    Download Playbook
-                  </Button>
+                  <Button href="/book-strategy-call">Schedule a Consultation Today</Button>
                 </div>
+                <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/70 md:mt-6 md:text-base">
+                  Let&apos;s build the systems, processes, and strategies that drive sustainable business growth.
+                </p>
               </div>
               <div className="relative min-h-[min(52vw,13rem)] overflow-hidden md:col-span-5 md:min-h-0 md:h-full md:overflow-visible">
                 <div
@@ -1217,28 +1332,6 @@ export function HomeSections() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        </SlideIn>
-      </section>
-
-      <HomeFaqAccordion />
-
-      <section className="bg-black py-section">
-        <SlideIn className="w-full" direction="right">
-        <div className="container-site">
-          <p className="mono-label text-[var(--color-secondary)]">Partnership</p>
-          <h2 className="display-title mt-2 text-balance text-[var(--color-primary)]">
-            LET&apos;S BUILD YOUR NEXT STAGE.
-          </h2>
-          <p className="mt-4 max-w-2xl text-[var(--color-text-muted)]">
-            Strategy, systems, execution, and scale - aligned into one digital engine.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 max-md:[&_a]:w-full sm:flex-row sm:flex-wrap">
-            <Button href="/book-strategy-call">Book a Strategy Call</Button>
-            <Button href="/request-proposal" variant="secondary">
-              Request Proposal
-            </Button>
           </div>
         </div>
         </SlideIn>
