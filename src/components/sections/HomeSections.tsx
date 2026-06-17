@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { SolutionCardTitle } from "@/components/sections/SolutionCardTitle";
+import { WhyColumnBridgeStack } from "@/components/sections/WhyColumnBridgeStack";
 import { TechMarquee } from "@/components/sections/TechMarquee";
 import { AnimatedMetricFigure } from "@/components/motion/AnimatedMetricFigure";
 import { SlideIn } from "@/components/motion/SlideIn";
@@ -6,6 +8,7 @@ import { AiOrbLottie } from "@/components/sections/AiOrbLottie";
 import { CaseStudiesScrollRail } from "@/components/sections/CaseStudiesScrollRail";
 import { EvidenceTestimonialsSlider } from "@/components/sections/EvidenceTestimonialsSlider";
 import { HomeFaqAccordion } from "@/components/sections/HomeFaqAccordion";
+import { HeroBackgroundVideo } from "@/components/sections/HeroBackgroundVideo";
 import { HeroTrustRotator } from "@/components/sections/HeroTrustRotator";
 import { HeroTypewriterHeadline } from "@/components/sections/HeroTypewriterHeadline";
 import { HowWeWorkSteps } from "@/components/sections/HowWeWorkSteps";
@@ -21,18 +24,24 @@ type SolutionIconName =
   | "headset";
 
 function SolutionIcon({ name, className }: { name: SolutionIconName; className?: string }) {
-  const stroke = className ?? "currentColor";
-  const common = { fill: "none" as const, stroke, strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const cls = className ?? "h-6 w-6";
+  const common = {
+    fill: "none" as const,
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
   switch (name) {
     case "code":
       return (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
           <path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13.5 6l-3 12" />
         </svg>
       );
     case "layers":
       return (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
           <path d="m12.83 2.18-.82-.36-.82.36-7.93 3.6a1 1 0 0 0 0 1.83l7.93 3.6a2 2 0 0 0 1.64 0l7.93-3.6a1 1 0 0 0 0-1.83l-7.93-3.6Z" />
           <path d="M2 12.08 12 16.63l10-4.55" />
           <path d="M2 17 12 21.55 22 17" />
@@ -40,21 +49,21 @@ function SolutionIcon({ name, className }: { name: SolutionIconName; className?:
       );
     case "sparkles":
       return (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
           <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" />
           <circle cx="12" cy="12" r="3.25" />
         </svg>
       );
     case "signal":
       return (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
           <circle cx="12" cy="12" r="2" />
           <path d="M7.5 7.5a7 7 0 0 0 0 9M16.5 7.5a7 7 0 0 1 0 9M4.5 4.5a11.5 11.5 0 0 0 0 15M19.5 4.5a11.5 11.5 0 0 1 0 15" />
         </svg>
       );
     case "ledger":
       return (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
           <path d="M4 5h16v14H4V5z" />
           <path d="M8 9h8M8 13h5" />
           <path d="M16 3v4M8 3v4" />
@@ -62,7 +71,7 @@ function SolutionIcon({ name, className }: { name: SolutionIconName; className?:
       );
     case "headset":
       return (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden {...common}>
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
           <path d="M4 14a4 4 0 0 1 4-4h1M20 14a4 4 0 0 0-4-4h-1" />
           <path d="M4 14v3a2 2 0 0 0 2 2h1M20 14v3a2 2 0 0 1-2 2h-1" />
           <path d="M9 10V8a3 3 0 0 1 6 0v2" />
@@ -70,6 +79,49 @@ function SolutionIcon({ name, className }: { name: SolutionIconName; className?:
       );
     default:
       return null;
+  }
+}
+
+function SolutionTagIcon({ variant }: { variant: number }) {
+  const common = {
+    fill: "none" as const,
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  const cls = "h-3 w-3";
+  switch (variant % 4) {
+    case 0:
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <path d="M4 7h16M4 12h16M4 17h10" />
+        </svg>
+      );
+    case 1:
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <rect x="5" y="4" width="14" height="16" rx="1" />
+          <path d="M9 9h6M9 13h4" />
+        </svg>
+      );
+    case 2:
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <circle cx="11" cy="11" r="5" />
+          <path d="M15 15l4 4" />
+        </svg>
+      );
+    case 3:
+    default:
+      return (
+        <svg viewBox="0 0 24 24" className={cls} aria-hidden {...common}>
+          <rect x="4" y="4" width="7" height="7" />
+          <rect x="13" y="4" width="7" height="7" />
+          <rect x="4" y="13" width="7" height="7" />
+          <path d="M16.5 16.5h3.5v3.5" />
+        </svg>
+      );
   }
 }
 
@@ -330,103 +382,50 @@ export function HomeSections() {
     {
       icon: "code" as const,
       accent: "#0FEDC6",
-      title: "Technology & Software Solutions",
-      description: "Custom-built technology designed to support growth, efficiency, and scalability.",
-      bullets: [
-        "Custom Software Development",
-        "Web Applications",
-        "Mobile Applications",
-        "Enterprise Software",
-        "SaaS Platforms",
-        "API Development",
-        "System Integrations",
-        "Cloud Solutions",
-      ],
-      tagline: "Build technology that works for your business, not the other way around.",
+      shortTitle: "Technology",
+      description:
+        "Custom software, web and mobile apps, APIs, and cloud—infrastructure built for growth and scale.",
+      tags: ["Custom Software", "Web & Mobile", "API Development", "Cloud Solutions"],
     },
     {
       icon: "layers" as const,
       accent: "#03B5A7",
-      title: "ERP, CRM & HRM Solutions",
-      description: "Integrated business management systems that connect people, processes, and data.",
-      bullets: [
-        "ERP Implementation & Development",
-        "CRM Implementation & Customization",
-        "HRM Systems",
-        "Workforce Management Platforms",
-        "Sales Automation",
-        "Inventory Management",
-        "Payroll Systems",
-        "Business Reporting",
-      ],
-      tagline: "Centralize operations and gain complete visibility across your organization.",
+      shortTitle: "Business Systems",
+      description:
+        "ERP, CRM, and HRM platforms that connect people, processes, and data across your organization.",
+      tags: ["ERP Implementation", "CRM Systems", "HRM Platforms", "Business Reporting"],
     },
     {
       icon: "sparkles" as const,
       accent: "#5EEAD4",
-      title: "AI, Automation & Data Solutions",
-      description: "Reduce manual effort and unlock smarter decision-making.",
-      bullets: [
-        "AI Chatbots",
-        "Workflow Automation",
-        "Business Process Automation",
-        "Document Automation",
-        "Business Intelligence",
-        "KPI Dashboards",
-        "Executive Reporting",
-        "Data Analytics",
-      ],
-      tagline: "Automate repetitive work and focus on strategic growth.",
+      shortTitle: "AI & Automation",
+      description:
+        "Workflow automation, AI assistants, and analytics that reduce manual work and sharpen decisions.",
+      tags: ["AI Chatbots", "Workflow Automation", "KPI Dashboards", "Data Analytics"],
     },
     {
       icon: "signal" as const,
       accent: "#7AF8E8",
-      title: "Digital Presence & Growth Solutions",
-      description: "Build visibility, attract customers, and strengthen your market position.",
-      bullets: [
-        "Website Development",
-        "E-Commerce Platforms",
-        "SEO",
-        "Performance Marketing",
-        "Social Media Marketing",
-        "Lead Generation",
-        "Marketing Automation",
-        "Brand Development",
-      ],
-      tagline: "Transform your digital presence into a growth engine.",
+      shortTitle: "Digital Growth",
+      description:
+        "Websites, ecommerce, SEO, and performance marketing—built for visibility, conversion, and speed.",
+      tags: ["Website Development", "E-Commerce", "SEO & Performance", "Lead Generation"],
     },
     {
       icon: "ledger" as const,
       accent: "#2DD4BF",
-      title: "Financial Management Solutions",
-      description: "Gain financial clarity and improve business performance.",
-      bullets: [
-        "Bookkeeping Support",
-        "Financial Reporting",
-        "Cash Flow Management",
-        "Budgeting & Forecasting",
-        "Accounts Payable & Receivable",
-        "Financial Dashboards",
-        "Management Reporting",
-      ],
-      tagline: "Make confident decisions backed by accurate financial data.",
+      shortTitle: "Financial",
+      description:
+        "Bookkeeping, reporting, and cash-flow visibility that give leadership confidence to move faster.",
+      tags: ["Financial Reporting", "Cash Flow", "Budgeting", "Management Reporting"],
     },
     {
       icon: "headset" as const,
       accent: "#99F6E4",
-      title: "Outsourcing & Managed Services",
-      description: "Scale operations without increasing internal overhead.",
-      bullets: [
-        "Customer Support",
-        "Technical Support",
-        "Administrative Support",
-        "Virtual Assistants",
-        "Back Office Operations",
-        "Recruitment Support",
-        "HR Administration",
-        "Dedicated Remote Teams",
-      ],
-      tagline: "Access skilled resources while reducing operational costs.",
+      shortTitle: "Outsourcing",
+      description:
+        "Managed support, back-office, and remote teams that scale operations without adding overhead.",
+      tags: ["Customer Support", "Back Office", "Virtual Assistants", "Remote Teams"],
     },
   ];
   const businessImpactStyle = [
@@ -641,26 +640,15 @@ export function HomeSections() {
     <>
       <section className="relative isolate min-h-screen overflow-hidden bg-black pb-section text-white">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/40 to-black" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/25 to-black" />
           <div className="absolute inset-x-0 top-0 z-[1] h-[var(--header-height)] bg-gradient-to-b from-black via-black/85 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 z-[1] h-[clamp(8rem,28vh,14rem)] bg-gradient-to-t from-black via-black/85 to-transparent" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_52%,rgba(3,181,167,0.14),transparent_55%)]" />
-          <div className="hero-bg-sculpture absolute left-1/2 top-[54%] z-0 -translate-x-1/2 -translate-y-1/2 opacity-[0.36] sm:top-[56%] sm:opacity-[0.4]">
-            <Image
-              src={
-                process.env.NEXT_PUBLIC_HERO_ELEMENT_REVISION
-                  ? `/hero-element.png?v=${encodeURIComponent(process.env.NEXT_PUBLIC_HERO_ELEMENT_REVISION)}`
-                  : "/hero-element.png"
-              }
-              alt=""
-              width={1600}
-              height={1200}
-              priority
-              sizes="100vw"
-              unoptimized
-              className="h-full w-full select-none object-contain object-center"
-            />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_48%,rgba(3,181,167,0.1),transparent_55%)]" />
+          <div className="hero-bg-sculpture absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2">
+            <HeroBackgroundVideo className="hero-bg-sculpture-video h-full w-full select-none object-contain object-[center_42%]" />
           </div>
+          <div className="hero-video-tint absolute inset-0 z-[1]" aria-hidden />
+          <div className="hero-film-grain absolute inset-0 z-[2]" aria-hidden />
         </div>
 
         <SlideIn className="relative z-10 flex min-h-screen flex-col px-4 pb-10 pt-[var(--header-height)] sm:px-5 md:px-8 md:pb-14" direction="up">
@@ -697,7 +685,200 @@ export function HomeSections() {
         </SlideIn>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-black py-section text-[var(--color-text)]">
+      <section className="overflow-x-clip bg-black py-section">
+        <SlideIn className="w-full" direction="up">
+          <div className="container-site">
+            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div className="section-heading-wrap">
+                <p className="mono-label text-[var(--color-secondary)]">Work</p>
+                <h2 className="headline-title mt-2">
+                  WORK WE{" "}
+                  <span className={sectionAccentGradientDeep}>DID.</span>
+                </h2>
+                <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
+                  Each engagement ships with measurable baselines, instrumentation, and a narrative your board can repeat—not vanity redesigns.
+                </p>
+              </div>
+              <Button href="/work" variant="secondary">
+                View all work
+              </Button>
+            </div>
+          </div>
+        </SlideIn>
+
+        <CaseStudiesScrollRail className="mt-10 md:mt-12">
+              <div className="w-4 shrink-0 snap-none sm:w-5 md:w-0" aria-hidden />
+              {featuredCaseStudies.map((study, index) => (
+                <Link
+                  key={study.slug}
+                  href={study.href}
+                  className="group flex h-full min-h-0 w-full flex-col self-stretch shrink-0 snap-start snap-always focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-secondary)]"
+                  aria-label={`Open case study: ${study.title}`}
+                >
+                  <article className="relative flex min-h-0 w-[min(88vw,22.5rem)] flex-1 flex-col overflow-hidden rounded-none border border-white/[0.08] bg-black shadow-[0_24px_80px_-28px_rgba(0,0,0,0.65)] transition-[border-color] duration-300 hover:border-white/[0.14] sm:w-[min(86vw,24rem)] md:w-[min(72vw,28rem)] lg:w-[min(56vw,36rem)]">
+                    <div className="relative z-0 aspect-[16/11] w-full shrink-0 bg-black">
+                      <Image
+                        src={study.coverImage}
+                        alt=""
+                        fill
+                        className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+                        sizes="(max-width: 768px) 88vw, (max-width: 1024px) 72vw, 36rem"
+                      />
+                    </div>
+                    <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-[#141414]">
+                      {/* Ecosystem-style sculpt: oversized graphic anchored to bottom, behind copy */}
+                      <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden>
+                        <div className="absolute bottom-0 left-1/2 h-[200%] w-[min(100%,22rem)] -translate-x-1/2 opacity-[0.2] sm:w-[min(100%,24rem)] md:w-[min(100%,26rem)] md:opacity-[0.24]">
+                          <Image
+                            src={caseStudyCharcoalSculptures[index % caseStudyCharcoalSculptures.length]}
+                            alt=""
+                            fill
+                            sizes="(max-width: 768px) 88vw, (max-width: 1024px) 72vw, 36rem"
+                            className="object-contain object-bottom select-none"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[70%] bg-gradient-to-t from-[#141414] via-[#141414]/88 to-transparent"
+                        aria-hidden
+                      />
+                      <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-6 px-5 pb-6 pt-5 sm:px-6 sm:pb-7 sm:pt-6">
+                        <div className="shrink-0 space-y-1">
+                          <p className="mono-label text-white/45">{study.sector}</p>
+                          <h3 className="text-balance text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">
+                            {study.title}
+                          </h3>
+                        </div>
+                        <div className="flex min-h-0 flex-1 flex-col gap-6 md:flex-row md:items-stretch md:justify-between md:gap-8">
+                          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+                            <p className="min-h-0 flex-1 text-pretty text-sm leading-relaxed text-[var(--color-text-muted)] md:text-base">
+                              {study.excerpt}
+                            </p>
+                            <p className="mt-4 shrink-0 font-mono text-[0.65rem] uppercase leading-relaxed tracking-[0.12em] text-white/40 md:mt-4">
+                              {study.scope}
+                              <span className="text-white/25"> · </span>
+                              <span className="text-[var(--color-secondary)]">{study.timeline}</span>
+                            </p>
+                          </div>
+                          <div className="grid shrink-0 grid-cols-1 gap-4 max-md:gap-5 sm:grid-cols-2 sm:gap-6 md:flex md:w-[min(100%,11.5rem)] md:flex-col md:justify-end md:gap-8 md:self-stretch">
+                            <div className="text-left md:text-right">
+                              <p
+                                className={`text-3xl font-black tabular-nums tracking-tight sm:text-4xl ${caseStudyStatGradient}`}
+                              >
+                                {study.stat}
+                              </p>
+                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 max-md:max-w-none md:max-w-[11rem] md:ml-auto">
+                                {study.statLabel}
+                              </p>
+                            </div>
+                            <div className="text-left md:text-right">
+                              <p
+                                className={`text-3xl font-black tabular-nums tracking-tight sm:text-4xl ${caseStudyStatGradient}`}
+                              >
+                                {study.stat2}
+                              </p>
+                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 max-md:max-w-none md:max-w-[11rem] md:ml-auto">
+                                {study.statLabel2}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+              <div className="w-4 shrink-0 snap-none sm:w-5 md:w-6" aria-hidden />
+        </CaseStudiesScrollRail>
+      </section>
+
+      <section className="relative isolate overflow-x-clip bg-black py-section text-[var(--color-text)]">
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <div
+            className="absolute inset-0 opacity-[0.35] mix-blend-screen"
+            style={{
+              background:
+                "radial-gradient(ellipse 70% 60% at 18% 48%, rgba(15,237,198,0.22), transparent 55%), radial-gradient(ellipse 55% 50% at 88% 62%, rgba(3,181,167,0.14), transparent 52%)",
+            }}
+          />
+        </div>
+
+        <SlideIn className="relative z-10 w-full min-w-0" direction="left">
+        <div className="container-site min-w-0">
+          <div className="section-heading-wrap">
+            <p className="mono-label text-[var(--color-secondary)]">Our solutions</p>
+            <h2 className="mt-2 text-balance headline-title text-[var(--color-text)]">
+              OUR{" "}
+              <span className={sectionAccentGradientDeep}>SOLUTIONS.</span>
+            </h2>
+          </div>
+
+          <div className="relative z-10 mt-10 min-w-0 md:mt-16">
+            <div className="solutions-cards-stack grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+              {solutionCards.map((card, index) => (
+                <Link
+                  key={card.shortTitle}
+                  href="/solutions"
+                  className="solution-glass-card problem-glass-card group relative isolate block min-w-0 max-w-full overflow-hidden rounded-xl border border-white/[0.1] bg-white/[0.04] text-left backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-teal)]"
+                  style={{ "--problem-accent": card.accent } as React.CSSProperties}
+                >
+                  <span className="solution-card-index" aria-hidden>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="solution-card-grain" aria-hidden />
+                  <div className="problem-card-ambient" aria-hidden />
+                  <div className="problem-card-sheen" aria-hidden />
+                  <div className="solution-card-inner relative z-10">
+                    <div
+                      className="solution-card-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-black/20"
+                      style={{ borderColor: `${card.accent}55`, color: card.accent }}
+                    >
+                      <SolutionIcon name={card.icon} className="h-5 w-5" />
+                    </div>
+                    <div className="solution-card-body">
+                      <SolutionCardTitle text={card.shortTitle} accent={card.accent} />
+                      <p className="solution-card-description">{card.description}</p>
+                    </div>
+                    <div className="solution-card-footer">
+                      <ul className="solution-card-tags">
+                        {card.tags.map((tag, tagIndex) => (
+                          <li key={tag} className="solution-card-tag">
+                            <span
+                              className="solution-card-tag-icon"
+                              style={{ color: card.accent }}
+                              aria-hidden
+                            >
+                              <SolutionTagIcon variant={tagIndex} />
+                            </span>
+                            <span>{tag}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <span className="solution-card-arrow" aria-hidden>
+                        →
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-8 md:mt-12">
+              <Link
+                href="/solutions"
+                className="mono-label inline-flex items-center gap-2 text-[var(--color-primary)] transition hover:gap-3 hover:text-[var(--color-primary-strong)]"
+              >
+                Explore solutions
+                <span aria-hidden>→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+        </SlideIn>
+      </section>
+
+      <WhyColumnBridgeStack sectionAccentClass={sectionAccentGradientDeep} />
+
+      {/* <section className="relative isolate overflow-hidden bg-black py-section text-[var(--color-text)]">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div
             className="absolute inset-0 opacity-[0.5] mix-blend-screen"
@@ -745,82 +926,9 @@ export function HomeSections() {
           </div>
         </div>
         </SlideIn>
-      </section>
+      </section> */}
 
-      <section className="relative isolate overflow-x-clip bg-black py-section text-[var(--color-text)]">
-        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-          <div
-            className="absolute inset-0 opacity-[0.35] mix-blend-screen"
-            style={{
-              background:
-                "radial-gradient(ellipse 70% 60% at 18% 48%, rgba(15,237,198,0.22), transparent 55%), radial-gradient(ellipse 55% 50% at 88% 62%, rgba(3,181,167,0.14), transparent 52%)",
-            }}
-          />
-        </div>
-
-        <SlideIn className="relative z-10 w-full min-w-0" direction="left">
-        <div className="container-site min-w-0">
-          <div className="section-heading-wrap">
-            <p className="mono-label text-[var(--color-secondary)]">Our solutions</p>
-            <h2 className="mt-2 text-balance headline-title text-[var(--color-text)]">
-              OUR{" "}
-              <span className={sectionAccentGradientDeep}>SOLUTIONS.</span>
-            </h2>
-          </div>
-
-          <div className="relative z-10 mt-10 min-w-0 md:mt-16">
-            <div className="solutions-cards-grid grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-3">
-              {solutionCards.map((card) => (
-                <article
-                  key={card.title}
-                  className="problem-glass-card group relative isolate flex h-full min-w-0 max-w-full flex-col overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.04] p-5 text-left backdrop-blur-xl sm:p-6 md:p-8"
-                  style={{ "--problem-accent": card.accent } as React.CSSProperties}
-                >
-                  <div className="problem-card-ambient" aria-hidden />
-                  <div className="problem-card-sheen" aria-hidden />
-                  <div className="relative z-10 flex h-full min-w-0 flex-col">
-                    <div
-                      className="problem-card-icon mb-4 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border bg-white/[0.03] md:mb-5 md:h-12 md:w-12"
-                      style={{ borderColor: `${card.accent}66`, color: card.accent }}
-                    >
-                      <SolutionIcon name={card.icon} />
-                    </div>
-                    <h3 className="text-balance text-base font-bold leading-snug tracking-tight text-[var(--color-text)] sm:text-lg md:text-xl">
-                      {card.title}
-                    </h3>
-                    <div
-                      className="problem-card-rule my-3 h-px w-12 rounded-full opacity-90 md:my-4"
-                      style={{ backgroundColor: card.accent }}
-                      aria-hidden
-                    />
-                    <p className="text-pretty text-sm font-normal leading-relaxed text-[var(--color-text)]/70 transition-colors duration-500 group-hover:text-[var(--color-text)]/90 md:text-[0.9375rem]">
-                      {card.description}
-                    </p>
-                    <ul className="solution-card-list mt-4 flex-1 md:mt-5">
-                      {card.bullets.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                    <p className="solution-card-tagline mt-4 md:mt-5">{card.tagline}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-            <div className="mt-8 md:mt-12">
-              <Link
-                href="/solutions"
-                className="mono-label inline-flex items-center gap-2 text-[var(--color-primary)] transition hover:gap-3 hover:text-[var(--color-primary-strong)]"
-              >
-                Explore solutions
-                <span aria-hidden>→</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-        </SlideIn>
-      </section>
-
-      <section className="relative isolate overflow-hidden bg-black py-section text-[var(--color-text)]">
+      {/* <section className="relative isolate overflow-hidden bg-black py-section text-[var(--color-text)]">
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div
             className="absolute inset-0 opacity-[0.55] mix-blend-screen"
@@ -900,7 +1008,7 @@ export function HomeSections() {
           </div>
         </div>
         </SlideIn>
-      </section>
+      </section> */}
 
       <section className="bg-black py-section">
         <SlideIn className="w-full" direction="left">
@@ -1106,114 +1214,6 @@ export function HomeSections() {
         </div>
         </SlideIn>
       </section> */}
-
-      <section className="overflow-x-clip bg-black py-section">
-        <SlideIn className="w-full" direction="up">
-          <div className="container-site">
-            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-              <div className="section-heading-wrap">
-                <p className="mono-label text-[var(--color-secondary)]">Case studies</p>
-                <h2 className="headline-title mt-2">
-                  OUTCOMES YOU CAN
-                  <br />
-                  <span className={sectionAccentGradientDeep}>TRACE.</span>
-                </h2>
-                <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
-                  Each engagement ships with measurable baselines, instrumentation, and a narrative your board can repeat—not vanity redesigns.
-                </p>
-              </div>
-              <Button href="/work" variant="secondary">
-                View all work
-              </Button>
-            </div>
-          </div>
-        </SlideIn>
-
-        <CaseStudiesScrollRail className="mt-10 md:mt-12">
-              <div className="w-4 shrink-0 snap-none sm:w-5 md:w-0" aria-hidden />
-              {featuredCaseStudies.map((study, index) => (
-                <Link
-                  key={study.slug}
-                  href={study.href}
-                  className="group flex h-full min-h-0 w-full flex-col self-stretch shrink-0 snap-start snap-always focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-secondary)]"
-                  aria-label={`Open case study: ${study.title}`}
-                >
-                  <article className="relative flex min-h-0 w-[min(88vw,22.5rem)] flex-1 flex-col overflow-hidden rounded-none border border-white/[0.08] bg-black shadow-[0_24px_80px_-28px_rgba(0,0,0,0.65)] transition-[border-color] duration-300 hover:border-white/[0.14] sm:w-[min(86vw,24rem)] md:w-[min(72vw,28rem)] lg:w-[min(56vw,36rem)]">
-                    <div className="relative z-0 aspect-[16/11] w-full shrink-0 bg-black">
-                      <Image
-                        src={study.coverImage}
-                        alt=""
-                        fill
-                        className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
-                        sizes="(max-width: 768px) 88vw, (max-width: 1024px) 72vw, 36rem"
-                      />
-                    </div>
-                    <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-[#141414]">
-                      {/* Ecosystem-style sculpt: oversized graphic anchored to bottom, behind copy */}
-                      <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden>
-                        <div className="absolute bottom-0 left-1/2 h-[200%] w-[min(100%,22rem)] -translate-x-1/2 opacity-[0.2] sm:w-[min(100%,24rem)] md:w-[min(100%,26rem)] md:opacity-[0.24]">
-                          <Image
-                            src={caseStudyCharcoalSculptures[index % caseStudyCharcoalSculptures.length]}
-                            alt=""
-                            fill
-                            sizes="(max-width: 768px) 88vw, (max-width: 1024px) 72vw, 36rem"
-                            className="object-contain object-bottom select-none"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[70%] bg-gradient-to-t from-[#141414] via-[#141414]/88 to-transparent"
-                        aria-hidden
-                      />
-                      <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-6 px-5 pb-6 pt-5 sm:px-6 sm:pb-7 sm:pt-6">
-                        <div className="shrink-0 space-y-1">
-                          <p className="mono-label text-white/45">{study.sector}</p>
-                          <h3 className="text-balance text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">
-                            {study.title}
-                          </h3>
-                        </div>
-                        <div className="flex min-h-0 flex-1 flex-col gap-6 md:flex-row md:items-stretch md:justify-between md:gap-8">
-                          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-                            <p className="min-h-0 flex-1 text-pretty text-sm leading-relaxed text-[var(--color-text-muted)] md:text-base">
-                              {study.excerpt}
-                            </p>
-                            <p className="mt-4 shrink-0 font-mono text-[0.65rem] uppercase leading-relaxed tracking-[0.12em] text-white/40 md:mt-4">
-                              {study.scope}
-                              <span className="text-white/25"> · </span>
-                              <span className="text-[var(--color-secondary)]">{study.timeline}</span>
-                            </p>
-                          </div>
-                          <div className="grid shrink-0 grid-cols-1 gap-4 max-md:gap-5 sm:grid-cols-2 sm:gap-6 md:flex md:w-[min(100%,11.5rem)] md:flex-col md:justify-end md:gap-8 md:self-stretch">
-                            <div className="text-left md:text-right">
-                              <p
-                                className={`text-3xl font-black tabular-nums tracking-tight sm:text-4xl ${caseStudyStatGradient}`}
-                              >
-                                {study.stat}
-                              </p>
-                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 max-md:max-w-none md:max-w-[11rem] md:ml-auto">
-                                {study.statLabel}
-                              </p>
-                            </div>
-                            <div className="text-left md:text-right">
-                              <p
-                                className={`text-3xl font-black tabular-nums tracking-tight sm:text-4xl ${caseStudyStatGradient}`}
-                              >
-                                {study.stat2}
-                              </p>
-                              <p className="mt-1 text-xs font-medium leading-snug text-white/75 max-md:max-w-none md:max-w-[11rem] md:ml-auto">
-                                {study.statLabel2}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </Link>
-              ))}
-              <div className="w-4 shrink-0 snap-none sm:w-5 md:w-6" aria-hidden />
-        </CaseStudiesScrollRail>
-      </section>
 
       <section className="bg-black py-section">
         <SlideIn className="w-full" direction="right">

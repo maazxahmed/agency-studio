@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AmbientBlobs } from "@/components/layout/AmbientBlobs";
+import { AmbientSculptures } from "@/components/layout/AmbientSculptures";
 import { Header } from "@/components/layout/Header";
 import { CustomGradientCursor } from "@/components/layout/CustomGradientCursor";
 import { Footer } from "@/components/layout/Footer";
@@ -38,6 +39,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <AmbientBlobs />
+        <AmbientSculptures />
         <Header />
         <main className="relative z-10 flex-1 overflow-x-clip bg-black max-md:pb-[calc(5.25rem+env(safe-area-inset-bottom,0px))] md:pb-0">
           {children}
